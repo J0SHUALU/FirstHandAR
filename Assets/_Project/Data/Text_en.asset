@@ -1,0 +1,436 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d828374c57945f185406b3b5916f71, type: 3}
+  m_Name: Text_en
+  m_EditorClassIdentifier: FirstHand.Runtime::FirstHand.Presentation.TextTable
+  language: 0
+  entries:
+  - key: app.title
+    text: FirstHand
+  - key: start.tagline
+    text: Practise first aid. Get ready for work.
+  - key: start.how_title
+    text: How it works
+  - key: start.how1
+    text: 1. Point your phone at a clear floor.
+  - key: start.how2
+    text: 2. Tap to place the person who collapsed.
+  - key: start.how3
+    text: 3. Follow the steps. Listen and read.
+  - key: start.how4
+    text: 4. Practice first. Then try the Assessment.
+  - key: start.lang_en
+    text: English
+  - key: start.lang_pcm
+    text: Pidgin
+  - key: start.settings
+    text: Settings
+  - key: start.facilitator
+    text: Facilitator
+  - key: start.hello
+    text: Hello, {0}
+  - key: start.begin
+    text: Start training
+  - key: start.sign_out
+    text: Not you? Sign out
+  - key: start.who
+    text: Who is training?
+  - key: start.no_profiles
+    text: No trainees yet. Add yourself below.
+  - key: start.new_trainee
+    text: New trainee
+  - key: start.recent
+    text: Recent sessions on this phone
+  - key: start.recent_mine
+    text: Your last 5 sessions
+  - key: start.no_sessions
+    text: No sessions yet.
+  - key: mode.practice
+    text: Practice
+  - key: mode.assess
+    text: Assessment
+  - key: result.incomplete
+    text: Not finished
+  - key: result.practice
+    text: Practice
+  - key: result.pass
+    text: PASS
+  - key: result.not_yet
+    text: Not yet
+  - key: pin.enter
+    text: Enter your PIN
+  - key: pin.wrong
+    text: Wrong PIN. Try again.
+  - key: pin.wrong_short
+    text: Wrong PIN.
+  - key: pin.locked_title
+    text: Locked for now
+  - key: pin.locked
+    text: Too many wrong PINs. Wait {0} seconds.
+  - key: reg.title
+    text: New trainee
+  - key: reg.name_help
+    text: Use a name or nickname. 2 to 20 letters.
+  - key: reg.name_placeholder
+    text: Your name
+  - key: reg.name_short
+    text: Name is too short.
+  - key: reg.choose_pin
+    text: Choose a 4 digit PIN
+  - key: reg.confirm_pin
+    text: Enter the PIN again
+  - key: reg.pin_mismatch
+    text: PINs do not match.
+  - key: reg.name_taken
+    text: That name is already used.
+  - key: reg.failed
+    text: Could not save. Try again.
+  - key: reg.done
+    text: Welcome! You are signed in.
+  - key: ui.next
+    text: Next
+  - key: ui.cancel
+    text: Cancel
+  - key: ui.ok
+    text: OK
+  - key: ui.yes
+    text: Yes
+  - key: ui.delete
+    text: Delete
+  - key: ui.back
+    text: Back
+  - key: ui.close
+    text: Close
+  - key: ui.main_menu
+    text: Main menu
+  - key: digit.0
+    text: 0
+  - key: digit.1
+    text: 1
+  - key: digit.2
+    text: 2
+  - key: digit.3
+    text: 3
+  - key: digit.4
+    text: 4
+  - key: digit.5
+    text: 5
+  - key: digit.6
+    text: 6
+  - key: digit.7
+    text: 7
+  - key: digit.8
+    text: 8
+  - key: digit.9
+    text: 9
+  - key: scan.looking
+    text: Point at the floor. Move your phone slowly.
+  - key: scan.keep_going
+    text: Floor found. Keep moving to see more of it.
+  - key: scan.found
+    text: Ready. Tap the floor to place the scene.
+  - key: scan.help
+    text: Move your phone slowly. Find a floor with pattern or light.
+  - key: place.too_small
+    text: Too small. Find a clear space about 2 by 1.5 metres.
+  - key: place.placed
+    text: Scene placed
+  - key: place.adjust
+    text: Tap the floor to move it. Turn it with the buttons.
+  - key: place.rotate_left
+    text: Turn left
+  - key: place.rotate_right
+    text: Turn right
+  - key: place.confirm
+    text: Place here
+  - key: mode.title
+    text: Choose how to train
+  - key: mode.practice_desc
+    text: Hints on. No timer. Learn at your pace.
+  - key: mode.assess_desc
+    text: Timed and scored. Pass mark is 80.
+  - key: mode.reposition
+    text: Move scene
+  - key: hud.step
+    text: Step {0} of {1}
+  - key: hud.pause
+    text: Pause
+  - key: hud.hint
+    text: Show me
+  - key: hud.shout
+    text: 'Shout: Are you okay?'
+  - key: hud.open_phone
+    text: Open phone
+  - key: hud.hold
+    text: Hold to check
+  - key: hud.hazards
+    text: 'Dangers found: {0} of {1}'
+  - key: hud.mistakes
+    text: 'Mistakes: {0}'
+  - key: call.title
+    text: Emergency call
+  - key: call.call
+    text: Call
+  - key: call.clear
+    text: Clear
+  - key: call.dispatcher
+    text: '112: What is your emergency?'
+  - key: call.pick_three
+    text: Tell them the 3 things they need most.
+  - key: call.send
+    text: Tell them
+  - key: info.location
+    text: Where we are
+  - key: info.casualty_name
+    text: The man's full name
+  - key: info.what_happened
+    text: What happened
+  - key: info.your_shift
+    text: When my shift ends
+  - key: info.breathing
+    text: If he is breathing
+  - key: info.weather
+    text: The weather outside
+  - key: meter.per_min
+    text: per minute
+  - key: meter.start
+    text: Start pushing
+  - key: meter.count
+    text: '{0} of {1}'
+  - key: meter.slow
+    text: Too slow
+  - key: meter.fast
+    text: Too fast
+  - key: meter.good
+    text: Good speed
+  - key: instr.hazards
+    text: Look around. Tap the 2 dangers before you go close.
+  - key: instr.response
+    text: Tap both shoulders. Then shout to see if he answers.
+  - key: instr.call
+    text: No answer. Call 112 and tell them what they need.
+  - key: instr.breathing
+    text: Hold the button. Look, listen and feel for 5 to 10 seconds.
+  - key: instr.compressions
+    text: Not breathing. Push the middle of the chest 30 times, fast and steady.
+  - key: instr.recovery
+    text: He is breathing. Drag the glowing points to roll him onto his side.
+  - key: hint.hazards
+    text: Check the floor around him. Water, wires, glass, gas, smoke, moving things.
+  - key: hint.hazards_one_more
+    text: One more danger. Look behind and beside him.
+  - key: hint.response
+    text: Tap the left shoulder, then the right shoulder.
+  - key: hint.shout
+    text: Now press Shout.
+  - key: hint.call
+    text: Tap Open phone. Dial 1 1 2. Press Call.
+  - key: hint.call_info
+    text: 'They need: where, what happened, and breathing.'
+  - key: hint.breathing
+    text: Hold the button until it turns green, then let go.
+  - key: hint.compressions
+    text: Tap the lower middle of the chest. Aim for 100 to 120 a minute.
+  - key: hint.recovery.near_arm
+    text: Drag the near hand out to the side.
+  - key: hint.recovery.far_hand
+    text: Bring the far hand to his near cheek.
+  - key: hint.recovery.far_knee
+    text: Pull the far knee up toward you.
+  - key: hint.recovery.roll
+    text: Pull at the hip to roll him toward you.
+  - key: hint.recovery.head_tilt
+    text: Tilt the head back to keep the airway open.
+  - key: fb.timeout
+    text: Time is up for this step. Moving on.
+  - key: fb.hazard_found
+    text: Good. That is a danger.
+  - key: fb.not_a_hazard
+    text: That is not dangerous. Look again.
+  - key: fb.shoulder_tapped
+    text: Shoulder tapped.
+  - key: fb.no_response
+    text: He does not answer.
+  - key: fb.tap_shoulders_first
+    text: Tap both shoulders first, then shout.
+  - key: fb.call_connected
+    text: Connected to 112.
+  - key: fb.wrong_number
+    text: Wrong number. The emergency number is 112.
+  - key: fb.help_coming
+    text: Help is on the way. Stay with him.
+  - key: fb.info_missing
+    text: They need more. Where, what happened, breathing.
+  - key: fb.info_wrong
+    text: Only tell them what they need now.
+  - key: fb.hold_short
+    text: Too short. Check for at least 5 seconds.
+  - key: fb.hold_long
+    text: Too long. Never check for more than 10 seconds.
+  - key: fb.is_breathing
+    text: He is breathing normally.
+  - key: fb.not_breathing
+    text: He is not breathing. Start chest pushes now.
+  - key: fb.rhythm_off
+    text: Keep a steady 100 to 120 a minute.
+  - key: fb.hands_off_target
+    text: Push the lower middle of the chest.
+  - key: fb.next_round
+    text: Good. Keep going, another 30.
+  - key: fb.drag_further
+    text: Drag it all the way to the marker.
+  - key: fb.limb_ok
+    text: Good.
+  - key: fb.wrong_order
+    text: Not yet. Do the steps in order.
+  - key: fb.wait_tracking
+    text: Point the phone at the scene again.
+  - key: pause.title
+    text: Paused
+  - key: pause.manual
+    text: Take a breath. Continue when ready.
+  - key: pause.tracking
+    text: The phone lost the floor. Point it at the scene.
+  - key: pause.resume
+    text: Continue
+  - key: pause.quit
+    text: Stop and go home
+  - key: pause.quit_title
+    text: Stop this attempt?
+  - key: pause.quit_body
+    text: It will be saved as not finished.
+  - key: result.retry
+    text: Try again
+  - key: result.title_assess
+    text: Assessment result
+  - key: result.title_practice
+    text: Practice done
+  - key: result.out_of
+    text: out of 100
+  - key: result.practice_done
+    text: Practice, not scored for pass
+  - key: result.pass_long
+    text: PASSED. Ready for a course.
+  - key: result.not_yet_long
+    text: Not yet. Practise and try again.
+  - key: result.time
+    text: Time
+  - key: result.mistakes
+    text: Mistakes
+  - key: result.hints
+    text: Hints
+  - key: result.branch
+    text: Casualty
+  - key: branch.breathing
+    text: Breathing
+  - key: branch.not_breathing
+    text: Not breathing
+  - key: result.avg_rate
+    text: Avg per min
+  - key: result.in_range
+    text: Right speed
+  - key: result.on_target
+    text: On target
+  - key: result.steps
+    text: Steps
+  - key: result.step_ok
+    text: Done
+  - key: result.step_time
+    text: Out of time
+  - key: result.step_fail
+    text: Missed
+  - key: result.tips
+    text: Next time
+  - key: result.next_course
+    text: Ask your facilitator about a certified first aid course.
+  - key: result.saved
+    text: Saved to your history.
+  - key: result.not_saved
+    text: Guest attempt. Not saved.
+  - key: step.hazards
+    text: Check for danger
+  - key: step.response
+    text: Check response
+  - key: step.call
+    text: Call 112
+  - key: step.breathing
+    text: Check breathing
+  - key: step.compressions
+    text: Chest pushes
+  - key: step.recovery
+    text: Recovery position
+  - key: tip.hazards
+    text: Look all around before you go close.
+  - key: tip.response
+    text: Tap both shoulders before you shout.
+  - key: tip.call
+    text: Dial 112. Say where, what happened, and breathing.
+  - key: tip.breathing
+    text: Check for 5 to 10 seconds. Not more.
+  - key: tip.compressions
+    text: Push the lower middle of the chest, 100 to 120 a minute.
+  - key: tip.recovery
+    text: Arm out, hand to cheek, knee up, roll, tilt head.
+  - key: fac.title
+    text: Facilitator
+  - key: fac.export
+    text: Share CSV
+  - key: fac.timeout
+    text: Facilitator area closed after 5 minutes.
+  - key: fac.empty
+    text: No trainees on this phone.
+  - key: fac.ready
+    text: Ready for course
+  - key: fac.not_ready
+    text: Still practising
+  - key: fac.stats
+    text: Attempts {0}  |  Best assessment {1}  |  Last {2}
+  - key: fac.delete
+    text: Delete trainee
+  - key: fac.delete_title
+    text: Delete {0}?
+  - key: fac.delete_body
+    text: This removes the profile and all records. It cannot be undone.
+  - key: fac.deleted
+    text: Trainee deleted.
+  - key: fac.exported_title
+    text: Export ready
+  - key: fac.exported
+    text: 'Saved and copied path: {0}. Deleted after 24 hours.'
+  - key: fac.set_pin
+    text: Set a facilitator PIN
+  - key: fac.confirm_pin
+    text: Enter the PIN again
+  - key: fac.enter_pin
+    text: Facilitator PIN
+  - key: settings.title
+    text: Settings
+  - key: settings.volume
+    text: Sound
+  - key: settings.vol_off
+    text: Off
+  - key: settings.vol_low
+    text: Low
+  - key: settings.vol_mid
+    text: Medium
+  - key: settings.vol_high
+    text: High
+  - key: settings.text_size
+    text: Text size
+  - key: settings.size_100
+    text: 100%
+  - key: settings.size_125
+    text: 125%
+  - key: settings.size_150
+    text: 150%
+  - key: scenario.title
+    text: Collapse in the office corridor

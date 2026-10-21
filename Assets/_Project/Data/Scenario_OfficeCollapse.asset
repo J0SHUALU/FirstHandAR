@@ -1,0 +1,189 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06977034c2d6448d0b00716c48ddf908, type: 3}
+  m_Name: Scenario_OfficeCollapse
+  m_EditorClassIdentifier: FirstHand.Runtime::FirstHand.Data.ScenarioDefinition
+  scenarioId: office_collapse_v1
+  titleKey: scenario.title
+  casualtyKey: Casualty
+  breathingChance: 0.5
+  hazardsPerAttempt: 2
+  decoysPerAttempt: 2
+  passMark: 80
+  minPlaneSize: {x: 1.5, y: 1}
+  hazardPool:
+  - hazardId: wet_floor
+    addressKey: Hazard_WetFloor
+    nameKey: hazard.wet_floor
+    isDangerous: 1
+  - hazardId: loose_cable
+    addressKey: Hazard_LooseCable
+    nameKey: hazard.loose_cable
+    isDangerous: 1
+  - hazardId: broken_glass
+    addressKey: Hazard_BrokenGlass
+    nameKey: hazard.broken_glass
+    isDangerous: 1
+  - hazardId: gas_cylinder
+    addressKey: Hazard_GasCylinder
+    nameKey: hazard.gas_cylinder
+    isDangerous: 1
+  - hazardId: smoke
+    addressKey: Hazard_Smoke
+    nameKey: hazard.smoke
+    isDangerous: 1
+  - hazardId: moving_trolley
+    addressKey: Hazard_MovingTrolley
+    nameKey: hazard.moving_trolley
+    isDangerous: 1
+  decoyPool:
+  - hazardId: decoy_bag
+    addressKey: Decoy_Bag
+    nameKey: hazard.decoy_bag
+    isDangerous: 0
+  - hazardId: decoy_chair
+    addressKey: Decoy_Chair
+    nameKey: hazard.decoy_chair
+    isDangerous: 0
+  - hazardId: decoy_bottle
+    addressKey: Decoy_Bottle
+    nameKey: hazard.decoy_bottle
+    isDangerous: 0
+  - hazardId: decoy_plant
+    addressKey: Decoy_Plant
+    nameKey: hazard.decoy_plant
+    isDangerous: 0
+  steps:
+  - stepId: hazards
+    type: 0
+    branch: 0
+    instructionKey: instr.hazards
+    hintKey: hint.hazards
+    tipKey: tip.hazards
+    weight: 15
+    critical: 0
+    timeLimitSeconds: 45
+    maxMistakes: 2
+    targetCount: 2
+    assessmentRounds: 1
+    minValue: 0
+    maxValue: 0
+    radius: 0
+    requiredInRange: 0.7
+    requiredOnTarget: 0.8
+    expectedText: 
+    orderedIds: []
+  - stepId: response
+    type: 1
+    branch: 0
+    instructionKey: instr.response
+    hintKey: hint.response
+    tipKey: tip.response
+    weight: 10
+    critical: 0
+    timeLimitSeconds: 20
+    maxMistakes: 0
+    targetCount: 0
+    assessmentRounds: 1
+    minValue: 0
+    maxValue: 0
+    radius: 0
+    requiredInRange: 0.7
+    requiredOnTarget: 0.8
+    expectedText: 
+    orderedIds:
+    - casualty_shoulder_l
+    - casualty_shoulder_r
+  - stepId: call
+    type: 2
+    branch: 0
+    instructionKey: instr.call
+    hintKey: hint.call
+    tipKey: tip.call
+    weight: 20
+    critical: 1
+    timeLimitSeconds: 60
+    maxMistakes: 2
+    targetCount: 0
+    assessmentRounds: 1
+    minValue: 0
+    maxValue: 0
+    radius: 0
+    requiredInRange: 0.7
+    requiredOnTarget: 0.8
+    expectedText: 112
+    orderedIds:
+    - location
+    - what_happened
+    - breathing
+  - stepId: breathing
+    type: 3
+    branch: 0
+    instructionKey: instr.breathing
+    hintKey: hint.breathing
+    tipKey: tip.breathing
+    weight: 10
+    critical: 0
+    timeLimitSeconds: 25
+    maxMistakes: 1
+    targetCount: 0
+    assessmentRounds: 1
+    minValue: 5
+    maxValue: 10
+    radius: 0
+    requiredInRange: 0.7
+    requiredOnTarget: 0.8
+    expectedText: 
+    orderedIds: []
+  - stepId: compressions
+    type: 4
+    branch: 1
+    instructionKey: instr.compressions
+    hintKey: hint.compressions
+    tipKey: tip.compressions
+    weight: 45
+    critical: 1
+    timeLimitSeconds: 90
+    maxMistakes: 2
+    targetCount: 30
+    assessmentRounds: 2
+    minValue: 100
+    maxValue: 120
+    radius: 0.06
+    requiredInRange: 0.7
+    requiredOnTarget: 0.8
+    expectedText: 
+    orderedIds: []
+  - stepId: recovery
+    type: 5
+    branch: 2
+    instructionKey: instr.recovery
+    hintKey: hint.recovery.near_arm
+    tipKey: tip.recovery
+    weight: 45
+    critical: 1
+    timeLimitSeconds: 90
+    maxMistakes: 2
+    targetCount: 0
+    assessmentRounds: 1
+    minValue: 0
+    maxValue: 0
+    radius: 0
+    requiredInRange: 0.7
+    requiredOnTarget: 0.8
+    expectedText: 
+    orderedIds:
+    - near_arm
+    - far_hand
+    - far_knee
+    - roll
+    - head_tilt

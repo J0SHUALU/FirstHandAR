@@ -1,0 +1,436 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d828374c57945f185406b3b5916f71, type: 3}
+  m_Name: Text_pcm
+  m_EditorClassIdentifier: FirstHand.Runtime::FirstHand.Presentation.TextTable
+  language: 1
+  entries:
+  - key: app.title
+    text: FirstHand
+  - key: start.tagline
+    text: Practice first aid. Make you ready for work.
+  - key: start.how_title
+    text: How e dey work
+  - key: start.how1
+    text: 1. Point your phone for clear floor.
+  - key: start.how2
+    text: 2. Tap make the person wey fall show for floor.
+  - key: start.how3
+    text: 3. Follow the steps. Listen and read.
+  - key: start.how4
+    text: 4. Practice first. Then try the Assessment.
+  - key: start.lang_en
+    text: English
+  - key: start.lang_pcm
+    text: Pidgin
+  - key: start.settings
+    text: Settings
+  - key: start.facilitator
+    text: Facilitator
+  - key: start.hello
+    text: How far, {0}
+  - key: start.begin
+    text: Start training
+  - key: start.sign_out
+    text: No be you? Comot
+  - key: start.who
+    text: Who dey train?
+  - key: start.no_profiles
+    text: No trainee dey yet. Add yourself for down.
+  - key: start.new_trainee
+    text: New trainee
+  - key: start.recent
+    text: Recent sessions for this phone
+  - key: start.recent_mine
+    text: Your last 5 sessions
+  - key: start.no_sessions
+    text: No session dey yet.
+  - key: mode.practice
+    text: Practice
+  - key: mode.assess
+    text: Assessment
+  - key: result.incomplete
+    text: No finish
+  - key: result.practice
+    text: Practice
+  - key: result.pass
+    text: PASS
+  - key: result.not_yet
+    text: Never reach
+  - key: pin.enter
+    text: Put your PIN
+  - key: pin.wrong
+    text: PIN no correct. Try again.
+  - key: pin.wrong_short
+    text: PIN no correct.
+  - key: pin.locked_title
+    text: E don lock small
+  - key: pin.locked
+    text: Too many wrong PIN. Wait {0} seconds.
+  - key: reg.title
+    text: New trainee
+  - key: reg.name_help
+    text: Use name or nickname. 2 reach 20 letters.
+  - key: reg.name_placeholder
+    text: Your name
+  - key: reg.name_short
+    text: Name too short.
+  - key: reg.choose_pin
+    text: Choose 4 number PIN
+  - key: reg.confirm_pin
+    text: Put the PIN again
+  - key: reg.pin_mismatch
+    text: The PIN no match.
+  - key: reg.name_taken
+    text: Person don use that name.
+  - key: reg.failed
+    text: E no save. Try again.
+  - key: reg.done
+    text: Welcome! You don enter.
+  - key: ui.next
+    text: Next
+  - key: ui.cancel
+    text: Cancel
+  - key: ui.ok
+    text: OK
+  - key: ui.yes
+    text: Yes
+  - key: ui.delete
+    text: Comot am
+  - key: ui.back
+    text: Back
+  - key: ui.close
+    text: Close
+  - key: ui.main_menu
+    text: Main menu
+  - key: digit.0
+    text: 0
+  - key: digit.1
+    text: 1
+  - key: digit.2
+    text: 2
+  - key: digit.3
+    text: 3
+  - key: digit.4
+    text: 4
+  - key: digit.5
+    text: 5
+  - key: digit.6
+    text: 6
+  - key: digit.7
+    text: 7
+  - key: digit.8
+    text: 8
+  - key: digit.9
+    text: 9
+  - key: scan.looking
+    text: Point phone for floor. Move am slowly.
+  - key: scan.keep_going
+    text: Floor don show. Continue to move am.
+  - key: scan.found
+    text: E don ready. Tap the floor make e show.
+  - key: scan.help
+    text: Move phone slowly. Find floor wey get pattern or light.
+  - key: place.too_small
+    text: E too small. Find space like 2 by 1.5 metres.
+  - key: place.placed
+    text: Scene don show
+  - key: place.adjust
+    text: Tap floor to move am. Use button turn am.
+  - key: place.rotate_left
+    text: Turn left
+  - key: place.rotate_right
+    text: Turn right
+  - key: place.confirm
+    text: Put am here
+  - key: mode.title
+    text: Choose how you wan train
+  - key: mode.practice_desc
+    text: Hint dey. No timer. Learn small small.
+  - key: mode.assess_desc
+    text: Timer dey. Pass mark na 80.
+  - key: mode.reposition
+    text: Move scene
+  - key: hud.step
+    text: Step {0} for {1}
+  - key: hud.pause
+    text: Pause
+  - key: hud.hint
+    text: Show me
+  - key: hud.shout
+    text: 'Shout: You dey okay?'
+  - key: hud.open_phone
+    text: Open phone
+  - key: hud.hold
+    text: Hold am check
+  - key: hud.hazards
+    text: 'Danger wey you see: {0} for {1}'
+  - key: hud.mistakes
+    text: 'Mistake: {0}'
+  - key: call.title
+    text: Emergency call
+  - key: call.call
+    text: Call
+  - key: call.clear
+    text: Clear
+  - key: call.dispatcher
+    text: '112: Wetin happen?'
+  - key: call.pick_three
+    text: Tell dem the 3 things wey dem need pass.
+  - key: call.send
+    text: Tell dem
+  - key: info.location
+    text: Where we dey
+  - key: info.casualty_name
+    text: The man full name
+  - key: info.what_happened
+    text: Wetin happen
+  - key: info.your_shift
+    text: When my shift go finish
+  - key: info.breathing
+    text: If e dey breathe
+  - key: info.weather
+    text: How weather be outside
+  - key: meter.per_min
+    text: every minute
+  - key: meter.start
+    text: Start to press
+  - key: meter.count
+    text: '{0} for {1}'
+  - key: meter.slow
+    text: E too slow
+  - key: meter.fast
+    text: E too fast
+  - key: meter.good
+    text: Correct speed
+  - key: instr.hazards
+    text: Look around. Tap the 2 danger before you go near.
+  - key: instr.response
+    text: Tap the two shoulder. Then shout make you see if e answer.
+  - key: instr.call
+    text: E no answer. Call 112, tell dem wetin dem need.
+  - key: instr.breathing
+    text: Hold the button. Look, listen, feel am for 5 reach 10 seconds.
+  - key: instr.compressions
+    text: E no dey breathe. Press middle of chest 30 times, fast and steady.
+  - key: instr.recovery
+    text: E dey breathe. Drag the light points make you turn am for side.
+  - key: hint.hazards
+    text: Check floor around am. Water, wire, glass, gas, smoke, things wey dey move.
+  - key: hint.hazards_one_more
+    text: One more danger remain. Look for back and side.
+  - key: hint.response
+    text: Tap left shoulder, then right shoulder.
+  - key: hint.shout
+    text: Now press Shout.
+  - key: hint.call
+    text: Tap Open phone. Dial 1 1 2. Press Call.
+  - key: hint.call_info
+    text: 'Dem need: where, wetin happen, and breathing.'
+  - key: hint.breathing
+    text: Hold the button until e turn green, then leave am.
+  - key: hint.compressions
+    text: Tap lower middle of chest. Make am 100 reach 120 every minute.
+  - key: hint.recovery.near_arm
+    text: Drag the near hand go side.
+  - key: hint.recovery.far_hand
+    text: Bring the far hand put for im near cheek.
+  - key: hint.recovery.far_knee
+    text: Pull the far knee come your side.
+  - key: hint.recovery.roll
+    text: Pull the hip make e roll come your side.
+  - key: hint.recovery.head_tilt
+    text: Tilt the head back make air pass well.
+  - key: fb.timeout
+    text: Time don finish for this step. Make we move.
+  - key: fb.hazard_found
+    text: Good. That one na danger.
+  - key: fb.not_a_hazard
+    text: That one no be danger. Look again.
+  - key: fb.shoulder_tapped
+    text: You don tap shoulder.
+  - key: fb.no_response
+    text: E no answer.
+  - key: fb.tap_shoulders_first
+    text: Tap the two shoulder first, then shout.
+  - key: fb.call_connected
+    text: 112 don pick.
+  - key: fb.wrong_number
+    text: Number no correct. Emergency number na 112.
+  - key: fb.help_coming
+    text: Help dey come. Stay with am.
+  - key: fb.info_missing
+    text: Dem need more. Where, wetin happen, breathing.
+  - key: fb.info_wrong
+    text: Only tell dem wetin dem need now.
+  - key: fb.hold_short
+    text: E too short. Check am at least 5 seconds.
+  - key: fb.hold_long
+    text: E too long. No pass 10 seconds.
+  - key: fb.is_breathing
+    text: E dey breathe well.
+  - key: fb.not_breathing
+    text: E no dey breathe. Start to press chest now.
+  - key: fb.rhythm_off
+    text: Keep am steady, 100 reach 120 every minute.
+  - key: fb.hands_off_target
+    text: Press the lower middle of the chest.
+  - key: fb.next_round
+    text: Good. Continue, another 30.
+  - key: fb.drag_further
+    text: Drag am reach the mark.
+  - key: fb.limb_ok
+    text: Good.
+  - key: fb.wrong_order
+    text: No be now. Follow the order.
+  - key: fb.wait_tracking
+    text: Point phone for the scene again.
+  - key: pause.title
+    text: E don pause
+  - key: pause.manual
+    text: Rest small. Continue when you ready.
+  - key: pause.tracking
+    text: Phone don lose the floor. Point am for the scene.
+  - key: pause.resume
+    text: Continue
+  - key: pause.quit
+    text: Stop, go home
+  - key: pause.quit_title
+    text: You wan stop am?
+  - key: pause.quit_body
+    text: We go save am as e no finish.
+  - key: result.retry
+    text: Try again
+  - key: result.title_assess
+    text: Assessment result
+  - key: result.title_practice
+    text: Practice don finish
+  - key: result.out_of
+    text: out of 100
+  - key: result.practice_done
+    text: Practice, e no be pass or fail
+  - key: result.pass_long
+    text: YOU PASS. You ready for course.
+  - key: result.not_yet_long
+    text: Never reach. Practice and try again.
+  - key: result.time
+    text: Time
+  - key: result.mistakes
+    text: Mistake
+  - key: result.hints
+    text: Hint
+  - key: result.branch
+    text: Casualty
+  - key: branch.breathing
+    text: Dey breathe
+  - key: branch.not_breathing
+    text: No dey breathe
+  - key: result.avg_rate
+    text: Average every minute
+  - key: result.in_range
+    text: Correct speed
+  - key: result.on_target
+    text: Correct place
+  - key: result.steps
+    text: Steps
+  - key: result.step_ok
+    text: E correct
+  - key: result.step_time
+    text: Time finish
+  - key: result.step_fail
+    text: E miss
+  - key: result.tips
+    text: Next time
+  - key: result.next_course
+    text: Ask your facilitator about first aid course wey get certificate.
+  - key: result.saved
+    text: E don save for your history.
+  - key: result.not_saved
+    text: Guest try. E no save.
+  - key: step.hazards
+    text: Check danger
+  - key: step.response
+    text: Check if e answer
+  - key: step.call
+    text: Call 112
+  - key: step.breathing
+    text: Check breathing
+  - key: step.compressions
+    text: Press chest
+  - key: step.recovery
+    text: Recovery position
+  - key: tip.hazards
+    text: Look everywhere before you go near.
+  - key: tip.response
+    text: Tap the two shoulder before you shout.
+  - key: tip.call
+    text: Dial 112. Talk where, wetin happen, and breathing.
+  - key: tip.breathing
+    text: Check for 5 reach 10 seconds. No pass.
+  - key: tip.compressions
+    text: Press lower middle of chest, 100 reach 120 every minute.
+  - key: tip.recovery
+    text: Arm out, hand for cheek, knee up, roll, tilt head.
+  - key: fac.title
+    text: Facilitator
+  - key: fac.export
+    text: Share CSV
+  - key: fac.timeout
+    text: Facilitator area don close after 5 minutes.
+  - key: fac.empty
+    text: No trainee for this phone.
+  - key: fac.ready
+    text: Ready for course
+  - key: fac.not_ready
+    text: Still dey practice
+  - key: fac.stats
+    text: Attempts {0}  |  Best assessment {1}  |  Last {2}
+  - key: fac.delete
+    text: Comot trainee
+  - key: fac.delete_title
+    text: Comot {0}?
+  - key: fac.delete_body
+    text: E go comot profile and all record. E no fit come back.
+  - key: fac.deleted
+    text: Trainee don comot.
+  - key: fac.exported_title
+    text: Export don ready
+  - key: fac.exported
+    text: 'E don save. Path: {0}. E go delete after 24 hours.'
+  - key: fac.set_pin
+    text: Set facilitator PIN
+  - key: fac.confirm_pin
+    text: Put the PIN again
+  - key: fac.enter_pin
+    text: Facilitator PIN
+  - key: settings.title
+    text: Settings
+  - key: settings.volume
+    text: Sound
+  - key: settings.vol_off
+    text: Off
+  - key: settings.vol_low
+    text: Small
+  - key: settings.vol_mid
+    text: Medium
+  - key: settings.vol_high
+    text: Loud
+  - key: settings.text_size
+    text: Text size
+  - key: settings.size_100
+    text: 100%
+  - key: settings.size_125
+    text: 125%
+  - key: settings.size_150
+    text: 150%
+  - key: scenario.title
+    text: Person fall for office corridor

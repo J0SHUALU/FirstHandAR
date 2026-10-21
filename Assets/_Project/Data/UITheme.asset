@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99c466bf68fb242428cbc432324c49df, type: 3}
+  m_Name: UITheme
+  m_EditorClassIdentifier: FirstHand.Runtime::FirstHand.Presentation.UITheme
+  background: {r: 0.05490196, g: 0.101960786, b: 0.16862746, a: 0.9490196}
+  surface: {r: 0.09019608, g: 0.16470589, b: 0.25882354, a: 0.9607843}
+  surfaceRaised: {r: 0.13333334, g: 0.22745098, b: 0.34509805, a: 1}
+  text: {r: 0.96862745, g: 0.9529412, b: 0.91764706, a: 1}
+  textMuted: {r: 0.6627451, g: 0.7176471, b: 0.7882353, a: 1}
+  primary: {r: 0.9019608, g: 0.22352941, b: 0.27450982, a: 1}
+  success: {r: 0.16862746, g: 0.7137255, b: 0.4509804, a: 1}
+  warning: {r: 0.95686275, g: 0.6392157, b: 0, a: 1}
+  info: {r: 0.22745098, g: 0.60784316, b: 0.8627451, a: 1}
+  scrim: {r: 0, g: 0, b: 0, a: 0.55}
+  font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  displayFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  bodySize: 44
+  titleSize: 64
+  displaySize: 150
+  rounded: {fileID: 21300000, guid: 4a6cb09ed7fb54076bad63a89ac32ada, type: 3}
+  pill: {fileID: 21300000, guid: 4eac146b08694492a80ff7293b07fa2a, type: 3}
+  circle: {fileID: 21300000, guid: 10332578e96f74214a8d5ad1740eafef, type: 3}
+  logo: {fileID: 0}
+  icons: []
+  buttonHeight: 150
+  spacing: 28
+  padding: 48
