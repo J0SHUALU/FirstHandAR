@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Hazards
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Hazards
+  m_GUID: 37d7a7c85f07d4703809e216fff9d8e6
+  m_SerializeEntries:
+  - m_GUID: 360a429e027c544c68750f3f0e803958
+    m_Address: Decoy_Bag
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a396dd7dd1ae4664a950404c09c5fa8
+    m_Address: Hazard_Smoke
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 641db99e6546a4ca38ee1766fbc6bb72
+    m_Address: Decoy_Chair
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b9a0d4d8834e499c921c3f37532bd20
+    m_Address: Hazard_GasCylinder
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80a4c9232babc428d9ac23871ea08ef9
+    m_Address: Decoy_Plant
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a424b7422da74875a96c6119a01f04b
+    m_Address: Hazard_WetFloor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dcccbe23f7004ddf8903ea514eae717
+    m_Address: Decoy_Bottle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e1731e200e724a4f9a6719a4d46099a
+    m_Address: Hazard_BrokenGlass
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b415251ae88f149f0ad07bc9ac7dce0f
+    m_Address: Hazard_LooseCable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fb1163b42cb13465b9d400933f77479f
+    m_Address: Hazard_MovingTrolley
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: abf97a24035d04dbab60aa95f5640736, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ceec09dd81b5c4d5caf2b580c95060d3, type: 2}
+    - {fileID: 11400000, guid: f4e89dc1d02894af08bab2f3b4d13049, type: 2}
+    m_SchemaDisplayOrder:
+    - Hazards_BundledAssetGroupSchema
+    - Hazards_ContentUpdateGroupSchema
+  m_IncludeInBuild: 1
+  m_IncludeInBuildMigrated: 1

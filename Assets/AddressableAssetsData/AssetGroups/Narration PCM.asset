@@ -1,0 +1,274 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Narration PCM
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Narration PCM
+  m_GUID: 90825f1e673554f9a8cf2f4c909f9ecb
+  m_SerializeEntries:
+  - m_GUID: 05b6bba5403de4b4d95dc12e117b2653
+    m_Address: fb-drag_further
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f3664f09df2544e7b5815903202908f
+    m_Address: fb-wait_tracking
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 125e82d813ff64397a8dd300ed384c79
+    m_Address: instr-compressions
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 198233e8ff46c4a32917e19e0bec190e
+    m_Address: fb-hazard_found
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1a101967a980541319750cddf89bae03
+    m_Address: fb-hold_long
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 279be324059ef48d9baaa8f517b59e2c
+    m_Address: fb-is_breathing
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2deec72577f444f9ca3532b4ed607228
+    m_Address: instr-response
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41884410eeeab4ab1a85742f73de1804
+    m_Address: hint-call
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 424575e678571464293a50fd4da3198c
+    m_Address: hint-recovery-roll
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4350c6037822e44a994423df5c34a486
+    m_Address: instr-hazards
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4522be13861de40b0a1dada2c27b0c8f
+    m_Address: fb-not_breathing
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45e06ec36347749aeb1f4db02710e96e
+    m_Address: instr-breathing
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55d18465204f44195946354b2bd4229d
+    m_Address: fb-hold_short
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58acc34091bdf4f1597ca958653b01f9
+    m_Address: hint-recovery-near_arm
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69d46c0dbfe594366a9d45ed390b60f4
+    m_Address: instr-recovery
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a5cd21bd77eb47ebb0126c80117fe0f
+    m_Address: fb-hands_off_target
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a96856275b814d3db343c01aa1a7378
+    m_Address: fb-info_missing
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f8ec72f38ff1479ebae86856bee06e1
+    m_Address: fb-rhythm_off
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70cbd2b70024a457ab79f9290937138e
+    m_Address: fb-timeout
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 732fa297ef6a04123b8bace753dc032f
+    m_Address: hint-response
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73d350e7229ab456eabc9571e36c323f
+    m_Address: hint-call_info
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77b1ab7096dfe4923b29822817d0fed7
+    m_Address: fb-shoulder_tapped
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e94df50a57f84f3bb069d44710049da
+    m_Address: hint-recovery-far_hand
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82ae1b43e387f494f969f65e45474381
+    m_Address: fb-tap_shoulders_first
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8571479bfff7e4d9ab760c46824f91bd
+    m_Address: hint-recovery-head_tilt
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8ed895b74d07f4b2483f63d4186e2c44
+    m_Address: fb-limb_ok
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94a6ec0459eae442e8f3fc17632f9f1b
+    m_Address: fb-call_connected
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 981a7fb7e48ff4a6496474584eb89890
+    m_Address: fb-wrong_number
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9d9f7781c0ac94e329a2e8991a383d99
+    m_Address: fb-wrong_order
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b4d8685e5adba487898663f56ed46c40
+    m_Address: hint-shout
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b758732721a184164b8f48755c6631d9
+    m_Address: hint-compressions
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1e5ee547b713429faa7bcbe1a1b8955
+    m_Address: fb-help_coming
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4285b6f7c2a24621808dc456e94b043
+    m_Address: hint-breathing
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c56f8a8ba42114eceb59b5d69bf6d917
+    m_Address: hint-hazards
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf2d083bdc01d48568f56aea2d75eff4
+    m_Address: instr-call
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d05be99987ccf43ec80189c0058fb6cb
+    m_Address: fb-next_round
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d19df0bad2eb74b638721a678891331f
+    m_Address: hint-hazards_one_more
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d210811cb292c4f489d41ce042a78a30
+    m_Address: fb-info_wrong
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d4c97abfb5dfb42e582542c7ef2699e9
+    m_Address: fb-no_response
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e02dcbb4da0624a8d9a25cd4ca150135
+    m_Address: hint-recovery-far_knee
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fccb0132bea424de888c215b5cdfcc87
+    m_Address: fb-not_a_hazard
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - vo_pcm
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: abf97a24035d04dbab60aa95f5640736, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: dfe58d29cd11a4538b3a225b40ebd87d, type: 2}
+    - {fileID: 11400000, guid: 6fb972754e2b44ce19187078c4d63e75, type: 2}
+    m_SchemaDisplayOrder:
+    - Narration PCM_BundledAssetGroupSchema
+    - Narration PCM_ContentUpdateGroupSchema
+  m_IncludeInBuild: 1
+  m_IncludeInBuildMigrated: 1
