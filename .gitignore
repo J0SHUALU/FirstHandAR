@@ -121,3 +121,6 @@ _unused/
 # Editor captures
 Assets/Screenshots/
 Assets/Screenshots.meta
+
+# macOS
+.DS_Store
