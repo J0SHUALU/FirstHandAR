@@ -9,10 +9,14 @@ Mobile AR first aid trainer built with Unity 6 and AR Foundation. The trainee pl
 ## Getting started
 1. Open the project in Unity Hub.
 2. Run **FirstHand > Build Everything** to generate prefabs, data, audio, Addressables and the Bootstrap scene.
-3. Open `Assets/_Project/Scenes/Bootstrap.unity` and press Play (XR Simulation) or build to Android.
+3. Open `Assets/_Project/Scenes/Bootstrap.unity` and press Play (XR Simulation).
+4. Run **FirstHand > 4. Build Android APK** to build `Builds/FirstHandAR.apk` (IL2CPP, ARM64).
+
+## Target OS
+Android 8.0 (API 26) or newer with ARCore.
 
 ## Structure
 - `Assets/_Project/Scripts` runtime code (Core, Data, Steps, Scoring, Entities, AR, Simulation, Presentation)
 - `Assets/_Project/Editor` one click content builders
 - `Assets/_Project/Tests` EditMode tests
-- `Docs` credits and design exports
+- `Docs` asset credits and the UI designs from Affinity
