@@ -16,12 +16,13 @@ namespace FirstHand.EditorTools
     public static class PrefabFactory
     {
         public const string Models = Root + "/Models";
-        private static Material handleMat, targetMat, ringMat, water, safeGreen;
+        private static Material handleMat, targetMat, guideMat, ringMat, water, safeGreen;
 
         private static void LoadMaterials()
         {
-            handleMat = Mat("Handle", new Color32(0xF4, 0xA3, 0x00, 0xFF), 0.5f, false, false, new Color(1f, 0.6f, 0f) * 1.2f);
-            targetMat = Mat("DropTarget", new Color(0.17f, 0.71f, 0.45f, 0.55f), 0.1f, true, true);
+            handleMat = OverlayMat("Handle", new Color32(0xFF, 0x6A, 0x2B, 0xFF));                  // sunset orange
+            targetMat = OverlayMat("DropTarget", new Color(0.18f, 0.64f, 0.42f, 0.6f));             // leaf green, see-through
+            guideMat = OverlayMat("DragGuide", new Color(1f, 1f, 1f, 0.9f));
             ringMat = Mat("FoundRing", new Color(0.17f, 0.71f, 0.45f, 0.85f), 0.1f, true, true);
             water = Mat("Water", new Color(0.35f, 0.6f, 0.9f, 0.55f), 0.98f, true);
             safeGreen = Mat("SafeGreen", new Color32(0x2B, 0xB6, 0x73, 0xFF), 0.5f);
@@ -173,11 +174,11 @@ namespace FirstHand.EditorTools
             Box(root, new Vector3(0, 0.1f, 0), new Vector3(1.75f, 0.2f, 0.5f));
 
             // Drag handles (root space, stay at their height) and drop targets.
-            var hNear = Handle(f, "near_arm", handL + Vector3.up * 0.08f, shoulderL + new Vector3(0.05f, 0.08f, 0.5f));
-            var hFar = Handle(f, "far_hand", handR + Vector3.up * 0.1f, headPos + new Vector3(0.05f, 0.1f, 0.16f));
-            var hKnee = Handle(f, "far_knee", kneeR + Vector3.up * 0.1f, kneeR + new Vector3(-0.1f, 0.1f, 0.42f));
-            var hRoll = Handle(f, "roll", hipR + Vector3.up * 0.22f, hipR + new Vector3(0, 0.22f, 0.6f));
-            var hHead = Handle(f, "head_tilt", headPos + new Vector3(-0.12f, 0.2f, 0), headPos + new Vector3(-0.32f, 0.2f, 0));
+            var hNear = Handle(f, "near_arm", handL + Vector3.up * 0.04f, shoulderL + new Vector3(0.05f, 0, 0.5f), wrL);
+            var hFar = Handle(f, "far_hand", handR + Vector3.up * 0.04f, headPos + new Vector3(0.05f, 0, 0.18f), wrR);
+            var hKnee = Handle(f, "far_knee", kneeR + Vector3.up * 0.04f, kneeR + new Vector3(-0.1f, 0, 0.42f), shinR);
+            var hRoll = Handle(f, "roll", hipR + Vector3.up * 0.04f, hipR + new Vector3(0, 0, 0.6f), thR);
+            var hHead = Handle(f, "head_tilt", headPos + Vector3.up * 0.04f, headPos + new Vector3(-0.3f, 0, 0), head);
             var handles = new Dictionary<string, LimbHandle> { ["near_arm"] = hNear, ["far_hand"] = hFar, ["far_knee"] = hKnee, ["roll"] = hRoll, ["head_tilt"] = hHead };
 
             var so = new SerializedObject(casualty);
@@ -212,22 +213,36 @@ namespace FirstHand.EditorTools
             Set(part, "partId", partId);
         }
 
-        private static LimbHandle Handle(Transform root, string limbId, Vector3 pos, Vector3 targetPos)
+        private static LimbHandle Handle(Transform root, string limbId, Vector3 pos, Vector3 targetPos, Transform follow)
         {
-            // Float the ball clearly above the limb so it is never hidden inside the body mesh.
-            pos.y += 0.16f;
-            var h = Prim(PrimitiveType.Sphere, root, "Handle_" + limbId, pos, Vector3.one * 0.1f, handleMat, true);
+            // A small orange ball on the limb; the overlay shader keeps it visible through the body.
+            var h = Prim(PrimitiveType.Sphere, root, "Handle_" + limbId, pos, Vector3.one * 0.055f, handleMat, true);
             var sc = h.GetComponent<SphereCollider>();
-            sc.radius = 1.0f; // 0.1 m visual, 0.2 m touch area
+            sc.radius = 1.6f; // 5.5 cm ball, about 18 cm touch area so it is easy to grab
             sc.isTrigger = true;
-            targetPos.y = 0.01f; // drop target sits on the floor as a green circle
-            var target = Prim(PrimitiveType.Cylinder, root, "Target_" + limbId, targetPos, new Vector3(0.22f, 0.004f, 0.22f), targetMat);
+            targetPos.y = 0.005f; // drop circle lies on the floor
+            var target = Prim(PrimitiveType.Cylinder, root, "Target_" + limbId, targetPos, new Vector3(0.18f, 0.002f, 0.18f), targetMat);
+            // White guide line on the floor from the limb to the circle, so it is clear where to drag.
+            var guideGo = new GameObject("Guide_" + limbId);
+            guideGo.transform.SetParent(root, false);
+            var guide = guideGo.AddComponent<LineRenderer>();
+            guide.useWorldSpace = false;
+            guide.positionCount = 2;
+            guide.SetPosition(0, pos); // from the ball itself
+            guide.SetPosition(1, new Vector3(targetPos.x, 0.006f, targetPos.z));
+            guide.widthMultiplier = 0.012f;
+            guide.numCapVertices = 4;
+            guide.sharedMaterial = guideMat;
+            guide.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            guideGo.SetActive(false);
             target.SetActive(false);
             var lh = h.AddComponent<LimbHandle>();
             Set(lh, "limbId", limbId);
             Set(lh, "dropTarget", target.transform);
             Set(lh, "visual", h.GetComponent<Renderer>());
-            Set(lh, "acceptRadius", 0.18f);
+            Set(lh, "guide", guide);
+            Set(lh, "follow", follow);
+            Set(lh, "acceptRadius", 0.12f);
             h.SetActive(false);
             return lh;
         }

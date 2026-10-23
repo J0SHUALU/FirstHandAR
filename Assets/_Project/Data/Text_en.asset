@@ -223,7 +223,7 @@ MonoBehaviour:
   - key: instr.compressions
     text: Not breathing. Push the middle of the chest 30 times, fast and steady.
   - key: instr.recovery
-    text: He is breathing. Drag the yellow ball to the green circle, one part at
+    text: He is breathing. Drag the orange ball to the green circle, one part at
       a time.
   - key: hint.hazards
     text: Check the floor around him. Water, wires, glass, gas, smoke, moving things.
@@ -242,7 +242,7 @@ MonoBehaviour:
   - key: hint.compressions
     text: Tap the lower middle of the chest. Aim for 100 to 120 a minute.
   - key: hint.recovery.near_arm
-    text: 1 of 5. Drag the yellow ball on his near hand to the green circle.
+    text: 1 of 5. Drag the orange ball on his near hand to the green circle.
   - key: hint.recovery.far_hand
     text: 2 of 5. Drag his far hand ball to the circle by his cheek.
   - key: hint.recovery.far_knee
