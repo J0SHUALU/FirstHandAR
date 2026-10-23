@@ -5,12 +5,6 @@ using UnityEngine;
 
 namespace FirstHand.Data
 {
-    /// <summary>
-    /// Encrypted JSON storage in persistentDataPath, laid out as in the DMP:
-    ///   profiles.json                one file for all profiles
-    ///   sessions/&lt;traineeId&gt;.json   one file per trainee, so deleting a trainee never rewrites others
-    /// Writes go to a .tmp file first and are then swapped in, so a crash mid-write cannot corrupt data.
-    /// </summary>
     public class JsonFileRepository : IRepository
     {
         private readonly string root;
@@ -64,8 +58,6 @@ namespace FirstHand.Data
                 if ((DateTime.UtcNow - File.GetCreationTimeUtc(f)).TotalHours > maxAgeHours) File.Delete(f);
         }
 
-        // ---------- internals ----------
-
         private T Read<T>(string path) where T : class
         {
             if (!File.Exists(path)) return null;
@@ -77,7 +69,6 @@ namespace FirstHand.Data
             }
             catch (Exception e)
             {
-                // A damaged file is moved aside instead of crashing the app or being silently overwritten.
                 Debug.LogWarning($"[Repository] Could not read {Path.GetFileName(path)}: {e.GetType().Name}");
                 File.Move(path, path + ".corrupt." + DateTime.UtcNow.Ticks);
                 return null;
@@ -92,7 +83,6 @@ namespace FirstHand.Data
             else File.Move(tmp, path);
         }
 
-        /// <summary>Hook for schemaVersion upgrades. Version 1 is the first, so nothing to do yet.</summary>
         private static T Migrate<T>(T obj) => obj;
 
         private static string Sanitize(string id)

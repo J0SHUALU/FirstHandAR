@@ -14,15 +14,11 @@ namespace FirstHand.Simulation
 {
     public enum SimStateId { Start, Scanning, Placement, ModeSelect, Running, Paused, Results }
 
-    /// <summary>
-    /// Runs one attempt from scan to results. It knows every system on purpose, but talks to them through
-    /// small surfaces (ISimState, IScoringStrategy, ICasualtyView, events) so each can be swapped or faked.
-    /// </summary>
     public class SimulationManager : Singleton<SimulationManager>
     {
         [SerializeField] private ScenarioDefinition scenario;
         [SerializeField] private Camera arCamera;
-        [SerializeField] private float trackingLossPauseSeconds = 2f; // FR-22
+        [SerializeField] private float trackingLossPauseSeconds = 2f;
 
         private readonly Dictionary<SimStateId, ISimState> states = new Dictionary<SimStateId, ISimState>();
         private ISimState current;
@@ -47,7 +43,7 @@ namespace FirstHand.Simulation
         {
             base.Awake();
             if (Instance != this) return;
-            Application.targetFrameRate = 30;           // NFR-01 target, also caps battery use (NFR-14)
+            Application.targetFrameRate = 30;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             Register(new StartState(this));
@@ -71,8 +67,6 @@ namespace FirstHand.Simulation
 
         private void Update() => current?.Tick(Time.deltaTime);
 
-        // ---------- State pattern ----------
-
         public void ChangeState(SimStateId next)
         {
             var prev = current;
@@ -88,16 +82,13 @@ namespace FirstHand.Simulation
             current?.HandleAction(e.Action, e.Value);
         }
 
-        // ---------- Scene setup (called by states) ----------
-
         public async Task<bool> PlaceSceneAsync(Vector2 screenPos)
         {
             if (Busy) return false;
-            // Detach first: replacing the anchor destroys the old anchor object and anything under it.
             if (SceneRoot != null) SceneRoot.SetParent(null, true);
             var result = ARManager.Instance.TryPlace(screenPos, arCamera.transform, out _);
             if (result != ARManager.PlaceResult.Placed && SceneRoot != null && ARManager.Instance.AnchorTransform != null)
-                SceneRoot.SetParent(ARManager.Instance.AnchorTransform, true); // keep the old placement
+                SceneRoot.SetParent(ARManager.Instance.AnchorTransform, true);
             if (result == ARManager.PlaceResult.TooSmall)
             {
                 EventBus.Publish(new PlacementRejectedEvent { ReasonKey = "place.too_small" });
@@ -116,7 +107,7 @@ namespace FirstHand.Simulation
                 try
                 {
                     await EntityManager.Instance.LoadSceneAsync(scenario, SceneRoot);
-                    await PrepareAttemptAsync(); // show a full scene (with props) during placement
+                    await PrepareAttemptAsync();
                     SceneLoaded = true;
                 }
                 finally { Busy = false; }
@@ -139,12 +130,9 @@ namespace FirstHand.Simulation
             SceneLoaded = false;
         }
 
-        // ---------- Attempt lifecycle ----------
-
         private bool nextBreathing;
         private List<HazardDefinition> nextHazards, nextDecoys;
 
-        /// <summary>FR-11: pick 2 of 6 hazards and a 50/50 breathing state, then lay the scene out.</summary>
         public async Task PrepareAttemptAsync()
         {
             nextBreathing = rng.NextDouble() < scenario.breathingChance;
@@ -159,7 +147,6 @@ namespace FirstHand.Simulation
             Busy = true;
             try
             {
-                // A retry needs a fresh random layout; the very first attempt already has one from placement.
                 if (Record != null) await PrepareAttemptAsync();
             }
             finally { Busy = false; }
@@ -192,7 +179,6 @@ namespace FirstHand.Simulation
             Steps.Start();
         }
 
-        /// <summary>NFR-07: persist after every step so a crash only loses the step in progress.</summary>
         private void OnStepFinished(StepResult r)
         {
             Record.steps.Add(r);
@@ -217,7 +203,6 @@ namespace FirstHand.Simulation
             ChangeState(SimStateId.Results);
         }
 
-        /// <summary>FR-26: quitting saves the attempt as incomplete; it never counts toward the best score.</summary>
         public void QuitAttempt()
         {
             if (Record == null || Record.status == "complete") return;
@@ -229,7 +214,6 @@ namespace FirstHand.Simulation
             if (DataManager.Instance.CurrentTrainee != null) DataManager.Instance.SaveSession(Record);
         }
 
-        /// <summary>Used by states that need the current step to show the right overlay (keypad, hold button).</summary>
         public StepType? CurrentStepType => Steps.Current?.Definition.type;
 
         public void ForgetAttempt() => Record = null;

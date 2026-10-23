@@ -8,15 +8,6 @@ using static FirstHand.EditorTools.BuilderUtil;
 
 namespace FirstHand.EditorTools
 {
-    /// <summary>
-    /// Puts runtime content into Addressable groups. Grouping follows when things are loaded and released:
-    ///  - Scene Core: casualty, phone, tap marker (loaded at placement, released at main menu)
-    ///  - Hazards: packed separately so only the 4 props in an attempt are in memory
-    ///  - Text: one bundle per language, swapped on language change
-    ///  - SFX: one small bundle loaded at boot
-    ///  - Narration EN / PCM: one bundle per language, swapped on language change
-    /// Everything is local (shipped in the APK) because the app must work offline (NFR-10).
-    /// </summary>
     public static class AddressablesSetup
     {
         public static void Configure()
@@ -55,7 +46,7 @@ namespace FirstHand.EditorTools
                 typeof(BundledAssetGroupSchema), typeof(ContentUpdateGroupSchema));
             var schema = group.GetSchema<BundledAssetGroupSchema>();
             schema.BundleMode = packing;
-            schema.Compression = BundledAssetGroupSchema.BundleCompressionMode.LZ4; // fast random access on device
+            schema.Compression = BundledAssetGroupSchema.BundleCompressionMode.LZ4;
             schema.BuildPath.SetVariableByName(settings, AddressableAssetSettings.kLocalBuildPath);
             schema.LoadPath.SetVariableByName(settings, AddressableAssetSettings.kLocalLoadPath);
             if (label != null) settings.AddLabel(label);

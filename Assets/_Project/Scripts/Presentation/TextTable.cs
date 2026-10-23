@@ -9,7 +9,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Presentation
 {
-
     [CreateAssetMenu(menuName = "FirstHand/Text Table", fileName = "Text_en")]
     public class TextTable : ScriptableObject
     {

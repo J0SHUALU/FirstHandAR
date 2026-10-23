@@ -7,31 +7,21 @@ using FirstHand.Entities;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// In-attempt interface (concepts 05, 06): step card with progress and timer, a dark instruction card,
-    /// and the control each step needs (dangers counter, shout, dialer, info chooser, hold ring, rate panel).
-    /// It only reacts to events and publishes UI actions.
-    /// </summary>
     public class HudView : View
     {
-        // step card
         private TextMeshProUGUI stepNo, timerLabel, mistakesLabel;
         private LocText stepTitle;
         private Image timerChip;
         private readonly List<Image> segments = new List<Image>();
-        // instruction
         private LocText instruction;
         private RectTransform instructionCard;
 
-        /// <summary>Distance from the top of the screen to the bottom of the instruction card, in canvas units.</summary>
         public float InstructionBottom => instructionCard == null ? UIKit.D(250) : -instructionCard.anchoredPosition.y + instructionCard.rect.height;
         private GameObject hintButton;
-        // widgets
         private GameObject hazardsBox, shoutBox, callBox, holdBox, meterBox, keypad, infoChooser;
         private TextMeshProUGUI hazardsLabel, dialDisplay;
         private readonly List<Image> hazardDots = new List<Image>();
         private readonly Dictionary<string, (Image bg, TextMeshProUGUI label)> infoButtons = new Dictionary<string, (Image, TextMeshProUGUI)>();
-        // meter
         private TextMeshProUGUI rateNumber, countLabel;
         private Image ringFill, needle, feedbackChip, feedbackBadge;
         private LocText feedbackText;
@@ -52,8 +42,6 @@ namespace FirstHand.Presentation
             BuildHold();
             BuildMeter();
         }
-
-        // ---------- Top ----------
 
         private void BuildStepCard()
         {
@@ -108,7 +96,7 @@ namespace FirstHand.Presentation
             UIKit.Icon(hint.transform, "hint", 14, Color.white);
             UIKit.Text(hint.transform, "hud.hint", TextStyle.Title, Color.white, TextAlignmentOptions.MidlineLeft, 13);
             hint.gameObject.AddComponent<Button>().onClick.AddListener(() => Act("hint"));
-            var hintRow = UIKit.Rect(col, "HintRow"); // keeps the pill left-aligned and its own width
+            var hintRow = UIKit.Rect(col, "HintRow");
             hint.transform.SetParent(hintRow, false);
             UIKit.HStack(hintRow, 0); UIKit.Size(hintRow, 30);
             hintButton = hintRow.gameObject;
@@ -120,8 +108,6 @@ namespace FirstHand.Presentation
             UIKit.Band(rt, false, offset, height);
             return rt;
         }
-
-        // ---------- Step widgets ----------
 
         private void BuildHazards()
         {
@@ -149,7 +135,6 @@ namespace FirstHand.Presentation
             UIKit.Stretch(b.GetComponent<RectTransform>());
             callBox = band.gameObject;
 
-            // dialer sheet
             var holder = UIKit.Rect(Root, "Keypad"); UIKit.Stretch(holder);
             var c = UIKit.Sheet(holder, 440, out _);
             UIKit.VStack(c, 0, 0, 0, TextAnchor.UpperCenter);
@@ -183,7 +168,6 @@ namespace FirstHand.Presentation
             keypad = holder.gameObject;
             keypad.SetActive(false);
 
-            // info chooser sheet
             var holder2 = UIKit.Rect(Root, "InfoChooser"); UIKit.Stretch(holder2);
             var c2 = UIKit.Sheet(holder2, 540, out _);
             UIKit.VStack(c2, 8);
@@ -282,8 +266,6 @@ namespace FirstHand.Presentation
             meterBox = band.gameObject;
         }
 
-        // ---------- Show / events ----------
-
         protected override void OnShow()
         {
             EventBus.Subscribe<StepStartedEvent>(OnStepStarted);
@@ -310,7 +292,6 @@ namespace FirstHand.Presentation
             EventBus.Unsubscribe<TapInputEvent>(OnTap);
         }
 
-        /// <summary>Called when a new attempt begins (not when resuming from pause).</summary>
         public void ResetAttempt()
         {
             mistakes = 0;
@@ -400,7 +381,6 @@ namespace FirstHand.Presentation
             if (e.Action == "open_phone" && currentStep == "call") OpenKeypad();
         }
 
-        /// <summary>Pooled ripple where each compression landed.</summary>
         private void OnTap(TapInputEvent e)
         {
             if (currentStep != "compressions" || !e.HitInteractable || e.TargetId == null || !e.TargetId.StartsWith("casualty")) return;
@@ -419,7 +399,7 @@ namespace FirstHand.Presentation
             float t = Mathf.InverseLerp(MeterMin, MeterMax, e.Rate);
             needle.rectTransform.anchorMin = new Vector2(t, -0.7f); needle.rectTransform.anchorMax = new Vector2(t, 1.7f);
             needle.rectTransform.anchoredPosition = Vector2.zero;
-            switch (e.Band)   // words, not only colour (NFR-05)
+            switch (e.Band)
             {
                 case RateBand.TooSlow: SetFeedback("meter.slow", T.amberTint, T.amber, T.amberDeep, null); rateNumber.color = T.amberDeep; break;
                 case RateBand.TooFast: SetFeedback("meter.fast", T.coralTint, T.coral, T.coralDeep, null); rateNumber.color = T.coralDeep; break;

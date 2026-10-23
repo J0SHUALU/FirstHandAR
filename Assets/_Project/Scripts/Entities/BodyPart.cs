@@ -2,10 +2,6 @@ using UnityEngine;
 
 namespace FirstHand.Entities
 {
-    /// <summary>
-    /// Collider on part of the casualty (shoulders, chest, body). Reports "casualty_&lt;part&gt;" so steps can
-    /// tell a shoulder tap from a chest tap. A short pulse shows the tap registered.
-    /// </summary>
     [RequireComponent(typeof(Collider))]
     public class BodyPart : MonoBehaviour, IInteractable
     {

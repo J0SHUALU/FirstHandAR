@@ -6,18 +6,13 @@ using FirstHand.Core;
 
 namespace FirstHand.AR
 {
-    /// <summary>
-    /// The only class that talks to AR Foundation: plane detection, raycasts, anchors and tracking state.
-    /// Everything else gets plain results (a Pose, a bool) or events, so the simulation can run in tests
-    /// without a camera.
-    /// </summary>
     public class ARManager : Singleton<ARManager>
     {
         [SerializeField] private ARSession session;
         [SerializeField] private ARPlaneManager planeManager;
         [SerializeField] private ARRaycastManager raycastManager;
         [SerializeField] private ARAnchorManager anchorManager;
-        [SerializeField] private float scanHelpAfterSeconds = 8f;   // FR-06
+        [SerializeField] private float scanHelpAfterSeconds = 8f;
         [SerializeField] private float statusInterval = 0.5f;
 
         private static readonly List<ARRaycastHit> hits = new List<ARRaycastHit>();
@@ -29,8 +24,6 @@ namespace FirstHand.AR
 
         public bool IsTracking => ARSession.state == ARSessionState.SessionTracking;
         public Transform AnchorTransform => anchor != null ? anchor.transform : null;
-
-        // ---------- Scanning (FR-05, FR-06) ----------
 
         public void BeginScan(Vector2 requiredSize)
         {
@@ -44,8 +37,7 @@ namespace FirstHand.AR
         public void EndScan()
         {
             scanning = false;
-            // Mobile optimisation: once the scene is anchored, stop detecting new planes and hide the
-            // overlays. This saves CPU/GPU and battery for the rest of the attempt.
+
             SetPlaneDetection(false);
         }
 
@@ -79,11 +71,8 @@ namespace FirstHand.AR
             });
         }
 
-        // ---------- Raycast + placement (FR-07) ----------
-
         public enum PlaceResult { NoPlane, TooSmall, Placed }
 
-        /// <summary>Raycasts the tap onto a horizontal plane and anchors the scene there, replacing any old anchor.</summary>
         public PlaceResult TryPlace(Vector2 screenPos, Transform cameraTransform, out Pose pose)
         {
             pose = default;
@@ -94,7 +83,6 @@ namespace FirstHand.AR
             if (plane == null || plane.alignment != PlaneAlignment.HorizontalUp) return PlaceResult.NoPlane;
             if (!IsBigEnough(plane)) return PlaceResult.TooSmall;
 
-            // Face the scene toward the trainee: yaw only, so the casualty lies flat on the floor.
             var toCam = cameraTransform.position - hit.pose.position;
             toCam.y = 0;
             var rot = toCam.sqrMagnitude > 0.001f ? Quaternion.LookRotation(toCam) : hit.pose.rotation;
@@ -104,7 +92,6 @@ namespace FirstHand.AR
             anchor = anchorManager.AttachAnchor(plane, pose);
             if (anchor == null)
             {
-                // Fallback for devices that cannot attach to planes: a free-standing anchor.
                 var go = new GameObject("SceneAnchor");
                 go.transform.SetPositionAndRotation(pose.position, pose.rotation);
                 anchor = go.AddComponent<ARAnchor>();
@@ -119,7 +106,6 @@ namespace FirstHand.AR
             anchor = null;
         }
 
-        /// <summary>Main menu: clear everything and start a fresh AR session.</summary>
         public void ResetSession()
         {
             ClearAnchor();

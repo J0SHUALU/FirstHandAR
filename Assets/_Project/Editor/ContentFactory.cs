@@ -9,7 +9,6 @@ using static FirstHand.EditorTools.BuilderUtil;
 
 namespace FirstHand.EditorTools
 {
-    /// <summary>Scenario data, text tables and the UI theme (with generated base sprites).</summary>
     public static class ContentFactory
     {
         public const string ScenarioPath = DataDir + "/Scenario_OfficeCollapse.asset";
@@ -72,8 +71,6 @@ namespace FirstHand.EditorTools
         private static HazardDefinition H(string id, string key, bool danger = true)
             => new HazardDefinition { hazardId = id, addressKey = key, nameKey = "hazard." + id, isDangerous = danger };
 
-        // ---------- Text ----------
-
         public static (TextTable en, TextTable pcm) BuildTextTables()
         {
             EnsureFolders();
@@ -96,8 +93,6 @@ namespace FirstHand.EditorTools
             return t;
         }
 
-        // ---------- Theme: shapes, fonts, icons ----------
-
         public const string Fonts = Root + "/UI/Fonts";
         public const string IconDir = Root + "/UI/Icon";
 
@@ -107,7 +102,6 @@ namespace FirstHand.EditorTools
             var theme = AssetDatabase.LoadAssetAtPath<UITheme>(ThemePath);
             if (theme == null) { theme = ScriptableObject.CreateInstance<UITheme>(); AssetDatabase.CreateAsset(theme, ThemePath); }
 
-            // Palette ("Warm Lagos street"). Set here so an existing asset picks up changes.
             theme.paper = UITheme.Hex("F4EBDD"); theme.paper2 = UITheme.Hex("EADBC4"); theme.card = UITheme.Hex("FFF8EE");
             theme.ink = UITheme.Hex("13302A"); theme.ink2 = UITheme.Hex("2E4A42"); theme.muted = UITheme.Hex("6B7F77"); theme.line = UITheme.Hex("D6C6AC");
             theme.coral = UITheme.Hex("FF6A2B"); theme.coralDeep = UITheme.Hex("D94E14"); theme.coralTint = UITheme.Hex("FFE0CF");
@@ -116,7 +110,6 @@ namespace FirstHand.EditorTools
             theme.scrim = new Color(0.075f, 0.19f, 0.165f, 0.45f);
             theme.shadow = 4f;
 
-            // Shapes at canvas resolution (1 px = 1 canvas unit), radii taken from the Affinity concepts.
             int R(float concept) => Mathf.RoundToInt(UITheme.D(concept));
             theme.card20 = Shape("shape_card20", R(20), 0, false);
             theme.card20Line = Shape("shape_card20_line", R(20), 6, false);
@@ -130,7 +123,6 @@ namespace FirstHand.EditorTools
             theme.circleLine = Disc("shape_circle_line", 256, 18);
             theme.ring = Disc("shape_ring", 256, 26);
 
-            // Fonts (Bricolage Grotesque, Instrument Sans, Geist Mono; all SIL OFL)
             theme.headBold = FontAsset("BricolageGrotesque-ExtraBold");
             theme.headSemi = FontAsset("BricolageGrotesque-Bold");
             theme.body = FontAsset("InstrumentSans_400Regular");
@@ -138,7 +130,6 @@ namespace FirstHand.EditorTools
             theme.mono = FontAsset("GeistMono-Regular");
             theme.monoMedium = FontAsset("GeistMono-Medium");
 
-            // Icons exported from Affinity (icon_<name>.png, white, tinted at runtime)
             theme.icons.Clear();
             foreach (var guid in AssetDatabase.FindAssets("t:Texture2D", new[] { Sprites }))
             {
@@ -148,7 +139,6 @@ namespace FirstHand.EditorTools
                 theme.icons.Add(new UITheme.NamedSprite { name = file.Substring(5), sprite = ImportSprite(p, Vector4.zero) });
             }
 
-            // Brand mark = the app icon artwork
             string markPath = $"{Sprites}/brand_mark.png";
             if (!File.Exists(markPath) && File.Exists($"{IconDir}/AppIcon-1024.png")) { File.Copy($"{IconDir}/AppIcon-1024.png", markPath); AssetDatabase.ImportAsset(markPath); }
             if (File.Exists(markPath)) theme.mark = ImportSprite(markPath, Vector4.zero, 256);
@@ -179,7 +169,6 @@ namespace FirstHand.EditorTools
             return fa;
         }
 
-        /// <summary>Anti-aliased rounded rectangle (filled or outline), imported 9-sliced.</summary>
         private static Sprite Shape(string name, int radius, int stroke, bool topOnly)
         {
             string path = $"{Sprites}/{name}.png";
@@ -190,7 +179,7 @@ namespace FirstHand.EditorTools
             for (int x = 0; x < size; x++)
             {
                 float fx = x + 0.5f, fy = y + 0.5f;
-                bool roundCorner = !topOnly || fy > size / 2f; // texture y is up: top half has the rounded corners
+                bool roundCorner = !topOnly || fy > size / 2f;
                 float r = roundCorner ? radius : 0;
                 float cx = Mathf.Clamp(fx, r, size - r), cy = Mathf.Clamp(fy, r, size - r);
                 float d = r > 0 ? Vector2.Distance(new Vector2(fx, fy), new Vector2(cx, cy)) - r
@@ -209,7 +198,6 @@ namespace FirstHand.EditorTools
             return ImportSprite(path, topOnly ? new Vector4(b, 1, b, b) : new Vector4(b, b, b, b));
         }
 
-        /// <summary>Anti-aliased disc or ring.</summary>
         private static Sprite Disc(string name, int size, int stroke)
         {
             string path = $"{Sprites}/{name}.png";

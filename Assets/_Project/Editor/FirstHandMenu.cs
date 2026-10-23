@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace FirstHand.EditorTools
 {
-    /// <summary>One-click project setup. Safe to run again: every step overwrites its own output.</summary>
     public static class FirstHandMenu
     {
         [MenuItem("FirstHand/Build Everything", priority = 0)]
@@ -45,11 +44,11 @@ namespace FirstHand.EditorTools
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.layersbyj.firsthandar");
             PlayerSettings.bundleVersion = "1.0.0";
             PlayerSettings.Android.bundleVersionCode = 1;
-            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;     // NFR-09: Android 8.0+
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new[] { UnityEngine.Rendering.GraphicsDeviceType.OpenGLES3 });
-            PlayerSettings.defaultInterfaceOrientation = UIOrientation.Portrait;               // NFR-09: portrait
+            PlayerSettings.defaultInterfaceOrientation = UIOrientation.Portrait;
             PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.Android, ManagedStrippingLevel.Low);
             PlayerSettings.stripEngineCode = true;
             EditorUserBuildSettings.buildAppBundle = false;
@@ -58,7 +57,6 @@ namespace FirstHand.EditorTools
 
         public const string ApkPath = "Builds/FirstHandAR.apk";
 
-        /// <summary>Builds Addressables content, then a release APK for ARM64 Android into Builds/.</summary>
         [MenuItem("FirstHand/4. Build Android APK", priority = 23)]
         public static void BuildAndroid()
         {
@@ -79,7 +77,6 @@ namespace FirstHand.EditorTools
 
         private const string IconDir = "Assets/_Project/UI/Icon/";
 
-        /// <summary>App icon designed in Affinity: full icon for legacy/round, layered for Android adaptive icons.</summary>
         [MenuItem("FirstHand/App icon", priority = 41)]
         public static void ApplyAppIcon()
         {

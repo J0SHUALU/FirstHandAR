@@ -16,7 +16,6 @@ using static FirstHand.EditorTools.BuilderUtil;
 
 namespace FirstHand.EditorTools
 {
-    /// <summary>Builds the single Bootstrap scene: AR Session, XR Origin with managers, the app managers and UI canvas.</summary>
     public static class SceneBuilder
     {
         public const string ScenePath = Scenes + "/Bootstrap.unity";
@@ -26,7 +25,6 @@ namespace FirstHand.EditorTools
             EnsureFolders();
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
-            // --- AR: use AR Foundation's own menu items so the camera rig is exactly what the package expects
             EditorApplication.ExecuteMenuItem("GameObject/XR/AR Session");
             Selection.activeObject = null;
             EditorApplication.ExecuteMenuItem("GameObject/XR/XR Origin (Mobile AR)");
@@ -47,7 +45,7 @@ namespace FirstHand.EditorTools
 
             var cam = origin.Camera;
             cam.nearClipPlane = 0.05f;
-            cam.farClipPlane = 20f; // small scene: tighter depth range helps precision and culling
+            cam.farClipPlane = 20f;
 
             var lightGo = new GameObject("Directional Light");
             var light = lightGo.AddComponent<Light>();
@@ -56,7 +54,6 @@ namespace FirstHand.EditorTools
             light.shadows = LightShadows.None;
             lightGo.transform.rotation = Quaternion.Euler(50, -30, 0);
 
-            // --- App managers
             var managers = new GameObject("[Managers]");
             var ar = managers.AddComponent<ARManager>();
             Set(ar, "session", session);
@@ -80,15 +77,14 @@ namespace FirstHand.EditorTools
             Set(audio, "voiceSource", Source(managers.transform, "Voice"));
             Set(audio, "metronomeSource", Source(managers.transform, "Metronome"));
 
-            // --- UI
             var canvasGo = new GameObject("UI Canvas", typeof(RectTransform));
             var canvas = canvasGo.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = 10;
             var scaler = canvasGo.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1080, 2337); // 390 x 844 design frame at 1080 wide
-            scaler.matchWidthOrHeight = 0f;                         // scale by width so concept px map 1:1
+            scaler.referenceResolution = new Vector2(1080, 2337);
+            scaler.matchWidthOrHeight = 0f;
             canvasGo.AddComponent<GraphicRaycaster>();
 
             var es = new GameObject("EventSystem");
@@ -105,10 +101,6 @@ namespace FirstHand.EditorTools
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
         }
 
-        /// <summary>
-        /// Editor-only layout preview at the origin: what the trainee will see once the scene is placed
-        /// (casualty, phone, two hazards, two decoys, a 2 x 1.5 m floor patch). Not included in builds.
-        /// </summary>
         public static void BuildPreview()
         {
             var old = GameObject.Find("Scene Preview (editor only)");
@@ -117,7 +109,6 @@ namespace FirstHand.EditorTools
             var root = new GameObject("Scene Preview (editor only)");
             root.tag = "EditorOnly";
             root.AddComponent<ScenePreview>();
-            // Same as a real placement: 1.2 m in front of the AR camera, near side (+Z) facing the trainee.
             root.transform.SetPositionAndRotation(new Vector3(0, 0, 1.2f), Quaternion.Euler(0, 180, 0));
 
             Prim(PrimitiveType.Cube, root.transform, "Floor 2 x 1.5 m", new Vector3(0, -0.005f, 0.15f), new Vector3(2.2f, 0.01f, 1.7f),
@@ -132,7 +123,6 @@ namespace FirstHand.EditorTools
                 go.transform.localRotation = Quaternion.Euler(0, yaw, 0);
             }
             Put($"{Prefabs}/Casualty.prefab", Vector3.zero);
-            // Show the first recovery position stage so its size and placement can be checked in the Scene view.
             foreach (var t in root.GetComponentsInChildren<Transform>(true))
                 if (t.name == "Handle_near_arm" || t.name == "Target_near_arm" || t.name == "Guide_near_arm") t.gameObject.SetActive(true);
             Put($"{Prefabs}/PhoneProp.prefab", new Vector3(0.55f, 0, 0.75f), 20);
@@ -159,7 +149,6 @@ namespace FirstHand.EditorTools
             return s;
         }
 
-        /// <summary>Translucent plane overlay in the app's info blue, with a crisp edge line.</summary>
         private static GameObject BuildPlanePrefab()
         {
             string path = $"{Prefabs}/ARPlane.prefab";

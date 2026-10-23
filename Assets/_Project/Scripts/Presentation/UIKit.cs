@@ -9,11 +9,6 @@ namespace FirstHand.Presentation
     public enum ButtonStyle { Primary, Teal, Secondary, Soft, Ghost, Danger }
     public enum TextStyle { Display, H1, H2, Title, Body, BodyMedium, Small, Label, Mono, MonoLarge, Number }
 
-    /// <summary>
-    /// Builds uGUI from the Affinity design tokens. Positions and sizes are given in concept pixels
-    /// (390 x 844 frame) and converted with UITheme.D, so values can be read straight off the design.
-    /// All text goes through LocText (language switching) and is registered for text scaling (FR-04).
-    /// </summary>
     public static class UIKit
     {
         public static UITheme Theme;
@@ -34,8 +29,6 @@ namespace FirstHand.Presentation
             }
         }
 
-        // ---------- Rects ----------
-
         public static RectTransform Rect(Transform parent, string name)
         {
             var go = new GameObject(name, typeof(RectTransform));
@@ -51,7 +44,6 @@ namespace FirstHand.Presentation
             return rt;
         }
 
-        /// <summary>Place by top-left corner, measured from the parent's top-left (concept px).</summary>
         public static RectTransform Place(RectTransform rt, float x, float y, float w, float h)
         {
             rt.anchorMin = rt.anchorMax = new Vector2(0, 1);
@@ -61,7 +53,6 @@ namespace FirstHand.Presentation
             return rt;
         }
 
-        /// <summary>Full-width strip with side margins, anchored to the top or bottom edge (concept px).</summary>
         public static RectTransform Band(RectTransform rt, bool top, float offset, float height, float side = 24)
         {
             rt.anchorMin = new Vector2(0, top ? 1 : 0);
@@ -87,13 +78,10 @@ namespace FirstHand.Presentation
         public static Image Card(Transform parent, string name, Color? color = null, bool outline = false)
         {
             var img = Img(parent, name, T.card20, color ?? T.card, true);
-            // Street poster look: every card is a sticker with an ink outline and a hard offset shadow.
-            // (The old 'outline' flag only chose a light hairline; all cards are outlined now.)
             Sticker(img, T.card20Line);
             return img;
         }
 
-        /// <summary>Ink outline overlay plus a hard, unblurred shadow down and to the right.</summary>
         public static void Sticker(Image img, Sprite outlineSprite, Color? shadowColor = null, bool outline = true)
         {
             if (outline && outlineSprite != null)
@@ -113,7 +101,6 @@ namespace FirstHand.Presentation
             sh.useGraphicAlpha = true;
         }
 
-        /// <summary>Keeps decorative overlays (outlines, selection rings) out of layout groups.</summary>
         public static void Overlay(Component c)
         {
             var le = c.GetComponent<LayoutElement>() ?? c.gameObject.AddComponent<LayoutElement>();
@@ -126,14 +113,11 @@ namespace FirstHand.Presentation
         public static Image Fill(Transform parent, string name, Color color)
         {
             var img = Img(parent, name, null, color, true);
-            // Full screen fills sit inside the safe area; bleed past it so notches and home bars are covered too.
             var rt = img.rectTransform;
             rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
             rt.offsetMin = new Vector2(-Bleed, -Bleed); rt.offsetMax = new Vector2(Bleed, Bleed);
             return img;
         }
-
-        // ---------- Layout ----------
 
         public static VerticalLayoutGroup VStack(RectTransform rt, float spacing, float padH = 0, float padV = 0, TextAnchor align = TextAnchor.UpperLeft)
         {
@@ -180,8 +164,6 @@ namespace FirstHand.Presentation
             return rt;
         }
 
-        // ---------- Text ----------
-
         static (TMP_FontAsset font, float size, float spacing) Style(TextStyle s)
         {
             switch (s)
@@ -223,7 +205,6 @@ namespace FirstHand.Presentation
             return t;
         }
 
-        /// <summary>Text set directly (names, numbers), not from the text table.</summary>
         public static TextMeshProUGUI Raw(Transform parent, string text, TextStyle style, Color? color = null,
             TextAlignmentOptions align = TextAlignmentOptions.Left, float? size = null)
         {
@@ -232,8 +213,6 @@ namespace FirstHand.Presentation
             t.text = style == TextStyle.Label ? text.ToUpperInvariant() : text;
             return t;
         }
-
-        // ---------- Controls ----------
 
         public static Image Icon(Transform parent, string name, float size, Color color)
         {
@@ -280,7 +259,6 @@ namespace FirstHand.Presentation
             return btn;
         }
 
-        /// <summary>Round icon button (close, settings, rotate).</summary>
         public static Button IconButton(Transform parent, string icon, Action onClick, float size = 40, Color? bg = null, Color? fg = null, bool outline = false)
         {
             var img = Img(parent, "IconBtn_" + icon, T.circle, bg ?? T.card, true);
@@ -296,7 +274,6 @@ namespace FirstHand.Presentation
             return btn;
         }
 
-        /// <summary>Small round status badge with an icon (check, !).</summary>
         public static Image Badge(Transform parent, string icon, Color bg, float size = 22)
         {
             var img = Img(parent, "Badge", T.circle, bg);
@@ -311,13 +288,12 @@ namespace FirstHand.Presentation
             return img;
         }
 
-        /// <summary>White bottom sheet with a grab handle; returns the content area (padded, top-down stack).</summary>
         public static RectTransform Sheet(RectTransform parent, float height, out Image sheet)
         {
             sheet = Img(parent, "Sheet", T.sheetTop, T.card, true);
             var rt = sheet.rectTransform;
             rt.anchorMin = new Vector2(0, 0); rt.anchorMax = new Vector2(1, 0); rt.pivot = new Vector2(0.5f, 0);
-            rt.sizeDelta = new Vector2(0, D(height) + Bleed); rt.anchoredPosition = new Vector2(0, -Bleed); // white runs under the home bar
+            rt.sizeDelta = new Vector2(0, D(height) + Bleed); rt.anchoredPosition = new Vector2(0, -Bleed);
             var edge = Img(rt, "Outline", T.sheetTopLine, T.ink); Stretch((RectTransform)edge.transform); Overlay(edge);
             var handle = Img(rt, "Handle", T.pill, T.ink);
             var h = handle.rectTransform;
@@ -329,7 +305,6 @@ namespace FirstHand.Presentation
             return content;
         }
 
-        /// <summary>Thin progress bar; returns the fill so callers can move it with SetBar.</summary>
         public static Image Bar(Transform parent, float height, out Image fill, Color fillColor, Color? track = null)
         {
             var bg = Img(parent, "Bar", T.pill, track ?? T.paper2);
@@ -348,7 +323,6 @@ namespace FirstHand.Presentation
             rt.offsetMax = Vector2.zero;
         }
 
-        /// <summary>The ECG line from the brand, as a tinted sprite.</summary>
         public static Image Ecg(Transform parent, Color color, float height = 36)
         {
             var img = Img(parent, "ECG", T.Icon("ecg"), color);
@@ -379,7 +353,6 @@ namespace FirstHand.Presentation
             return input;
         }
 
-        /// <summary>Vertical scroll area filling the parent; returns the content to fill (top-down stack).</summary>
         public static RectTransform Scroll(RectTransform parent, float spacing, float padH, float padTop, float padBottom)
         {
             var viewport = Rect(parent, "Viewport");

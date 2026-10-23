@@ -42,8 +42,6 @@ namespace FirstHand.Tests
                        : new List<string> { "near_arm", "far_hand", "far_knee", "roll", "head_tilt" }
         };
 
-        // ---------- Hazards ----------
-
         [Test]
         public void Hazards_PassWhenBothFound_AndDecoyCountsAsMistake()
         {
@@ -51,7 +49,7 @@ namespace FirstHand.Tests
             s.Begin(Ctx());
             s.HandleInput(new TapInput("decoy_bag", Vector3.zero, true));
             s.HandleInput(new TapInput("wet_floor", Vector3.zero, true));
-            s.HandleInput(new TapInput("wet_floor", Vector3.zero, true)); // repeat ignored
+            s.HandleInput(new TapInput("wet_floor", Vector3.zero, true));
             Assert.IsFalse(s.IsComplete);
             s.HandleInput(new TapInput("loose_cable", Vector3.zero, true));
             Assert.IsTrue(s.IsComplete);
@@ -67,8 +65,6 @@ namespace FirstHand.Tests
             s.HandleInput(new TapInput(null, Vector3.zero, false));
             Assert.AreEqual(0, s.Mistakes);
         }
-
-        // ---------- Response ----------
 
         [Test]
         public void Response_ShoutBeforeShouldersIsMistake()
@@ -96,8 +92,6 @@ namespace FirstHand.Tests
             Assert.IsTrue(s.Passed);
         }
 
-        // ---------- Call ----------
-
         [Test]
         public void Call_WrongNumberThenCorrectAndInfo()
         {
@@ -116,15 +110,13 @@ namespace FirstHand.Tests
             s.HandleInput(new ActionInput("info", "weather"));
             s.HandleInput(new ActionInput("send_info"));
             Assert.AreEqual(2, s.Mistakes);
-            s.HandleInput(new ActionInput("info", "weather"));       // toggle off
+            s.HandleInput(new ActionInput("info", "weather"));
             s.HandleInput(new ActionInput("info", "what_happened"));
             s.HandleInput(new ActionInput("info", "breathing"));
             s.HandleInput(new ActionInput("send_info"));
             Assert.IsTrue(s.IsComplete);
             Assert.IsTrue(s.Passed);
         }
-
-        // ---------- Breathing ----------
 
         [TestCase(3f, false)]
         [TestCase(7f, true)]
@@ -137,8 +129,6 @@ namespace FirstHand.Tests
             Assert.AreEqual(completes, s.IsComplete);
             Assert.AreEqual(completes ? 0 : 1, s.Mistakes);
         }
-
-        // ---------- Compressions ----------
 
         private static void Compress(CompressionStep s, int taps, float interval, Vector3 point)
         {
@@ -154,7 +144,7 @@ namespace FirstHand.Tests
         {
             var s = new CompressionStep(Def(StepType.Compressions, "compressions"));
             s.Begin(Ctx());
-            Compress(s, 30, 0.55f, Vector3.zero); // ~109 per minute
+            Compress(s, 30, 0.55f, Vector3.zero);
             Assert.IsTrue(s.IsComplete);
             Assert.IsTrue(s.Passed);
             Assert.That(s.Evaluate().averageRate, Is.InRange(105f, 112f));
@@ -165,7 +155,7 @@ namespace FirstHand.Tests
         {
             var s = new CompressionStep(Def(StepType.Compressions, "compressions"));
             s.Begin(Ctx());
-            Compress(s, 30, 0.8f, Vector3.zero); // 75 per minute
+            Compress(s, 30, 0.8f, Vector3.zero);
             Assert.IsTrue(s.IsComplete);
             Assert.IsFalse(s.Passed);
         }
@@ -192,8 +182,6 @@ namespace FirstHand.Tests
             Assert.IsTrue(s.Passed);
         }
 
-        // ---------- Recovery ----------
-
         [Test]
         public void Recovery_OutOfOrderSnapsBackAndCounts()
         {
@@ -219,8 +207,6 @@ namespace FirstHand.Tests
             Assert.AreEqual(0, s.Mistakes);
             Assert.AreEqual(0, casualty.Stage);
         }
-
-        // ---------- Base class rules ----------
 
         [Test]
         public void Assessment_TimeLimitFailsStep()

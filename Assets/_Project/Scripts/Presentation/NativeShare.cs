@@ -2,11 +2,6 @@ using UnityEngine;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// FR-30: hands the CSV to the phone's share menu. On Android this uses an ACTION_SEND intent with the CSV
-    /// as text, which needs no FileProvider setup and works with WhatsApp, Gmail and Drive. Elsewhere it is a
-    /// no-op (the file path is still copied to the clipboard by the caller).
-    /// </summary>
     public static class NativeShare
     {
         public static void ShareText(string text, string subject)

@@ -5,7 +5,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Steps
 {
-    /// <summary>Summary of one step that survives the attempt (the per-frame data is thrown away).</summary>
     [Serializable]
     public class StepResult
     {
@@ -18,13 +17,11 @@ namespace FirstHand.Steps
         public bool critical;
         public int weight;
         public string tipKey;
-        // Compression detail (0 when not relevant)
         public float percentInRange;
         public float percentOnTarget;
         public float averageRate;
     }
 
-    // ---------- Inputs a step can receive (already translated from touches / UI by managers) ----------
     public abstract class StepInput { }
     public sealed class TapInput : StepInput
     {
@@ -47,7 +44,6 @@ namespace FirstHand.Steps
         public DragInput(string limbId, bool reached) { LimbId = limbId; ReachedTarget = reached; }
     }
 
-    /// <summary>What a step may ask of the casualty, without knowing about MonoBehaviours (testable with a fake).</summary>
     public interface ICasualtyView
     {
         Vector3 ChestTarget { get; }
@@ -56,7 +52,6 @@ namespace FirstHand.Steps
         void SetLimbHandlesActive(bool active);
     }
 
-    /// <summary>Everything a step needs for one attempt, passed in rather than fetched from singletons.</summary>
     public class StepContext
     {
         public TrainingMode Mode;

@@ -5,10 +5,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Simulation
 {
-    /// <summary>
-    /// State pattern: each app state decides what the same UI action means right now. SimulationManager just
-    /// forwards Tick and HandleAction to whichever state is active, the same call in every state.
-    /// </summary>
     public interface ISimState
     {
         SimStateId Id { get; }
@@ -29,7 +25,6 @@ namespace FirstHand.Simulation
         public virtual void Exit() { }
     }
 
-    /// <summary>Title, sign in, recent sessions, facilitator entry. Nothing in AR runs here.</summary>
     public class StartState : SimStateBase
     {
         public StartState(SimulationManager sim) : base(sim) { }
@@ -48,7 +43,6 @@ namespace FirstHand.Simulation
         }
     }
 
-    /// <summary>Scan the floor, show plane overlays and feedback, tap to place.</summary>
     public class ScanningState : SimStateBase
     {
         public ScanningState(SimulationManager sim) : base(sim) { }
@@ -74,7 +68,6 @@ namespace FirstHand.Simulation
         }
     }
 
-    /// <summary>FR-09: rotate in 15 degree steps or tap elsewhere to move, then confirm.</summary>
     public class PlacementState : SimStateBase
     {
         public PlacementState(SimulationManager sim) : base(sim) { }
@@ -100,7 +93,6 @@ namespace FirstHand.Simulation
         }
     }
 
-    /// <summary>FR-10: choose Practice or Assessment before each attempt.</summary>
     public class ModeSelectState : SimStateBase
     {
         public ModeSelectState(SimulationManager sim) : base(sim) { }
@@ -121,7 +113,6 @@ namespace FirstHand.Simulation
         }
     }
 
-    /// <summary>The scenario itself. Steps get time and input; losing tracking for 2 s pauses (FR-22).</summary>
     public class RunningState : SimStateBase
     {
         private float lostFor;
@@ -151,7 +142,6 @@ namespace FirstHand.Simulation
         }
     }
 
-    /// <summary>Frozen timers and input. Resume only works once tracking is back.</summary>
     public class PausedState : SimStateBase
     {
         public PausedState(SimulationManager sim) : base(sim) { }
@@ -175,7 +165,6 @@ namespace FirstHand.Simulation
         }
     }
 
-    /// <summary>Score, pass/fail and tips are shown by the UI from AttemptFinishedEvent. Retry or leave.</summary>
     public class ResultsState : SimStateBase
     {
         public ResultsState(SimulationManager sim) : base(sim) { }

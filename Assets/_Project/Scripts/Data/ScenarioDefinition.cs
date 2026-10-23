@@ -7,10 +7,6 @@ namespace FirstHand.Data
     public enum StepType { HazardScan, ResponseCheck, CallHelp, BreathingCheck, Compressions, RecoveryPosition }
     public enum StepBranch { Always, NotBreathing, Breathing }
 
-    /// <summary>
-    /// One step entry in the scenario asset. Every number the rules use lives here so a time limit,
-    /// pass threshold or order can be changed without touching code (NFR-12).
-    /// </summary>
     [Serializable]
     public class StepDefinition
     {
@@ -30,22 +26,22 @@ namespace FirstHand.Data
         [Tooltip("More mistakes than this fails the step")] public int maxMistakes = 2;
 
         [Header("Step specific values")]
-        public int targetCount;          // hazards to find, compressions per round
-        public int assessmentRounds = 1; // compression rounds in Assessment (activity diagram: 2)
-        public float minValue;           // hold min seconds, rate min
-        public float maxValue;           // hold max seconds, rate max
-        public float radius;             // compression target radius in metres
+        public int targetCount;
+        public int assessmentRounds = 1;
+        public float minValue;
+        public float maxValue;
+        public float radius;
         [Range(0, 1)] public float requiredInRange = 0.7f;
         [Range(0, 1)] public float requiredOnTarget = 0.8f;
-        public string expectedText;      // number to dial
-        public List<string> orderedIds = new List<string>(); // shoulders, info items, recovery order
+        public string expectedText;
+        public List<string> orderedIds = new List<string>();
     }
 
     [Serializable]
     public class HazardDefinition
     {
         public string hazardId;
-        public string addressKey;   // Addressables key for the prefab
+        public string addressKey;
         public string nameKey;
         public bool isDangerous = true;
     }

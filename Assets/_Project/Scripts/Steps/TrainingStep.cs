@@ -3,11 +3,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Steps
 {
-    /// <summary>
-    /// Abstract step. Says WHAT every step can do (Begin, HandleInput, Tick, Evaluate) and owns the shared
-    /// bookkeeping: elapsed time, mistakes, hints and the Assessment time limit. Subclasses only implement
-    /// their own rule in OnBegin and HandleInput.
-    /// </summary>
     public abstract class TrainingStep
     {
         public StepDefinition Definition { get; }
@@ -45,13 +40,12 @@ namespace FirstHand.Steps
             {
                 TimedOut = true;
                 Feedback("fb.timeout", FeedbackKind.Warning);
-                Finish(false); // FR-20: fail the step and move on
+                Finish(false);
             }
         }
 
         public abstract void HandleInput(StepInput input);
 
-        /// <summary>FR-19: hints exist only in Practice.</summary>
         public string RequestHint()
         {
             if (IsAssessment || IsComplete) return null;
@@ -85,7 +79,6 @@ namespace FirstHand.Steps
         protected void Feedback(string key, FeedbackKind kind)
             => EventBus.Publish(new StepFeedbackEvent { MessageKey = key, Kind = kind });
 
-        /// <summary>Completes the step; a step that finished but went over its mistake budget still fails.</summary>
         protected void Finish(bool succeeded)
         {
             if (IsComplete) return;

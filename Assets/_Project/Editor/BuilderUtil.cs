@@ -5,7 +5,6 @@ using UnityEngine.Rendering;
 
 namespace FirstHand.EditorTools
 {
-    /// <summary>Shared helpers for the one-click content builders.</summary>
     public static class BuilderUtil
     {
         public const string Root = "Assets/_Project";
@@ -33,8 +32,6 @@ namespace FirstHand.EditorTools
             AssetDatabase.CreateFolder(parent, Path.GetFileName(path));
         }
 
-        // ---------- Materials ----------
-
         private static Shader LitShader => Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
         private static Shader UnlitShader => Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Unlit/Color");
 
@@ -58,12 +55,11 @@ namespace FirstHand.EditorTools
                 mat.SetColor("_EmissionColor", emission.Value);
                 mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
             }
-            mat.enableInstancing = true; // GPU instancing for repeated props (mobile optimisation)
+            mat.enableInstancing = true;
             EditorUtility.SetDirty(mat);
             return mat;
         }
 
-        /// <summary>Flat colour drawn on top of everything (FirstHand/Overlay shader).</summary>
         public static Material OverlayMat(string name, Color color)
         {
             string path = $"{Materials}/{name}.mat";
@@ -89,8 +85,6 @@ namespace FirstHand.EditorTools
             m.renderQueue = (int)RenderQueue.Transparent;
         }
 
-        // ---------- Primitives ----------
-
         public static GameObject Prim(PrimitiveType type, Transform parent, string name, Vector3 localPos, Vector3 scale,
                                       Material mat, bool keepCollider = false, Vector3? euler = null)
         {
@@ -102,13 +96,12 @@ namespace FirstHand.EditorTools
             if (euler.HasValue) go.transform.localEulerAngles = euler.Value;
             var r = go.GetComponent<Renderer>();
             r.sharedMaterial = mat;
-            r.shadowCastingMode = ShadowCastingMode.Off; // AR: no real-time shadows on props (GPU budget)
+            r.shadowCastingMode = ShadowCastingMode.Off;
             r.receiveShadows = false;
             if (!keepCollider) Object.DestroyImmediate(go.GetComponent<Collider>());
             return go;
         }
 
-        /// <summary>Capsule lying along local +X, starting at the parent origin.</summary>
         public static GameObject Segment(Transform parent, string name, float length, float thickness, Material mat, float yOffset = 0)
             => Prim(PrimitiveType.Capsule, parent, name, new Vector3(length / 2f, yOffset, 0),
                     new Vector3(thickness, length / 2f, thickness), mat, false, new Vector3(0, 0, 90));
@@ -127,8 +120,6 @@ namespace FirstHand.EditorTools
             c.center = center; c.size = size; c.isTrigger = trigger;
             return c;
         }
-
-        // ---------- Serialized fields ----------
 
         public static void Set(Object target, string field, object value)
         {

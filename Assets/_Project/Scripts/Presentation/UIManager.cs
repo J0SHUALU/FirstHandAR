@@ -9,10 +9,6 @@ using FirstHand.Simulation;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// Shows the screen for the current state and routes events to it. It holds no simulation rules:
-    /// buttons publish UiActionEvents and the active SimState decides what they mean.
-    /// </summary>
     public class UIManager : Singleton<UIManager>
     {
         [SerializeField] private UITheme theme;
@@ -79,7 +75,6 @@ namespace FirstHand.Presentation
             built = true;
         }
 
-        /// <summary>Feedback toast: dark pill under the step card with a coloured dot (colour + words, NFR-05).</summary>
         private void BuildToast(RectTransform parent)
         {
             toastBg = UIKit.Img(parent, "Toast", theme.chip12, theme.ink);
@@ -115,7 +110,6 @@ namespace FirstHand.Presentation
             if (!built) return;
             if (toast.gameObject.activeSelf && Time.unscaledTime > toastUntil) toast.gameObject.SetActive(false);
             if (scanView.Visible) scanView.Tick(Time.deltaTime);
-            // In the attempt the toast sits under the instruction card; elsewhere under the status chip.
             float toastY = hudView.Visible ? hudView.InstructionBottom + UIKit.D(10) : UIKit.D(250);
             toast.anchoredPosition = new Vector2(0, -toastY);
             if (facilitatorView.Visible)
@@ -124,8 +118,6 @@ namespace FirstHand.Presentation
                 facilitatorView.Tick();
             }
         }
-
-        // ---------- State -> screen ----------
 
         private void OnStateChanged(StateChangedEvent e)
         {
@@ -144,9 +136,9 @@ namespace FirstHand.Presentation
                     break;
                 case SimStateId.Paused:
                     pauseView.SetReason(trackingLost);
-                    pauseView.Show();    // overlay on top of the HUD
+                    pauseView.Show();
                     return;
-                case SimStateId.Results: return; // shown by OnAttemptFinished with the record
+                case SimStateId.Results: return;
             }
             foreach (var v in stateViews) if (v != target) v.Hide();
             target?.Show();
@@ -159,8 +151,6 @@ namespace FirstHand.Presentation
         }
 
         private void OnTracking(TrackingChangedEvent e) => trackingLost = !e.IsTracking;
-
-        // ---------- Shared UI services ----------
 
         public void Toast(string key, FeedbackKind kind, float seconds = 2.2f)
         {
@@ -217,7 +207,6 @@ namespace FirstHand.Presentation
             }
         }
 
-        /// <summary>FR-28: facilitator PIN first (set it on first use), then the facilitator screen.</summary>
         public void OpenFacilitator()
         {
             var dm = DataManager.Instance;
@@ -240,7 +229,6 @@ namespace FirstHand.Presentation
 
         public void RefreshStart() { if (startView.Visible) startView.Refresh(); }
 
-        /// <summary>Last five sessions of the signed-in trainee (from the Start screen).</summary>
         public void ShowProgress() => progressView.Show();
     }
 }

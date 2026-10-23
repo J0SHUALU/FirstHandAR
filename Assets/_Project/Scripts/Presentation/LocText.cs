@@ -9,7 +9,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>A label that re-reads its text whenever the language changes.</summary>
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class LocText : MonoBehaviour
     {
@@ -17,7 +16,6 @@ namespace FirstHand.Presentation
         private object[] args;
         private TextMeshProUGUI label;
 
-        /// <summary>Mono labels in the design are uppercase in both languages.</summary>
         public bool Upper { get; set; }
 
         public void Set(string newKey, params object[] newArgs)

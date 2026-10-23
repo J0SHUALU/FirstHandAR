@@ -6,20 +6,16 @@ using FirstHand.Steps;
 
 namespace FirstHand.Entities
 {
-    /// <summary>
-    /// The collapsed security guard. Owns its pose and breathing state; other classes ask it to change pose
-    /// through SetRecoveryStage / SnapLimbBack rather than moving its limbs themselves.
-    /// </summary>
     public class Casualty : SimEntity, ICasualtyView
     {
         [Serializable]
         public class RecoveryLimb
         {
-            public string limbId;           // near_arm, far_hand, far_knee, roll, head_tilt (one stage may move several pivots)
-            public Transform pivot;         // what rotates when this stage is done
+            public string limbId;
+            public Transform pivot;
             [Tooltip("Local rotation of the pivot once this stage is done (baked by the prefab builder for this rig)")]
             public Quaternion targetLocalRotation = Quaternion.identity;
-            public LimbHandle handle;       // what the trainee drags (may be null for none)
+            public LimbHandle handle;
             [NonSerialized] public Quaternion startRotation;
             [NonSerialized] public Quaternion placedRotation;
         }
@@ -68,7 +64,7 @@ namespace FirstHand.Entities
         {
             placed.Clear();
             dip = 0;
-            for (int i = limbs.Count - 1; i >= 0; i--) // reverse so the first (rest) value of a shared pivot wins
+            for (int i = limbs.Count - 1; i >= 0; i--)
             {
                 var l = limbs[i];
                 if (l.pivot != null) l.pivot.localRotation = l.startRotation;
@@ -83,14 +79,10 @@ namespace FirstHand.Entities
             {
                 float rise = IsBreathing ? Mathf.Sin(Time.time * Mathf.PI * 2f / 4f) * breathAmplitude : 0f;
                 dip = Mathf.MoveTowards(dip, 0f, Time.deltaTime * 0.3f);
-                // World metres converted into the parent's local units. The rig has scaled nodes (x100) in its
-                // chain, so a direction alone would turn a few millimetres of breath into a large stretch.
                 Vector3 offset = transform.up * (rise - dip);
                 chestMesh.localPosition = chestRestLocal + (chestMesh.parent != null ? chestMesh.parent.InverseTransformVector(offset) : offset);
             }
 
-            // A pivot can appear in several stages (the near arm moves again when the body rolls):
-            // the latest completed stage wins, otherwise the rest pose.
             goals.Clear();
             foreach (var l in limbs)
             {
@@ -101,8 +93,6 @@ namespace FirstHand.Entities
             foreach (var kv in goals)
                 kv.Key.localRotation = Quaternion.Slerp(kv.Key.localRotation, kv.Value, Time.deltaTime * poseLerpSpeed);
         }
-
-        // ---------- ICasualtyView ----------
 
         public void SetRecoveryStage(int completedStages)
         {
@@ -116,7 +106,6 @@ namespace FirstHand.Entities
 
         private bool handlesOn;
 
-        /// <summary>Only the handle for the next stage is shown, so the trainee always knows what to drag.</summary>
         private void RefreshHandles()
         {
             string nextId = placed.Count < stageOrder.Count ? stageOrder[placed.Count] : null;
@@ -130,7 +119,6 @@ namespace FirstHand.Entities
                 if (l.limbId == limbId && l.handle != null) l.handle.ResetHandle();
         }
 
-        /// <summary>Lets the editor builder (and the scenario) keep the animation order in sync.</summary>
         public void SetStageOrder(IEnumerable<string> order) => stageOrder = new List<string>(order);
 
         public void SetLimbHandlesActive(bool active)

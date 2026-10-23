@@ -3,10 +3,6 @@ using UnityEditor.Android;
 
 namespace FirstHand.EditorTools
 {
-    /// <summary>
-    /// ARCore ships two Android libraries with the same namespace (com.google.ar.core). Newer Android Gradle
-    /// plugins reject that by default, so the generated project turns the unique namespace check off.
-    /// </summary>
     public class AndroidGradleFix : IPostGenerateGradleAndroidProject
     {
         public int callbackOrder => 999;

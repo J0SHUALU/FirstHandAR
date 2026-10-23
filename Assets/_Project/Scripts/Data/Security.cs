@@ -5,7 +5,6 @@ using System.Text;
 
 namespace FirstHand.Data
 {
-    /// <summary>PIN hashing with a per-profile random salt (PBKDF2, 10k iterations). Plain PINs are never stored.</summary>
     public static class PinHasher
     {
         private const int Iterations = 10000;
@@ -35,7 +34,6 @@ namespace FirstHand.Data
         }
     }
 
-    /// <summary>AES-256-CBC with a random IV per write and an HMAC-SHA256 tag so tampered files are rejected.</summary>
     public class AesFileCrypto
     {
         private readonly byte[] encKey;
@@ -103,11 +101,6 @@ namespace FirstHand.Data
         }
     }
 
-    /// <summary>
-    /// Supplies the 32 byte master key. Version 1 generates a random key on first launch and keeps it in a
-    /// private file in persistentDataPath (app-sandboxed). Moving it to Android Keystore / iOS Keychain is a
-    /// documented deviation because it needs a native plugin; only this class would change.
-    /// </summary>
     public static class DeviceKeyProvider
     {
         public static byte[] GetOrCreate(string directory)

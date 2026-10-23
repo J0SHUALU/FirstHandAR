@@ -9,11 +9,6 @@ using Debug = UnityEngine.Debug;
 
 namespace FirstHand.EditorTools
 {
-    /// <summary>
-    /// Sound effects are synthesised here (short, original, no licensing) and saved as WAV.
-    /// Narration is generated with macOS text-to-speech as a working placeholder until real voice
-    /// recordings (English and Pidgin) replace the files with the same names.
-    /// </summary>
     public static class AudioFactory
     {
         private const int Rate = 22050;
@@ -41,7 +36,7 @@ namespace FirstHand.EditorTools
             {
                 var imp = (AudioImporter)AssetImporter.GetAtPath(AssetDatabase.GUIDToAssetPath(guid));
                 var s = imp.defaultSampleSettings;
-                s.loadType = AudioClipLoadType.DecompressOnLoad;   // tiny clips: decode once, play with zero latency
+                s.loadType = AudioClipLoadType.DecompressOnLoad;
                 s.compressionFormat = AudioCompressionFormat.ADPCM;
                 imp.defaultSampleSettings = s;
                 imp.forceToMono = true;
@@ -49,7 +44,6 @@ namespace FirstHand.EditorTools
             }
         }
 
-        /// <summary>Narration placeholders via `say` (macOS only). Keys: instructions, hints and feedback.</summary>
         public static int BuildNarration(string enVoice = "Samantha", string pcmVoice = "Samantha")
         {
             if (Application.platform != RuntimePlatform.OSXEditor) { Debug.LogWarning("Narration generation needs macOS 'say'."); return 0; }
@@ -70,7 +64,7 @@ namespace FirstHand.EditorTools
             {
                 var imp = (AudioImporter)AssetImporter.GetAtPath(AssetDatabase.GUIDToAssetPath(guid));
                 var s = imp.defaultSampleSettings;
-                s.loadType = AudioClipLoadType.CompressedInMemory;  // longer clips: keep compressed, save RAM
+                s.loadType = AudioClipLoadType.CompressedInMemory;
                 s.compressionFormat = AudioCompressionFormat.Vorbis;
                 s.quality = 0.5f;
                 imp.defaultSampleSettings = s;
@@ -90,8 +84,6 @@ namespace FirstHand.EditorTools
             using (var p = Process.Start(psi)) p.WaitForExit(15000);
             return File.Exists(full);
         }
-
-        // ---------- tiny synth ----------
 
         private static float[] Tone(float hz, float sec, float amp, float decay = 20)
         {

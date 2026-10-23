@@ -6,11 +6,6 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace FirstHand.Assets
 {
-    /// <summary>
-    /// Single entry point to Addressables. Callers ask for an asset by key and later release it by key.
-    /// Handles are reference counted so two systems can share the same prefab or clip and it is only
-    /// unloaded when the last user releases it. Nothing outside this class touches AsyncOperationHandle.
-    /// </summary>
     public class AssetService
     {
         private class Entry
@@ -47,7 +42,6 @@ namespace FirstHand.Assets
             return handle.Result;
         }
 
-        /// <summary>Loads every asset carrying a label (for example a whole narration language).</summary>
         public async Task<IList<T>> LoadLabelAsync<T>(string label) where T : Object
         {
             string key = "label:" + label;

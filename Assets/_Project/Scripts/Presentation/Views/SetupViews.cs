@@ -5,7 +5,6 @@ using FirstHand.Core;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>Concept 02: plane detection feedback (FR-05, FR-06), reticle and a bottom sheet with progress.</summary>
     public class ScanView : View
     {
         private LocText chipText, title, body;
@@ -74,7 +73,6 @@ namespace FirstHand.Presentation
         }
     }
 
-    /// <summary>Concept 03: rotate in 15 degree steps, tap to move, confirm (FR-07, FR-09).</summary>
     public class PlacementView : View
     {
         protected override void Build()
@@ -98,7 +96,6 @@ namespace FirstHand.Presentation
         }
     }
 
-    /// <summary>Concept 04: Practice or Assessment as two option cards, before every attempt (FR-10).</summary>
     public class ModeView : View
     {
         private bool assessment = true;

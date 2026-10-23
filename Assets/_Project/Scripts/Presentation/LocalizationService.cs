@@ -9,10 +9,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// FR-03: text for the selected language. Only one language table is in memory at a time; switching
-    /// loads the new table through Addressables and releases the old one.
-    /// </summary>
     public class LocalizationService : Singleton<LocalizationService>
     {
         private readonly AssetService assets = new AssetService();

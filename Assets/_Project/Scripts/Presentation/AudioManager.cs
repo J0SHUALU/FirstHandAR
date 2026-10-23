@@ -8,13 +8,6 @@ using FirstHand.Simulation;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// Plays narration, sound effects and vibration in response to events. It holds no references to steps:
-    /// it only listens, so steps never know whether sound is on or which clip plays.
-    ///  - SFX: one Addressables label ("sfx") loaded at boot and kept, because they are tiny and used constantly.
-    ///  - Narration: one label per language ("vo_en" / "vo_pcm"); switching language releases the old set.
-    /// Missing narration clips are skipped; captions always show the same text (FR-21).
-    /// </summary>
     public class AudioManager : Singleton<AudioManager>
     {
         [SerializeField] private AudioSource sfxSource;
@@ -52,7 +45,7 @@ namespace FirstHand.Presentation
             if (voiceLabel != null) assets.ReleaseLabel(voiceLabel);
             voiceLabel = label;
             var clips = await assets.LoadLabelAsync<AudioClip>(label);
-            foreach (var c in clips) voice[c.name.Replace('-', '.')] = c; // clip "fb-hazard_found" -> key "fb.hazard_found"
+            foreach (var c in clips) voice[c.name.Replace('-', '.')] = c;
         }
 
         public void SetVolume(float v)
@@ -68,8 +61,6 @@ namespace FirstHand.Presentation
             if (voiceSource) voiceSource.volume = volume;
             if (metronomeSource) metronomeSource.volume = volume * 0.6f;
         }
-
-        // ---------- Observer subscriptions ----------
 
         private void OnEnable()
         {
@@ -115,7 +106,6 @@ namespace FirstHand.Presentation
             Narrate(e.MessageKey);
         }
 
-        /// <summary>Compression click: higher pitch when too fast, lower when too slow, buzz when off the chest.</summary>
         private void OnRate(RateUpdatedEvent e)
         {
             if (!sfx.TryGetValue("compress", out var clip)) return;
@@ -139,8 +129,6 @@ namespace FirstHand.Presentation
             if (e.Action == "dial") Play("key");
             else Play("tap");
         }
-
-        // ---------- Playback ----------
 
         public void Play(string name)
         {

@@ -1,5 +1,3 @@
-// Flat colour that draws on top of the scene (no depth test). Used for the recovery position handle,
-// its guide line and its drop circle so they are never hidden inside the casualty's body.
 Shader "FirstHand/Overlay"
 {
     Properties

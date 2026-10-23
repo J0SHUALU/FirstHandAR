@@ -8,12 +8,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Entities
 {
-    /// <summary>
-    /// Spawns, resets and removes everything in the AR scene.
-    ///  - Prefabs come from Addressables through AssetService and are released when no longer needed.
-    ///  - Hazards, decoys and tap markers come from pools so retries do not allocate new objects.
-    ///  - The casualty and phone are single instances that are reset, not respawned, between attempts.
-    /// </summary>
     public class EntityManager : Singleton<EntityManager>
     {
         [SerializeField] private string phoneKey = "PhoneProp";
@@ -48,7 +42,6 @@ namespace FirstHand.Entities
             parking.SetParent(transform, false);
         }
 
-        /// <summary>Loads the fixed scene pieces once, when the trainee first places the scene.</summary>
         public async Task LoadSceneAsync(ScenarioDefinition scenario, Transform root)
         {
             sceneRoot = root;
@@ -66,10 +59,6 @@ namespace FirstHand.Entities
                 () => Instantiate(markerPrefab, parking).GetComponent<TapMarker>(), parking, tapMarkerPrewarm, 40);
         }
 
-        /// <summary>
-        /// Sets up one attempt: resets the casualty and phone, returns last attempt's props to their pools,
-        /// releases prefabs that this attempt does not use and spawns the chosen hazards and decoys.
-        /// </summary>
         public async Task PrepareAttemptAsync(bool breathing, IList<HazardDefinition> hazards, IList<HazardDefinition> decoys, System.Random rng)
         {
             ReturnProps();
@@ -97,7 +86,6 @@ namespace FirstHand.Entities
             m.Show(good, markerPool.Return);
         }
 
-        /// <summary>Back to the main menu: destroy instances and release every Addressables handle.</summary>
         public void UnloadScene()
         {
             ReturnProps();
@@ -128,9 +116,9 @@ namespace FirstHand.Entities
 
         private void UnloadPool(string key)
         {
-            hazardPools[key].Dispose();     // instances first,
+            hazardPools[key].Dispose();
             hazardPools.Remove(key);
-            assets.Release(key);            // then the prefab handle
+            assets.Release(key);
         }
 
         protected override void OnDestroy()

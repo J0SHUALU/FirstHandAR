@@ -10,10 +10,6 @@ namespace FirstHand.Data
     public enum SignInResult { Ok, WrongPin, Locked, NotFound }
     public enum RegisterResult { Ok, BadName, BadPin, NameTaken }
 
-    /// <summary>
-    /// Owns trainee profiles and session records. The only class allowed to read or write them,
-    /// and it only does so through IRepository.
-    /// </summary>
     public class DataManager : Singleton<DataManager>
     {
         public const int MaxWrongPins = 5;
@@ -36,7 +32,6 @@ namespace FirstHand.Data
             Init(new JsonFileRepository(Application.persistentDataPath, Application.temporaryCachePath, new AesFileCrypto(key)));
         }
 
-        /// <summary>Separate from Awake so tests can inject a fake repository.</summary>
         public void Init(IRepository repository)
         {
             repo = repository;
@@ -44,8 +39,6 @@ namespace FirstHand.Data
             ApplyRetention();
             repo.PurgeOldExports(ExportMaxAgeHours);
         }
-
-        // ---------- Profiles (FR-01, FR-02) ----------
 
         public RegisterResult Register(string displayName, string pin, Language language, out TraineeProfile profile)
         {
@@ -118,9 +111,6 @@ namespace FirstHand.Data
             repo.SaveProfiles(profiles);
         }
 
-        // ---------- Sessions (FR-26, FR-27, NFR-07) ----------
-
-        /// <summary>Insert or update a record. Called after every step so a crash loses at most that step.</summary>
         public void SaveSession(SessionRecord record)
         {
             var file = repo.LoadSessions(record.traineeId);
@@ -136,7 +126,6 @@ namespace FirstHand.Data
         public List<SessionRecord> GetSessions(string traineeId, int max = int.MaxValue)
             => repo.LoadSessions(traineeId).sessions.OrderByDescending(s => s.startedAt).Take(max).ToList();
 
-        /// <summary>Most recent sessions on this device across all trainees (start screen list).</summary>
         public List<SessionRecord> GetRecentSessionsAllTrainees(int max)
         {
             var all = new List<SessionRecord>();
@@ -146,8 +135,6 @@ namespace FirstHand.Data
 
         public string DisplayNameFor(string traineeId)
             => profiles.profiles.FirstOrDefault(p => p.traineeId == traineeId)?.displayName ?? "?";
-
-        // ---------- Facilitator (FR-28 to FR-31) ----------
 
         public bool SetFacilitatorPin(string pin)
         {
@@ -201,8 +188,6 @@ namespace FirstHand.Data
             repo.SaveProfiles(profiles);
             if (CurrentTrainee?.traineeId == traineeId) CurrentTrainee = null;
         }
-
-        // ---------- Retention ----------
 
         private void ApplyRetention()
         {

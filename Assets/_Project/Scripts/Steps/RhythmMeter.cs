@@ -2,10 +2,6 @@ using System.Collections.Generic;
 
 namespace FirstHand.Steps
 {
-    /// <summary>
-    /// Encapsulates the compression maths. Tap times are private; callers can only add a tap and read
-    /// the current rate or the share of taps that were in range.
-    /// </summary>
     public class RhythmMeter
     {
         private readonly List<float> tapTimes = new List<float>();
@@ -18,7 +14,6 @@ namespace FirstHand.Steps
         public void AddTap(float time) => tapTimes.Add(time);
         public void Reset() => tapTimes.Clear();
 
-        /// <summary>Compressions per minute from the average of the last few intervals; 0 until two taps.</summary>
         public float CurrentRate
         {
             get
@@ -31,7 +26,6 @@ namespace FirstHand.Steps
             }
         }
 
-        /// <summary>Rate of the latest single interval, used to judge each tap.</summary>
         public float LastIntervalRate
         {
             get
@@ -43,7 +37,6 @@ namespace FirstHand.Steps
             }
         }
 
-        /// <summary>Share (0..1) of intervals whose instantaneous rate is between min and max inclusive.</summary>
         public float PercentInRange(float min, float max)
         {
             int n = tapTimes.Count;

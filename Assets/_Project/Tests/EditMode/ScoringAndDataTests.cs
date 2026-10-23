@@ -63,17 +63,17 @@ namespace FirstHand.Tests
             var s = new PracticeScoring().Score(results);
             Assert.IsFalse(s.HasPassMark);
             Assert.IsFalse(s.Passed);
-            Assert.AreEqual(70, s.Score); // (0.5 + 0.9) / 2
+            Assert.AreEqual(70, s.Score);
         }
 
         [Test]
         public void RhythmMeter_RateAndRange()
         {
             var m = new RhythmMeter();
-            for (int i = 0; i < 10; i++) m.AddTap(i * 0.5f); // 120 per minute
+            for (int i = 0; i < 10; i++) m.AddTap(i * 0.5f);
             Assert.AreEqual(120f, m.CurrentRate, 0.5f);
             Assert.AreEqual(1f, m.PercentInRange(100, 120), 0.001f);
-            m.AddTap(4.5f + 1.0f); // one 60 per minute interval
+            m.AddTap(4.5f + 1.0f);
             Assert.AreEqual(0.9f, m.PercentInRange(100, 120), 0.001f);
         }
     }
@@ -109,7 +109,6 @@ namespace FirstHand.Tests
         }
     }
 
-    /// <summary>In-memory repository so DataManager rules can be tested without files.</summary>
     public class MemoryRepository : IRepository
     {
         public ProfilesFile Profiles = new ProfilesFile();

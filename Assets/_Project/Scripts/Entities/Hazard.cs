@@ -3,11 +3,6 @@ using FirstHand.Core;
 
 namespace FirstHand.Entities
 {
-    /// <summary>
-    /// A hazard (or harmless decoy) in the trainee's room. Pooled: it is reused on every retry, so all of its
-    /// state is reset in OnSpawned. Once found, a dangerous hazard is "made safe": its danger visuals switch off,
-    /// a safe visual (warning sign, coiled cable, closed valve) switches on and any motion stops.
-    /// </summary>
     public class Hazard : SimEntity, IPoolable
     {
         [SerializeField] private bool isDangerous = true;
@@ -26,7 +21,6 @@ namespace FirstHand.Entities
         private Vector3 basePos;
         private float wobble;
 
-        /// <summary>The pool hands out generic prefabs; the id is assigned per attempt by EntityManager.</summary>
         public void Assign(string id) => entityId = id;
 
         public void OnSpawned()

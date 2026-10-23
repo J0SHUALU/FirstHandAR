@@ -5,10 +5,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Steps
 {
-    /// <summary>
-    /// Builds the step list for one attempt, forwards input to the current step (polymorphically, it never
-    /// knows which subclass it is talking to) and collects StepResults. Plain C# so it runs in EditMode tests.
-    /// </summary>
     public class StepManager
     {
         private readonly List<TrainingStep> steps = new List<TrainingStep>();
@@ -61,7 +57,6 @@ namespace FirstHand.Steps
             CheckComplete();
         }
 
-        /// <summary>Quitting mid-attempt: the step in progress is recorded as failed so the record stays honest.</summary>
         public void AbortCurrent()
         {
             if (Current == null || Current.IsComplete) return;
@@ -100,8 +95,6 @@ namespace FirstHand.Steps
                 ShowHint = context.Mode == TrainingMode.Practice
             });
         }
-
-        // ---------- Observer: raw input events become step inputs ----------
 
         private void Listen(bool on)
         {

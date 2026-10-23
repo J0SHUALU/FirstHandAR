@@ -3,11 +3,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Steps
 {
-    /// <summary>
-    /// Factory: the step list comes from the ScenarioDefinition asset, so nothing else in the code
-    /// decides which TrainingStep subclass to build. A new step type is one enum value and one line here;
-    /// StepManager never changes.
-    /// </summary>
     public static class StepFactory
     {
         public static TrainingStep Create(StepDefinition def)

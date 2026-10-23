@@ -7,16 +7,12 @@ namespace FirstHand.Scoring
 {
     public struct SessionScore
     {
-        public int Score;          // 0..100
-        public bool Passed;        // always false in Practice (no pass mark)
+        public int Score;
+        public bool Passed;
         public bool HasPassMark;
         public List<string> TipKeys;
     }
 
-    /// <summary>
-    /// Strategy: Practice and Assessment score the same step results differently.
-    /// The mode picks the strategy; SimulationManager just calls Score.
-    /// </summary>
     public interface IScoringStrategy
     {
         SessionScore Score(IReadOnlyList<StepResult> results);
@@ -24,7 +20,7 @@ namespace FirstHand.Scoring
 
     public abstract class ScoringBase : IScoringStrategy
     {
-        protected const float MistakePenalty = 0.15f; // share of a step's weight lost per mistake
+        protected const float MistakePenalty = 0.15f;
         protected const float HintPenalty = 0.10f;
 
         public abstract SessionScore Score(IReadOnlyList<StepResult> results);
@@ -36,7 +32,6 @@ namespace FirstHand.Scoring
             => results.Where(r => !r.passed && !string.IsNullOrEmpty(r.tipKey)).Select(r => r.tipKey).ToList();
     }
 
-    /// <summary>Practice: generous. A failed step still earns half its weight; hints cost a little; no pass mark.</summary>
     public class PracticeScoring : ScoringBase
     {
         public override SessionScore Score(IReadOnlyList<StepResult> results)
@@ -53,10 +48,6 @@ namespace FirstHand.Scoring
         }
     }
 
-    /// <summary>
-    /// Assessment (FR-23, FR-24): a failed step earns nothing, mistakes cost points, and the attempt only
-    /// passes with score &gt;= pass mark AND every critical step (call, compressions or recovery) passed.
-    /// </summary>
     public class AssessmentScoring : ScoringBase
     {
         private readonly int passMark;

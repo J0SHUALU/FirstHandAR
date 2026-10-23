@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>Keeps UI inside the phone's safe area (notches, rounded corners, gesture bar).</summary>
     public class SafeArea : MonoBehaviour
     {
         private Rect applied;

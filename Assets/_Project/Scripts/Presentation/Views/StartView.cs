@@ -6,10 +6,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// Start (concept 01): brand, headline, who is training, Start, language and facilitator entry.
-    /// Tapping the signed-in trainee opens their last five sessions (ProgressView).
-    /// </summary>
     public class StartView : View
     {
         private RectTransform trainees;
@@ -22,7 +18,6 @@ namespace FirstHand.Presentation
             UIKit.Fill(Root, "Paper", T.paper);
             var content = UIKit.Scroll(Root, 0, 24, 56, 28);
 
-            // Brand row
             var brand = UIKit.Rect(content, "Brand");
             UIKit.HStack(brand, 10);
             UIKit.Size(brand, 40);
@@ -61,7 +56,6 @@ namespace FirstHand.Presentation
             startButton = UIKit.Button(content, "start.begin", ButtonStyle.Primary, () => Act("start"));
             UIKit.Space(content, 18);
 
-            // Language + facilitator
             var foot = UIKit.Rect(content, "Footer");
             UIKit.HStack(foot, 0);
             UIKit.Size(foot, 40);
@@ -168,8 +162,6 @@ namespace FirstHand.Presentation
             else if (parts[0].Length > 1) s += parts[0].Substring(1, 1);
             return s.ToUpperInvariant();
         }
-
-        // ---------- Sign in / register ----------
 
         private void SignIn(TraineeProfile p)
         {

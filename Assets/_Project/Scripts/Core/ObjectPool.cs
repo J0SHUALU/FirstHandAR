@@ -4,18 +4,12 @@ using UnityEngine;
 
 namespace FirstHand.Core
 {
-    /// <summary>Anything that is reused by a pool resets itself on spawn and cleans up on return.</summary>
     public interface IPoolable
     {
         void OnSpawned();
         void OnDespawned();
     }
 
-    /// <summary>
-    /// Object Pool for the objects that are created and thrown away again and again during an attempt:
-    /// hazard props on every retry, compression ripple markers (30 to 60 per attempt), and tap markers.
-    /// Instances are prewarmed once, deactivated on return and reset through IPoolable.
-    /// </summary>
     public class ComponentPool<T> where T : Component, IPoolable
     {
         private readonly Stack<T> inactive = new Stack<T>();
@@ -68,7 +62,6 @@ namespace FirstHand.Core
             foreach (var item in new List<T>(active)) Return(item);
         }
 
-        /// <summary>Destroys every instance; called before the source prefab is released from Addressables.</summary>
         public void Dispose()
         {
             ReturnAll();
@@ -82,7 +75,7 @@ namespace FirstHand.Core
         private static void Kill(GameObject go)
         {
             if (Application.isPlaying) UnityEngine.Object.Destroy(go);
-            else UnityEngine.Object.DestroyImmediate(go); // edit-mode tests and editor tooling
+            else UnityEngine.Object.DestroyImmediate(go);
         }
 
         private T CreateNew()

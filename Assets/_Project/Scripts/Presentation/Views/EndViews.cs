@@ -8,7 +8,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>FR-22: paused by the trainee or by lost tracking. Resume needs tracking back.</summary>
     public class PauseView : View
     {
         private LocText reason;
@@ -30,9 +29,6 @@ namespace FirstHand.Presentation
         public void SetReason(bool trackingLost) => reason.Set(trackingLost ? "pause.tracking" : "pause.manual");
     }
 
-    /// <summary>
-    /// Concept 07 / FR-25: big score, pass state in Assessment, key metrics, step list, one tip per failed step.
-    /// </summary>
     public class ResultsView : View
     {
         private RectTransform content;
@@ -69,7 +65,7 @@ namespace FirstHand.Presentation
             big.textWrappingMode = TextWrappingModes.NoWrap;
             var of = UIKit.Raw(scoreRow, "/100", TextStyle.H2, T.muted, TextAlignmentOptions.BottomLeft, 26);
             UIKit.Size(of, 40, 80);
-            of.margin = new Vector4(0, 0, 0, D(26)); // sit on the big number's baseline, not its descender
+            of.margin = new Vector4(0, 0, 0, D(26));
 
             Color bg, fg, badge; string key, icon;
             if (!assessment) { bg = T.paper2; fg = T.ink2; badge = T.ink2; key = "result.practice_done"; icon = "dot"; }
@@ -146,7 +142,6 @@ namespace FirstHand.Presentation
         }
     }
 
-    /// <summary>Concept 08: score trend and the five most recent sessions of the signed-in trainee (FR-27).</summary>
     public class ProgressView : View
     {
         private RectTransform content;
@@ -186,7 +181,6 @@ namespace FirstHand.Presentation
             UIKit.Size(card, 168);
             var plot = UIKit.Rect(card.transform, "Plot"); UIKit.Stretch(plot, 44, 20, 24, 36);
             Func<float, float> y = v => Mathf.InverseLerp(0, 100, v);
-            // pass mark line at 80
             for (int i = 0; i < 26; i++)
             {
                 var dash = UIKit.Img(plot, "Pass", null, T.muted);
@@ -213,13 +207,12 @@ namespace FirstHand.Presentation
             }
         }
 
-        /// <summary>A line between two normalised points, drawn as a rotated thin image.</summary>
         private void Segment(RectTransform plot, Vector2 a, Vector2 b)
         {
             var seg = UIKit.Img(plot, "Seg", null, T.coral);
             var r = seg.rectTransform;
             r.anchorMin = r.anchorMax = a; r.pivot = new Vector2(0, 0.5f);
-            var size = new Vector2(D(390 - 48 - 64), D(168 - 60)); // plot area in the card (concept px)
+            var size = new Vector2(D(390 - 48 - 64), D(168 - 60));
             var delta = new Vector2((b.x - a.x) * size.x, (b.y - a.y) * size.y);
             r.sizeDelta = new Vector2(delta.magnitude, D(2.5f));
             r.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg);
@@ -252,10 +245,6 @@ namespace FirstHand.Presentation
         }
     }
 
-    /// <summary>
-    /// FR-28 to FR-31: PIN-gated progress list, CSV export and trainee deletion. Closes itself after five
-    /// minutes without a touch.
-    /// </summary>
     public class FacilitatorView : View
     {
         public const float IdleSeconds = 300f;

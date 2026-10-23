@@ -15,10 +15,10 @@ namespace FirstHand.Data
         public string pinHash;
         public string pinSalt;
         public Language language;
-        public long createdAt;     // unix seconds
-        public long lastActiveAt;  // unix seconds, used for 12 month retention
+        public long createdAt;
+        public long lastActiveAt;
         public int failedPinCount;
-        public long lockedUntil;   // unix seconds
+        public long lockedUntil;
     }
 
     [Serializable]
@@ -26,10 +26,10 @@ namespace FirstHand.Data
     {
         public string sessionId;
         public string traineeId;
-        public string mode;        // "Practice" / "Assessment" (string keeps the JSON readable)
+        public string mode;
         public string scenarioId;
-        public string branch;      // "breathing" / "not_breathing"
-        public string status;      // "complete" / "incomplete"
+        public string branch;
+        public string status;
         public int score;
         public bool passed;
         public long startedAt;
@@ -63,7 +63,6 @@ namespace FirstHand.Data
         public const int Version = 1;
     }
 
-    /// <summary>Row used by the facilitator progress list (FR-29).</summary>
     public struct TraineeSummary
     {
         public TraineeProfile Profile;

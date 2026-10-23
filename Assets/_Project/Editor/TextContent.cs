@@ -1,15 +1,9 @@
 namespace FirstHand.EditorTools
 {
-    /// <summary>
-    /// Source text for both languages (key, English, Nigerian Pidgin). Sentences are kept to 15 words or less
-    /// (NFR-06). The builder writes these into the Text_en / Text_pcm Addressable tables.
-    /// Pidgin lines should be checked by a native speaker before release.
-    /// </summary>
     public static class TextContent
     {
         public static readonly string[,] Rows =
         {
-            // ----- App / start -----
             { "app.title", "FirstHand", "FirstHand" },
             { "start.tagline", "Practise first aid. Get ready for work.", "Practice first aid. Make you ready for work." },
             { "start.how_title", "How it works", "How e dey work" },
@@ -31,7 +25,6 @@ namespace FirstHand.EditorTools
             { "start.recent_mine", "Your last 5 sessions", "Your last 5 sessions" },
             { "start.no_sessions", "No sessions yet.", "No session dey yet." },
 
-            // ----- Modes / results badges -----
             { "mode.practice", "Practice", "Practice" },
             { "mode.assess", "Assessment", "Assessment" },
             { "result.incomplete", "Not finished", "No finish" },
@@ -39,7 +32,6 @@ namespace FirstHand.EditorTools
             { "result.pass", "PASS", "PASS" },
             { "result.not_yet", "Not yet", "Never reach" },
 
-            // ----- PIN / register -----
             { "pin.enter", "Enter your PIN", "Put your PIN" },
             { "pin.wrong", "Wrong PIN. Try again.", "PIN no correct. Try again." },
             { "pin.wrong_short", "Wrong PIN.", "PIN no correct." },
@@ -56,7 +48,6 @@ namespace FirstHand.EditorTools
             { "reg.failed", "Could not save. Try again.", "E no save. Try again." },
             { "reg.done", "Welcome! You are signed in.", "Welcome! You don enter." },
 
-            // ----- Common UI -----
             { "ui.next", "Next", "Next" },
             { "ui.cancel", "Cancel", "Cancel" },
             { "ui.ok", "OK", "OK" },
@@ -69,7 +60,6 @@ namespace FirstHand.EditorTools
             { "digit.4", "4", "4" }, { "digit.5", "5", "5" }, { "digit.6", "6", "6" }, { "digit.7", "7", "7" },
             { "digit.8", "8", "8" }, { "digit.9", "9", "9" },
 
-            // ----- AR setup -----
             { "scan.looking", "Point at the floor. Move your phone slowly.", "Point phone for floor. Move am slowly." },
             { "scan.keep_going", "Floor found. Keep moving to see more of it.", "Floor don show. Continue to move am." },
             { "scan.found", "Ready. Tap the floor to place the scene.", "E don ready. Tap the floor make e show." },
@@ -81,13 +71,11 @@ namespace FirstHand.EditorTools
             { "place.rotate_right", "Turn right", "Turn right" },
             { "place.confirm", "Place here", "Put am here" },
 
-            // ----- Mode select -----
             { "mode.title", "How do you want to train?", "How you wan train?" },
             { "mode.practice_desc", "Hints when you need them.", "Hint dey when you need am." },
             { "mode.assess_desc", "Timed and scored, like the real thing.", "Timer dey, like real life." },
             { "mode.reposition", "Move scene", "Move scene" },
 
-            // ----- HUD -----
             { "hud.step", "Step {0} of {1}", "Step {0} for {1}" },
             { "hud.pause", "Pause", "Pause" },
             { "hud.hint", "Show me", "Show me" },
@@ -115,7 +103,6 @@ namespace FirstHand.EditorTools
             { "meter.fast", "Too fast. Slow down a little.", "E too fast. Slow down small." },
             { "meter.good", "Good speed. Keep going.", "Correct speed. Continue." },
 
-            // ----- Step instructions (caption + narration) -----
             { "instr.hazards", "Look around. Tap the 2 dangers before you go close.", "Look around. Tap the 2 danger before you go near." },
             { "instr.response", "Tap both shoulders. Then shout to see if he answers.", "Tap the two shoulder. Then shout make you see if e answer." },
             { "instr.call", "No answer. Call 112 and tell them what they need.", "E no answer. Call 112, tell dem wetin dem need." },
@@ -123,7 +110,6 @@ namespace FirstHand.EditorTools
             { "instr.compressions", "Not breathing. Push the middle of the chest 30 times, fast and steady.", "E no dey breathe. Press middle of chest 30 times, fast and steady." },
             { "instr.recovery", "He is breathing. Drag the orange ball to the green circle, one part at a time.", "E dey breathe. Drag the orange ball go the green circle, one by one." },
 
-            // ----- Hints (Practice only) -----
             { "hint.hazards", "Check the floor around him. Water, wires, glass, gas, smoke, moving things.", "Check floor around am. Water, wire, glass, gas, smoke, things wey dey move." },
             { "hint.hazards_one_more", "One more danger. Look behind and beside him.", "One more danger remain. Look for back and side." },
             { "hint.response", "Tap the left shoulder, then the right shoulder.", "Tap left shoulder, then right shoulder." },
@@ -138,7 +124,6 @@ namespace FirstHand.EditorTools
             { "hint.recovery.roll", "4 of 5. Drag the hip ball toward you to roll him onto his side.", "4 of 5. Drag the hip ball come your side make e roll for side." },
             { "hint.recovery.head_tilt", "5 of 5. Drag the head ball back to tilt his head and open the airway.", "5 of 5. Drag the head ball back make im head tilt, make air pass." },
 
-            // ----- Feedback -----
             { "fb.timeout", "Time is up for this step. Moving on.", "Time don finish for this step. Make we move." },
             { "fb.hazard_found", "Good. That is a danger.", "Good. That one na danger." },
             { "fb.not_a_hazard", "That is not dangerous. Look again.", "That one no be danger. Look again." },
@@ -162,7 +147,6 @@ namespace FirstHand.EditorTools
             { "fb.wrong_order", "Not yet. Do the steps in order.", "No be now. Follow the order." },
             { "fb.wait_tracking", "Point the phone at the scene again.", "Point phone for the scene again." },
 
-            // ----- Pause -----
             { "pause.title", "Paused", "E don pause" },
             { "pause.manual", "Take a breath. Continue when ready.", "Rest small. Continue when you ready." },
             { "pause.tracking", "The phone lost the floor. Point it at the scene.", "Phone don lose the floor. Point am for the scene." },
@@ -171,7 +155,6 @@ namespace FirstHand.EditorTools
             { "pause.quit_title", "Stop this attempt?", "You wan stop am?" },
             { "pause.quit_body", "It will be saved as not finished.", "We go save am as e no finish." },
 
-            // ----- Results -----
             { "result.retry", "Try again", "Try again" },
             { "result.title_assess", "Assessment result", "Assessment result" },
             { "result.title_practice", "Practice done", "Practice don finish" },
@@ -209,7 +192,6 @@ namespace FirstHand.EditorTools
             { "tip.compressions", "Push the lower middle of the chest, 100 to 120 a minute.", "Press lower middle of chest, 100 reach 120 every minute." },
             { "tip.recovery", "Arm out, hand to cheek, knee up, roll, tilt head.", "Arm out, hand for cheek, knee up, roll, tilt head." },
 
-            // ----- Facilitator -----
             { "fac.title", "Trainees", "Trainees" },
             { "fac.export", "Share CSV", "Share CSV" },
             { "fac.timeout", "Facilitator area closed after 5 minutes.", "Facilitator area don close after 5 minutes." },
@@ -227,7 +209,6 @@ namespace FirstHand.EditorTools
             { "fac.confirm_pin", "Enter the PIN again", "Put the PIN again" },
             { "fac.enter_pin", "Facilitator PIN", "Facilitator PIN" },
 
-            // ----- Settings -----
             { "settings.title", "Settings", "Settings" },
             { "settings.volume", "Sound", "Sound" },
             { "settings.vol_off", "Off", "Off" },

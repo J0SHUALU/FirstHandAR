@@ -8,10 +8,6 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// Turns touches into tap and drag events. Taps fire on touch-down (not release) so compression
-    /// timing is measured where the finger actually lands (NFR-02). Touches on UI are ignored here.
-    /// </summary>
     public class InputManager : Singleton<InputManager>
     {
         [SerializeField] private Camera arCamera;
@@ -74,12 +70,12 @@ namespace FirstHand.Presentation
                 {
                     dragging = d;
                     dragFinger = touch.finger.index;
-                    dragPlane = new Plane(Vector3.up, d.DragPlanePoint); // drag along the floor, where the circle is
+                    dragPlane = new Plane(Vector3.up, d.DragPlanePoint);
                     d.OnDragStart();
                     return;
                 }
 
-                target.OnTapped(hit.point); // polymorphic: hazard, body part or phone each react their own way
+                target.OnTapped(hit.point);
                 EventBus.Publish(new TapInputEvent { TargetId = target.InteractId, WorldPoint = hit.point, HitInteractable = true });
             }
             else
@@ -90,10 +86,6 @@ namespace FirstHand.Presentation
 
         private readonly RaycastHit[] rayHits = new RaycastHit[16];
 
-        /// <summary>
-        /// Nearest interactable under the finger, except that a draggable handle wins even if the body is in
-        /// front of it, so recovery position handles can always be grabbed.
-        /// </summary>
         private IInteractable FindTarget(Ray ray, out RaycastHit best)
         {
             best = default;

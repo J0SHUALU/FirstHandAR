@@ -6,7 +6,6 @@ using FirstHand.Data;
 
 namespace FirstHand.Steps
 {
-    /// <summary>Step 1 (FR-12): find and tap the hazards picked for this attempt; tapping anything else is a mistake.</summary>
     public class HazardScanStep : TrainingStep
     {
         private readonly HashSet<string> found = new HashSet<string>();
@@ -34,7 +33,6 @@ namespace FirstHand.Steps
         }
     }
 
-    /// <summary>Step 2 (FR-13): tap both shoulders, then shout. Shouting first is a mistake.</summary>
     public class ResponseCheckStep : TrainingStep
     {
         private readonly HashSet<string> tapped = new HashSet<string>();
@@ -63,7 +61,6 @@ namespace FirstHand.Steps
         }
     }
 
-    /// <summary>Step 3 (FR-14): dial the emergency number, then send exactly the three key facts.</summary>
     public class CallHelpStep : TrainingStep
     {
         private string dialled = "";
@@ -115,7 +112,6 @@ namespace FirstHand.Steps
         }
     }
 
-    /// <summary>Step 4 (FR-15): hold Check Breathing for 5 to 10 seconds.</summary>
     public class BreathingCheckStep : TrainingStep
     {
         public BreathingCheckStep(StepDefinition def) : base(def) { }
@@ -133,10 +129,6 @@ namespace FirstHand.Steps
         }
     }
 
-    /// <summary>
-    /// Step 5a (FR-16, FR-17): rhythm taps on the chest. Each tap updates the meter; a round passes when
-    /// enough intervals were 100 to 120 per minute and enough taps landed on the lower breastbone.
-    /// </summary>
     public class CompressionStep : TrainingStep
     {
         private readonly RhythmMeter meter = new RhythmMeter();
@@ -202,7 +194,6 @@ namespace FirstHand.Steps
         }
     }
 
-    /// <summary>Step 5b (FR-18): drag limbs in the correct order; a limb moved out of order snaps back.</summary>
     public class RecoveryPositionStep : TrainingStep
     {
         private int next;
@@ -218,7 +209,6 @@ namespace FirstHand.Steps
 
         private bool stageShown;
 
-        // Shown on the first tick: StepStartedEvent (sent after OnBegin) would otherwise overwrite it.
         protected override void OnTick(float dt)
         {
             if (stageShown) return;
@@ -226,7 +216,6 @@ namespace FirstHand.Steps
             ShowStage();
         }
 
-        /// <summary>The instruction card always says which limb to move next.</summary>
         private void ShowStage()
         {
             if (next < Definition.orderedIds.Count)

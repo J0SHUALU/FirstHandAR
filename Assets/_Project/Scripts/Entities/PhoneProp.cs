@@ -3,7 +3,6 @@ using FirstHand.Core;
 
 namespace FirstHand.Entities
 {
-    /// <summary>The trainee's phone lying next to the casualty. Tapping it opens the in-app keypad.</summary>
     public class PhoneProp : SimEntity
     {
         [SerializeField] private GameObject screenGlow;

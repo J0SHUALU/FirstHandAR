@@ -6,10 +6,6 @@ using FirstHand.Core;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// One screen. Subclasses build their widgets once and subscribe to the events they display only while
-    /// visible, so hidden screens cost nothing and never react to the wrong state.
-    /// </summary>
     public abstract class View
     {
         public RectTransform Root { get; private set; }
@@ -44,11 +40,9 @@ namespace FirstHand.Presentation
         protected virtual void OnShow() { }
         protected virtual void OnHide() { }
 
-        /// <summary>UI never calls the simulation directly; it publishes the action and the current state decides.</summary>
         protected static void Act(string action, string value = null)
             => EventBus.Publish(new UiActionEvent { Action = action, Value = value });
 
-        /// <summary>Status chip at the top of AR screens: coloured dot + short text.</summary>
         protected TextMeshProUGUI StatusChip(Transform parent, string key, Color dot, out Image dotImg)
         {
             var chip = UIKit.Img(parent, "Chip", T.pill, T.card);
@@ -68,7 +62,6 @@ namespace FirstHand.Presentation
             => UIKit.Place(UIKit.Rect(parent, "Corner"), x, y, w, h);
     }
 
-    /// <summary>Overlay for dialogs (PIN pad, confirmations, settings): a scrim and a bottom sheet. One at a time.</summary>
     public class ModalLayer
     {
         private readonly RectTransform root;
@@ -92,8 +85,8 @@ namespace FirstHand.Presentation
             var s = UIKit.Img(root, "Sheet", T.sheetTop, T.card, true);
             sheet = s.rectTransform;
             sheet.anchorMin = new Vector2(0, 0); sheet.anchorMax = new Vector2(1, 0); sheet.pivot = new Vector2(0.5f, 0);
-            sheet.anchoredPosition = new Vector2(0, -UIKit.Bleed); // runs under the home bar
-            sheet.sizeDelta = Vector2.zero; // full width; height comes from the fitter
+            sheet.anchoredPosition = new Vector2(0, -UIKit.Bleed);
+            sheet.sizeDelta = Vector2.zero;
             var v = UIKit.VStack(sheet, 16, 24, 0);
             v.padding = new RectOffset((int)UIKit.D(24), (int)UIKit.D(24), (int)UIKit.D(36), (int)(UIKit.D(34) + UIKit.Bleed));
             UIKit.Fit(s);
@@ -133,7 +126,6 @@ namespace FirstHand.Presentation
             UIKit.Button(row, "ui.yes", ButtonStyle.Danger, () => { Close(); onYes?.Invoke(); }, 56, false);
         }
 
-        /// <summary>Four-digit PIN pad (FR-01, FR-28). Digits are shown as filled dots, never as numbers.</summary>
         public void PinPad(string titleKey, Action<string> onDone, string subtitle = null)
         {
             var c = Open(titleKey);

@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>Keeps a sliced pill sprite fully rounded at any height by scaling its border to half the rect height.</summary>
     [RequireComponent(typeof(Image))]
     public class PillFit : MonoBehaviour
     {

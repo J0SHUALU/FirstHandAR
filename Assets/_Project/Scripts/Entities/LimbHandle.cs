@@ -3,11 +3,6 @@ using FirstHand.Core;
 
 namespace FirstHand.Entities
 {
-    /// <summary>
-    /// Orange grab ball on a limb for the recovery position. Only the next limb's ball is shown, with a white
-    /// guide line and a green circle on the floor. The ball follows the finger along the floor and the limb
-    /// counts as placed as soon as the ball reaches the circle (or is let go inside it).
-    /// </summary>
     [RequireComponent(typeof(Collider))]
     public class LimbHandle : MonoBehaviour, IDraggable
     {
@@ -32,8 +27,6 @@ namespace FirstHand.Entities
 
         private bool inited;
 
-        // Handles start inactive, so Awake can run after ResetHandle has already been called.
-        // Capture the prefab's size and position on first use, whichever comes first.
         private void EnsureInit()
         {
             if (inited) return;
@@ -66,7 +59,7 @@ namespace FirstHand.Entities
                 }
             }
             float pulse = 1f + 0.15f * Mathf.Sin(Time.time * 5f);
-            if (!dragging) transform.localScale = baseScale * pulse;      // "grab me"
+            if (!dragging) transform.localScale = baseScale * pulse;
             if (dropTarget != null) dropTarget.localScale = new Vector3(targetScale.x * pulse, targetScale.y, targetScale.z * pulse);
         }
 
@@ -100,8 +93,8 @@ namespace FirstHand.Entities
         public void OnDrag(Vector3 floorPoint)
         {
             if (!dragging) return;
-            transform.position = floorPoint + Vector3.up * 0.03f; // ball slides along the floor under the finger
-            if (InCircle()) Complete(true);                       // snap in as soon as it touches the circle
+            transform.position = floorPoint + Vector3.up * 0.03f;
+            if (InCircle()) Complete(true);
         }
 
         public void OnDragEnd()

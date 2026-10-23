@@ -6,10 +6,6 @@ using FirstHand.Core;
 
 namespace FirstHand.Presentation
 {
-    /// <summary>
-    /// Press-and-hold button for the breathing check (FR-15). Shows a filling ring and the seconds held,
-    /// and publishes how long it was held when released. The rule (5 to 10 s) lives in the step, not here.
-    /// </summary>
     public class HoldButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
     {
         public string buttonId = "check_breathing";

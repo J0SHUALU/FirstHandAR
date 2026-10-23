@@ -4,10 +4,6 @@ using FirstHand.Core;
 
 namespace FirstHand.Entities
 {
-    /// <summary>
-    /// Short ripple shown where a compression landed (green on target, red off target). Up to 60 appear per
-    /// attempt, so they come from a pool and hand themselves back when the ripple finishes.
-    /// </summary>
     public class TapMarker : MonoBehaviour, IPoolable
     {
         [SerializeField] private Renderer ring;
