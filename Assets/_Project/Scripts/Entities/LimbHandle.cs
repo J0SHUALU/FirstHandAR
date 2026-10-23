@@ -24,13 +24,25 @@ namespace FirstHand.Entities
 
         public string InteractId => "limb_" + limbId;
 
-        private void Awake() => restLocal = transform.localPosition;
+        private Vector3 baseScale = Vector3.one;
+
+        private void Awake() { restLocal = transform.localPosition; baseScale = transform.localScale; }
 
         public void ResetHandle()
         {
             dragging = false;
             transform.localPosition = restLocal;
-            if (dropTarget != null) dropTarget.gameObject.SetActive(false);
+            transform.localScale = baseScale;
+        }
+
+        // The drop target is visible whenever this handle is the one to drag next.
+        private void OnEnable() { if (dropTarget != null) dropTarget.gameObject.SetActive(!done); }
+        private void OnDisable() { if (dropTarget != null) dropTarget.gameObject.SetActive(false); }
+
+        private void Update()
+        {
+            if (done || dragging) return;
+            transform.localScale = baseScale * (1f + 0.18f * Mathf.Sin(Time.time * 5f)); // pulse so it reads as "grab me"
         }
 
         public void SetDone(bool isDone)
@@ -38,6 +50,7 @@ namespace FirstHand.Entities
             done = isDone;
             SetColor(done ? doneColor : idleColor);
             GetComponent<Collider>().enabled = !done;
+            if (dropTarget != null) dropTarget.gameObject.SetActive(!done && gameObject.activeInHierarchy);
         }
 
         public void OnTapped(Vector3 worldPoint) { }
@@ -46,7 +59,7 @@ namespace FirstHand.Entities
         {
             if (done) return;
             dragging = true;
-            if (dropTarget != null) dropTarget.gameObject.SetActive(true);
+            transform.localScale = baseScale * 1.2f;
         }
 
         public void OnDrag(Vector3 worldPoint)
@@ -60,7 +73,13 @@ namespace FirstHand.Entities
         public void OnDragEnd()
         {
             if (!dragging) return;
-            bool reached = dropTarget != null && Vector3.Distance(transform.position, dropTarget.position) <= acceptRadius;
+            // Compare on the floor plane: the ball floats above the limb, the target lies on the floor.
+            bool reached = false;
+            if (dropTarget != null)
+            {
+                Vector3 a = transform.position, b = dropTarget.position; a.y = b.y = 0f;
+                reached = Vector3.Distance(a, b) <= acceptRadius;
+            }
             ResetHandle();
             EventBus.Publish(new DragEndedEvent { LimbId = limbId, ReachedTarget = reached });
         }

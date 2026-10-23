@@ -72,7 +72,8 @@ namespace FirstHand.Entities
             {
                 var l = limbs[i];
                 if (l.pivot != null) l.pivot.localRotation = l.startRotation;
-                if (l.handle != null) { l.handle.ResetHandle(); l.handle.gameObject.SetActive(false); }
+                if (l.handle != null) { l.handle.ResetHandle(); l.handle.SetDone(false); l.handle.gameObject.SetActive(false); }
+            handlesOn = false;
             }
         }
 
@@ -110,6 +111,17 @@ namespace FirstHand.Entities
             for (int i = 0; i < limbs.Count; i++)
                 if (limbs[i].handle != null)
                     limbs[i].handle.SetDone(placed.Contains(limbs[i].limbId));
+            RefreshHandles();
+        }
+
+        private bool handlesOn;
+
+        /// <summary>Only the handle for the next stage is shown, so the trainee always knows what to drag.</summary>
+        private void RefreshHandles()
+        {
+            string nextId = placed.Count < stageOrder.Count ? stageOrder[placed.Count] : null;
+            foreach (var l in limbs)
+                if (l.handle != null) l.handle.gameObject.SetActive(handlesOn && l.limbId == nextId);
         }
 
         public void SnapLimbBack(string limbId)
@@ -123,8 +135,8 @@ namespace FirstHand.Entities
 
         public void SetLimbHandlesActive(bool active)
         {
-            foreach (var l in limbs)
-                if (l.handle != null) l.handle.gameObject.SetActive(active);
+            handlesOn = active;
+            RefreshHandles();
         }
 
         private void OnCompression(RateUpdatedEvent e) => dip = compressionDip;

@@ -213,6 +213,14 @@ namespace FirstHand.Steps
             next = 0;
             Context.Casualty?.SetRecoveryStage(0);
             Context.Casualty?.SetLimbHandlesActive(true);
+            ShowStage();
+        }
+
+        /// <summary>The instruction card always says which limb to move next.</summary>
+        private void ShowStage()
+        {
+            if (next < Definition.orderedIds.Count)
+                EventBus.Publish(new InstructionChangedEvent { InstructionKey = "hint.recovery." + Definition.orderedIds[next] });
         }
 
         protected override string CurrentHintKey => "hint.recovery." + Definition.orderedIds[Mathf.Min(next, Definition.orderedIds.Count - 1)];
@@ -232,6 +240,7 @@ namespace FirstHand.Steps
                 Context.Casualty?.SetRecoveryStage(next);
                 Feedback("fb.limb_ok", FeedbackKind.Success);
                 if (next >= Definition.orderedIds.Count) Finish(true);
+                else ShowStage();
             }
             else
             {

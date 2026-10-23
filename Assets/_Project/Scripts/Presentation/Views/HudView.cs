@@ -292,6 +292,7 @@ namespace FirstHand.Presentation
             EventBus.Subscribe<RateUpdatedEvent>(OnRate);
             EventBus.Subscribe<HazardFoundEvent>(OnHazard);
             EventBus.Subscribe<HintShownEvent>(OnHint);
+            EventBus.Subscribe<InstructionChangedEvent>(OnInstruction);
             EventBus.Subscribe<UiActionEvent>(OnAction);
             EventBus.Subscribe<TapInputEvent>(OnTap);
         }
@@ -304,6 +305,7 @@ namespace FirstHand.Presentation
             EventBus.Unsubscribe<RateUpdatedEvent>(OnRate);
             EventBus.Unsubscribe<HazardFoundEvent>(OnHazard);
             EventBus.Unsubscribe<HintShownEvent>(OnHint);
+            EventBus.Unsubscribe<InstructionChangedEvent>(OnInstruction);
             EventBus.Unsubscribe<UiActionEvent>(OnAction);
             EventBus.Unsubscribe<TapInputEvent>(OnTap);
         }
@@ -391,6 +393,7 @@ namespace FirstHand.Presentation
 
         private void OnHazard(HazardFoundEvent e) => SetHazards(e.Found, e.Needed);
         private void OnHint(HintShownEvent e) => UI.Toast(e.HintKey, FeedbackKind.Info, 4f);
+        private void OnInstruction(InstructionChangedEvent e) => instruction.Set(e.InstructionKey);
 
         private void OnAction(UiActionEvent e)
         {

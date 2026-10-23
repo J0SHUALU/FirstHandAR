@@ -30,6 +30,7 @@ namespace FirstHand.Core
     public struct StepCompletedEvent { public StepResult Result; }
     public struct StepTimerEvent { public float Remaining; public float Limit; }
     public struct HintShownEvent { public string HintKey; }
+    public struct InstructionChangedEvent { public string InstructionKey; }
     public struct RateUpdatedEvent { public float Rate; public RateBand Band; public int Count; public int Target; public bool OnTarget; }
     public struct HazardFoundEvent { public string HazardId; public int Found; public int Needed; }
 
