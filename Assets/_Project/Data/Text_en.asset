@@ -143,9 +143,9 @@ MonoBehaviour:
   - key: place.too_small
     text: Too small. Find a clear space about 2 by 1.5 metres.
   - key: place.placed
-    text: Scene placed
+    text: Place the scene
   - key: place.adjust
-    text: Tap the floor to move it. Turn it with the buttons.
+    text: Tap the floor to move it. Turn it so he lies across.
   - key: place.rotate_left
     text: Turn left
   - key: place.rotate_right
@@ -153,11 +153,11 @@ MonoBehaviour:
   - key: place.confirm
     text: Place here
   - key: mode.title
-    text: Choose how to train
+    text: How do you want to train?
   - key: mode.practice_desc
-    text: Hints on. No timer. Learn at your pace.
+    text: Hints when you need them.
   - key: mode.assess_desc
-    text: Timed and scored. Pass mark is 80.
+    text: Timed and scored, like the real thing.
   - key: mode.reposition
     text: Move scene
   - key: hud.step
@@ -203,15 +203,15 @@ MonoBehaviour:
   - key: meter.per_min
     text: per minute
   - key: meter.start
-    text: Start pushing
+    text: Start pushing on the chest.
   - key: meter.count
     text: '{0} of {1}'
   - key: meter.slow
-    text: Too slow
+    text: Too slow. Push faster.
   - key: meter.fast
-    text: Too fast
+    text: Too fast. Slow down a little.
   - key: meter.good
-    text: Good speed
+    text: Good speed. Keep going.
   - key: instr.hazards
     text: Look around. Tap the 2 dangers before you go close.
   - key: instr.response
@@ -317,11 +317,11 @@ MonoBehaviour:
   - key: result.out_of
     text: out of 100
   - key: result.practice_done
-    text: Practice, not scored for pass
+    text: "Practice  \xB7  not scored for pass"
   - key: result.pass_long
-    text: PASSED. Ready for a course.
+    text: "Passed  \xB7  ready for a course"
   - key: result.not_yet_long
-    text: Not yet. Practise and try again.
+    text: "Not yet  \xB7  practise and try again"
   - key: result.time
     text: Time
   - key: result.mistakes
@@ -345,9 +345,9 @@ MonoBehaviour:
   - key: result.step_ok
     text: Done
   - key: result.step_time
-    text: Out of time
+    text: OUT OF TIME
   - key: result.step_fail
-    text: Missed
+    text: MISSED
   - key: result.tips
     text: Next time
   - key: result.next_course
@@ -381,7 +381,7 @@ MonoBehaviour:
   - key: tip.recovery
     text: Arm out, hand to cheek, knee up, roll, tilt head.
   - key: fac.title
-    text: Facilitator
+    text: Trainees
   - key: fac.export
     text: Share CSV
   - key: fac.timeout
@@ -393,7 +393,7 @@ MonoBehaviour:
   - key: fac.not_ready
     text: Still practising
   - key: fac.stats
-    text: Attempts {0}  |  Best assessment {1}  |  Last {2}
+    text: "{0} attempts  \xB7  best {1}  \xB7  last {2}"
   - key: fac.delete
     text: Delete trainee
   - key: fac.delete_title
@@ -405,7 +405,7 @@ MonoBehaviour:
   - key: fac.exported_title
     text: Export ready
   - key: fac.exported
-    text: 'Saved and copied path: {0}. Deleted after 24 hours.'
+    text: '{0} is ready to share. It is deleted after 24 hours.'
   - key: fac.set_pin
     text: Set a facilitator PIN
   - key: fac.confirm_pin
@@ -432,5 +432,65 @@ MonoBehaviour:
     text: 125%
   - key: settings.size_150
     text: 150%
+  - key: start.kicker
+    text: "First aid practice  \xB7  AR"
+  - key: start.headline
+    text: Know what to do in the first
+  - key: start.headline_accent
+    text: five minutes.
+  - key: start.meta_ready
+    text: "Best {0}  \xB7  Ready for course"
+  - key: start.meta_best
+    text: "{0} attempts  \xB7  Best {1}"
+  - key: start.meta_attempts
+    text: '{0} attempts'
+  - key: scan.chip
+    text: Scanning the floor
+  - key: scan.chip_ready
+    text: Floor ready
+  - key: scan.kicker
+    text: "Set up  \xB7  1 of 2"
+  - key: scan.title
+    text: Find a clear patch of floor
+  - key: scan.floor_found
+    text: Floor found
+  - key: scan.needs
+    text: "Needs about 2 \xD7 1.5 m"
+  - key: place.chip
+    text: Floor ready
+  - key: place.kicker
+    text: "Set up  \xB7  2 of 2"
+  - key: mode.kicker
+    text: Choose a mode
+  - key: mode.practice_meta
+    text: "Hints on  \xB7  No timer"
+  - key: mode.assess_meta
+    text: "Timed  \xB7  Pass mark 80"
+  - key: mode.begin_assess
+    text: Begin assessment
+  - key: mode.begin_practice
+    text: Begin practice
+  - key: call.emergency
+    text: Emergency
+  - key: call.dispatcher_label
+    text: Connected to 112
+  - key: hud.mistakes_short
+    text: '{0} MISTAKE(S)'
+  - key: meter.rate
+    text: Rate
+  - key: pause.kicker
+    text: Timer stopped
+  - key: result.done
+    text: Done
+  - key: result.in_range_meta
+    text: '{0}% in range'
+  - key: result.mistakes_meta
+    text: '{0} mistake(s)'
+  - key: progress.kicker
+    text: Progress
+  - key: progress.title
+    text: '{0}''s sessions'
+  - key: fac.kicker
+    text: "PIN protected  \xB7  Export CSV"
   - key: scenario.title
     text: Collapse in the office corridor

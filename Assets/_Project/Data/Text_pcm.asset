@@ -143,9 +143,9 @@ MonoBehaviour:
   - key: place.too_small
     text: E too small. Find space like 2 by 1.5 metres.
   - key: place.placed
-    text: Scene don show
+    text: Put the scene
   - key: place.adjust
-    text: Tap floor to move am. Use button turn am.
+    text: Tap floor to move am. Turn am make e lie across.
   - key: place.rotate_left
     text: Turn left
   - key: place.rotate_right
@@ -153,11 +153,11 @@ MonoBehaviour:
   - key: place.confirm
     text: Put am here
   - key: mode.title
-    text: Choose how you wan train
+    text: How you wan train?
   - key: mode.practice_desc
-    text: Hint dey. No timer. Learn small small.
+    text: Hint dey when you need am.
   - key: mode.assess_desc
-    text: Timer dey. Pass mark na 80.
+    text: Timer dey, like real life.
   - key: mode.reposition
     text: Move scene
   - key: hud.step
@@ -171,7 +171,7 @@ MonoBehaviour:
   - key: hud.open_phone
     text: Open phone
   - key: hud.hold
-    text: Hold am check
+    text: Hold am
   - key: hud.hazards
     text: 'Danger wey you see: {0} for {1}'
   - key: hud.mistakes
@@ -203,15 +203,15 @@ MonoBehaviour:
   - key: meter.per_min
     text: every minute
   - key: meter.start
-    text: Start to press
+    text: Start to press the chest.
   - key: meter.count
     text: '{0} for {1}'
   - key: meter.slow
-    text: E too slow
+    text: E too slow. Press faster.
   - key: meter.fast
-    text: E too fast
+    text: E too fast. Slow down small.
   - key: meter.good
-    text: Correct speed
+    text: Correct speed. Continue.
   - key: instr.hazards
     text: Look around. Tap the 2 danger before you go near.
   - key: instr.response
@@ -317,11 +317,11 @@ MonoBehaviour:
   - key: result.out_of
     text: out of 100
   - key: result.practice_done
-    text: Practice, e no be pass or fail
+    text: "Practice  \xB7  no pass or fail"
   - key: result.pass_long
-    text: YOU PASS. You ready for course.
+    text: "You pass  \xB7  you ready for course"
   - key: result.not_yet_long
-    text: Never reach. Practice and try again.
+    text: "Never reach  \xB7  practice try again"
   - key: result.time
     text: Time
   - key: result.mistakes
@@ -345,9 +345,9 @@ MonoBehaviour:
   - key: result.step_ok
     text: E correct
   - key: result.step_time
-    text: Time finish
+    text: TIME FINISH
   - key: result.step_fail
-    text: E miss
+    text: E MISS
   - key: result.tips
     text: Next time
   - key: result.next_course
@@ -381,7 +381,7 @@ MonoBehaviour:
   - key: tip.recovery
     text: Arm out, hand for cheek, knee up, roll, tilt head.
   - key: fac.title
-    text: Facilitator
+    text: Trainees
   - key: fac.export
     text: Share CSV
   - key: fac.timeout
@@ -393,7 +393,7 @@ MonoBehaviour:
   - key: fac.not_ready
     text: Still dey practice
   - key: fac.stats
-    text: Attempts {0}  |  Best assessment {1}  |  Last {2}
+    text: "{0} tries  \xB7  best {1}  \xB7  last {2}"
   - key: fac.delete
     text: Comot trainee
   - key: fac.delete_title
@@ -405,7 +405,7 @@ MonoBehaviour:
   - key: fac.exported_title
     text: Export don ready
   - key: fac.exported
-    text: 'E don save. Path: {0}. E go delete after 24 hours.'
+    text: '{0} don ready. E go delete after 24 hours.'
   - key: fac.set_pin
     text: Set facilitator PIN
   - key: fac.confirm_pin
@@ -432,5 +432,65 @@ MonoBehaviour:
     text: 125%
   - key: settings.size_150
     text: 150%
+  - key: start.kicker
+    text: "First aid practice  \xB7  AR"
+  - key: start.headline
+    text: Know wetin to do for the first
+  - key: start.headline_accent
+    text: five minutes.
+  - key: start.meta_ready
+    text: "Best {0}  \xB7  Ready for course"
+  - key: start.meta_best
+    text: "{0} attempts  \xB7  Best {1}"
+  - key: start.meta_attempts
+    text: '{0} attempts'
+  - key: scan.chip
+    text: E dey scan the floor
+  - key: scan.chip_ready
+    text: Floor don ready
+  - key: scan.kicker
+    text: "Set up  \xB7  1 for 2"
+  - key: scan.title
+    text: Find clear space for floor
+  - key: scan.floor_found
+    text: Floor wey we see
+  - key: scan.needs
+    text: "E need like 2 \xD7 1.5 m"
+  - key: place.chip
+    text: Floor don ready
+  - key: place.kicker
+    text: "Set up  \xB7  2 for 2"
+  - key: mode.kicker
+    text: Choose mode
+  - key: mode.practice_meta
+    text: "Hint dey  \xB7  No timer"
+  - key: mode.assess_meta
+    text: "Timer dey  \xB7  Pass mark 80"
+  - key: mode.begin_assess
+    text: Start assessment
+  - key: mode.begin_practice
+    text: Start practice
+  - key: call.emergency
+    text: Emergency
+  - key: call.dispatcher_label
+    text: 112 don pick
+  - key: hud.mistakes_short
+    text: '{0} MISTAKE'
+  - key: meter.rate
+    text: Speed
+  - key: pause.kicker
+    text: Time don stop
+  - key: result.done
+    text: Finish
+  - key: result.in_range_meta
+    text: '{0}% correct speed'
+  - key: result.mistakes_meta
+    text: '{0} mistake'
+  - key: progress.kicker
+    text: Progress
+  - key: progress.title
+    text: '{0} sessions'
+  - key: fac.kicker
+    text: "PIN protected  \xB7  Export CSV"
   - key: scenario.title
     text: Person fall for office corridor
