@@ -6,7 +6,8 @@ using UnityEngine;
 namespace FirstHand.Presentation
 {
     /// <summary>
-    /// Design tokens from the Affinity concepts ("Clinical light"). Sizes are written in concept pixels
+    /// Design tokens for the "Warm Lagos street" look: cream paper, deep green ink, sunset orange action,
+    /// thick ink outlines with hard offset shadows. Sizes are written in concept pixels
     /// (390 x 844 phone) and converted with <see cref="D"/>, so code reads the same as the design file.
     /// </summary>
     [CreateAssetMenu(menuName = "FirstHand/UI Theme", fileName = "UITheme")]
@@ -18,27 +19,28 @@ namespace FirstHand.Presentation
         public static float D(float conceptPx) => conceptPx * Scale;
 
         [Header("Colours")]
-        public Color paper = Hex("FAFAF7");
-        public Color paper2 = Hex("F1F0EB");
-        public Color card = Hex("FFFFFF");
-        public Color ink = Hex("0F172A");
-        public Color ink2 = Hex("334155");
-        public Color muted = Hex("64748B");
-        public Color line = Hex("E4E2DC");
-        public Color coral = Hex("FF4D4F");
-        public Color coralDeep = Hex("E23B3D");
-        public Color coralTint = Hex("FFE8E8");
-        public Color teal = Hex("14B8A6");
-        public Color tealDeep = Hex("0F766E");
-        public Color tealTint = Hex("DDF5F2");
-        public Color amber = Hex("F59E0B");
-        public Color amberDeep = Hex("B45309");
-        public Color amberTint = Hex("FEF1D6");
-        public Color scrim = new Color(0.06f, 0.09f, 0.16f, 0.38f);
+        public Color paper = Hex("F4EBDD");
+        public Color paper2 = Hex("EADBC4");
+        public Color card = Hex("FFF8EE");
+        public Color ink = Hex("13302A");
+        public Color ink2 = Hex("2E4A42");
+        public Color muted = Hex("6B7F77");
+        public Color line = Hex("D6C6AC");
+        public Color coral = Hex("FF6A2B");
+        public Color coralDeep = Hex("D94E14");
+        public Color coralTint = Hex("FFE0CF");
+        public Color teal = Hex("2FA36B");
+        public Color tealDeep = Hex("1E7A4E");
+        public Color tealTint = Hex("D9F0E1");
+        public Color amber = Hex("F2B233");
+        public Color amberDeep = Hex("8F6300");
+        public Color amberTint = Hex("FBEBC4");
+        public Color scrim = new Color(0.075f, 0.19f, 0.165f, 0.45f);
+        public float shadow = 4f; // hard offset shadow in concept px
 
         [Header("Fonts (TextMesh Pro)")]
-        public TMP_FontAsset headBold;    // Inter Tight Bold
-        public TMP_FontAsset headSemi;    // Inter Tight SemiBold
+        public TMP_FontAsset headBold;    // Bricolage Grotesque ExtraBold
+        public TMP_FontAsset headSemi;    // Bricolage Grotesque Bold
         public TMP_FontAsset body;        // Instrument Sans Regular
         public TMP_FontAsset bodyMedium;  // Instrument Sans Medium
         public TMP_FontAsset mono;        // Geist Mono Regular
@@ -51,6 +53,7 @@ namespace FirstHand.Presentation
         public Sprite button16Line;
         public Sprite chip12;      // radius 12 (chips, small panels)
         public Sprite sheetTop;    // radius 28, top corners only (bottom sheets)
+        public Sprite sheetTopLine;
         public Sprite pill;        // fully round
         public Sprite circle;
         public Sprite circleLine;

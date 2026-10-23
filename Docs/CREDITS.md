@@ -23,7 +23,7 @@ All fonts are under the SIL Open Font License 1.1.
 
 | Font | Author | Used for |
 |---|---|---|
-| Inter Tight | Rasmus Andersson | Headings |
+| Bricolage Grotesque | Mathieu Triay | Headings |
 | Instrument Sans | Instrument | Body text |
 | Geist Mono | Vercel | Numbers, labels, timers |
 

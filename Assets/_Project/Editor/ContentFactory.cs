@@ -107,22 +107,32 @@ namespace FirstHand.EditorTools
             var theme = AssetDatabase.LoadAssetAtPath<UITheme>(ThemePath);
             if (theme == null) { theme = ScriptableObject.CreateInstance<UITheme>(); AssetDatabase.CreateAsset(theme, ThemePath); }
 
+            // Palette ("Warm Lagos street"). Set here so an existing asset picks up changes.
+            theme.paper = UITheme.Hex("F4EBDD"); theme.paper2 = UITheme.Hex("EADBC4"); theme.card = UITheme.Hex("FFF8EE");
+            theme.ink = UITheme.Hex("13302A"); theme.ink2 = UITheme.Hex("2E4A42"); theme.muted = UITheme.Hex("6B7F77"); theme.line = UITheme.Hex("D6C6AC");
+            theme.coral = UITheme.Hex("FF6A2B"); theme.coralDeep = UITheme.Hex("D94E14"); theme.coralTint = UITheme.Hex("FFE0CF");
+            theme.teal = UITheme.Hex("2FA36B"); theme.tealDeep = UITheme.Hex("1E7A4E"); theme.tealTint = UITheme.Hex("D9F0E1");
+            theme.amber = UITheme.Hex("F2B233"); theme.amberDeep = UITheme.Hex("8F6300"); theme.amberTint = UITheme.Hex("FBEBC4");
+            theme.scrim = new Color(0.075f, 0.19f, 0.165f, 0.45f);
+            theme.shadow = 4f;
+
             // Shapes at canvas resolution (1 px = 1 canvas unit), radii taken from the Affinity concepts.
             int R(float concept) => Mathf.RoundToInt(UITheme.D(concept));
             theme.card20 = Shape("shape_card20", R(20), 0, false);
-            theme.card20Line = Shape("shape_card20_line", R(20), 3, false);
+            theme.card20Line = Shape("shape_card20_line", R(20), 6, false);
             theme.button16 = Shape("shape_button16", R(16), 0, false);
-            theme.button16Line = Shape("shape_button16_line", R(16), 4, false);
+            theme.button16Line = Shape("shape_button16_line", R(16), 6, false);
             theme.chip12 = Shape("shape_chip12", R(12), 0, false);
             theme.sheetTop = Shape("shape_sheet_top", R(28), 0, true);
+            theme.sheetTopLine = Shape("shape_sheet_top_line", R(28), 6, true);
             theme.pill = Shape("shape_pill", 64, 0, false);
             theme.circle = Disc("shape_circle", 256, 0);
-            theme.circleLine = Disc("shape_circle_line", 256, 14);
+            theme.circleLine = Disc("shape_circle_line", 256, 18);
             theme.ring = Disc("shape_ring", 256, 26);
 
-            // Fonts (Inter Tight, Instrument Sans, Geist Mono; all SIL OFL)
-            theme.headBold = FontAsset("InterTight-Bold");
-            theme.headSemi = FontAsset("InterTight-SemiBold");
+            // Fonts (Bricolage Grotesque, Instrument Sans, Geist Mono; all SIL OFL)
+            theme.headBold = FontAsset("BricolageGrotesque-ExtraBold");
+            theme.headSemi = FontAsset("BricolageGrotesque-Bold");
             theme.body = FontAsset("InstrumentSans_400Regular");
             theme.bodyMedium = FontAsset("InstrumentSans_500Medium");
             theme.mono = FontAsset("GeistMono-Regular");

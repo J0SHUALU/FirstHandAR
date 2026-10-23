@@ -12,25 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c466bf68fb242428cbc432324c49df, type: 3}
   m_Name: UITheme
   m_EditorClassIdentifier: FirstHand.Runtime::FirstHand.Presentation.UITheme
-  paper: {r: 0.98039216, g: 0.98039216, b: 0.96862745, a: 1}
-  paper2: {r: 0.94509804, g: 0.9411765, b: 0.92156863, a: 1}
-  card: {r: 1, g: 1, b: 1, a: 1}
-  ink: {r: 0.05882353, g: 0.09019608, b: 0.16470589, a: 1}
-  ink2: {r: 0.2, g: 0.25490198, b: 0.33333334, a: 1}
-  muted: {r: 0.39215687, g: 0.45490196, b: 0.54509807, a: 1}
-  line: {r: 0.89411765, g: 0.8862745, b: 0.8627451, a: 1}
-  coral: {r: 1, g: 0.3019608, b: 0.30980393, a: 1}
-  coralDeep: {r: 0.8862745, g: 0.23137255, b: 0.23921569, a: 1}
-  coralTint: {r: 1, g: 0.9098039, b: 0.9098039, a: 1}
-  teal: {r: 0.078431375, g: 0.72156864, b: 0.6509804, a: 1}
-  tealDeep: {r: 0.05882353, g: 0.4627451, b: 0.43137255, a: 1}
-  tealTint: {r: 0.8666667, g: 0.9607843, b: 0.9490196, a: 1}
-  amber: {r: 0.9607843, g: 0.61960787, b: 0.043137256, a: 1}
-  amberDeep: {r: 0.7058824, g: 0.3254902, b: 0.03529412, a: 1}
-  amberTint: {r: 0.99607843, g: 0.94509804, b: 0.8392157, a: 1}
-  scrim: {r: 0, g: 0, b: 0, a: 0.55}
-  headBold: {fileID: 11400000, guid: 150b972679a854d23a4bb6eef1db73b9, type: 2}
-  headSemi: {fileID: 11400000, guid: 3b0846d37360b40f0aa16e1832070dda, type: 2}
+  paper: {r: 0.95686275, g: 0.92156863, b: 0.8666667, a: 1}
+  paper2: {r: 0.91764706, g: 0.85882354, b: 0.76862746, a: 1}
+  card: {r: 1, g: 0.972549, b: 0.93333334, a: 1}
+  ink: {r: 0.07450981, g: 0.1882353, b: 0.16470589, a: 1}
+  ink2: {r: 0.18039216, g: 0.2901961, b: 0.25882354, a: 1}
+  muted: {r: 0.41960785, g: 0.49803922, b: 0.46666667, a: 1}
+  line: {r: 0.8392157, g: 0.7764706, b: 0.6745098, a: 1}
+  coral: {r: 1, g: 0.41568628, b: 0.16862746, a: 1}
+  coralDeep: {r: 0.8509804, g: 0.30588236, b: 0.078431375, a: 1}
+  coralTint: {r: 1, g: 0.8784314, b: 0.8117647, a: 1}
+  teal: {r: 0.18431373, g: 0.6392157, b: 0.41960785, a: 1}
+  tealDeep: {r: 0.11764706, g: 0.47843137, b: 0.30588236, a: 1}
+  tealTint: {r: 0.8509804, g: 0.9411765, b: 0.88235295, a: 1}
+  amber: {r: 0.9490196, g: 0.69803923, b: 0.2, a: 1}
+  amberDeep: {r: 0.56078434, g: 0.3882353, b: 0, a: 1}
+  amberTint: {r: 0.9843137, g: 0.92156863, b: 0.76862746, a: 1}
+  scrim: {r: 0.075, g: 0.19, b: 0.165, a: 0.45}
+  shadow: 4
+  headBold: {fileID: 11400000, guid: e153bd77b7d5c4b2eb9ae089f098ce43, type: 2}
+  headSemi: {fileID: 11400000, guid: f7fb7bd046ff64ceabd0215458bbe68a, type: 2}
   body: {fileID: 11400000, guid: db93467f492ca4a54a60d809b76f6141, type: 2}
   bodyMedium: {fileID: 11400000, guid: 725322c60176440d08c7dca4f44351fe, type: 2}
   mono: {fileID: 11400000, guid: 6dca5f205f9004110b1d69047c3072c3, type: 2}
@@ -41,6 +42,7 @@ MonoBehaviour:
   button16Line: {fileID: 21300000, guid: 0a003cf7f842b46b0931fe33f453f3a5, type: 3}
   chip12: {fileID: 21300000, guid: b8bfde14a0b6f43db8fdb23de8a2f214, type: 3}
   sheetTop: {fileID: 21300000, guid: 19d9a03066c3c4a4fa12a4ce4883b974, type: 3}
+  sheetTopLine: {fileID: 21300000, guid: 975cb9acab9214a508a8f0cdcd49b5e7, type: 3}
   pill: {fileID: 21300000, guid: 1d9d24de4ff094b1280ba696df311235, type: 3}
   circle: {fileID: 21300000, guid: c3a5bbe2ecc874c68814040cd456dc0a, type: 3}
   circleLine: {fileID: 21300000, guid: bcaec4ce48e774c76833b517cc51cbd5, type: 3}
