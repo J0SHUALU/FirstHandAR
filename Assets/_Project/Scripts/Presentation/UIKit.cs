@@ -87,8 +87,30 @@ namespace FirstHand.Presentation
         public static Image Card(Transform parent, string name, Color? color = null, bool outline = false)
         {
             var img = Img(parent, name, T.card20, color ?? T.card, true);
-            if (outline) { var o = Img(img.transform, "Outline", T.card20Line, T.line); Stretch(o.rectTransform); Overlay(o); }
+            // Street poster look: every card is a sticker with an ink outline and a hard offset shadow.
+            // (The old 'outline' flag only chose a light hairline; all cards are outlined now.)
+            Sticker(img, T.card20Line);
             return img;
+        }
+
+        /// <summary>Ink outline overlay plus a hard, unblurred shadow down and to the right.</summary>
+        public static void Sticker(Image img, Sprite outlineSprite, Color? shadowColor = null, bool outline = true)
+        {
+            if (outline && outlineSprite != null)
+            {
+                var o = Img(img.transform, "Outline", outlineSprite, T.ink);
+                Stretch((RectTransform)o.transform); Overlay(o);
+            }
+            HardShadow(img, shadowColor ?? T.ink);
+        }
+
+        public static void HardShadow(Graphic g, Color color, float distance = -1)
+        {
+            float d = D(distance < 0 ? T.shadow : distance);
+            var sh = g.GetComponent<Shadow>() ?? g.gameObject.AddComponent<Shadow>();
+            sh.effectColor = color;
+            sh.effectDistance = new Vector2(d, -d);
+            sh.useGraphicAlpha = true;
         }
 
         /// <summary>Keeps decorative overlays (outlines, selection rings) out of layout groups.</summary>
@@ -99,10 +121,15 @@ namespace FirstHand.Presentation
             if (c is Graphic g) g.raycastTarget = false;
         }
 
+        public const float Bleed = 400f;
+
         public static Image Fill(Transform parent, string name, Color color)
         {
             var img = Img(parent, name, null, color, true);
-            Stretch(img.rectTransform);
+            // Full screen fills sit inside the safe area; bleed past it so notches and home bars are covered too.
+            var rt = img.rectTransform;
+            rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+            rt.offsetMin = new Vector2(-Bleed, -Bleed); rt.offsetMax = new Vector2(Bleed, Bleed);
             return img;
         }
 
@@ -159,8 +186,8 @@ namespace FirstHand.Presentation
         {
             switch (s)
             {
-                case TextStyle.Display: return (T.headBold, 128, -4f);
-                case TextStyle.H1: return (T.headBold, 36, -2.5f);
+                case TextStyle.Display: return (T.headBold, 120, -3f);
+                case TextStyle.H1: return (T.headBold, 36, -1.5f);
                 case TextStyle.H2: return (T.headSemi, 22, -1f);
                 case TextStyle.Title: return (T.headSemi, 17, 0);
                 case TextStyle.Body: return (T.body, 15, 0);
@@ -223,15 +250,15 @@ namespace FirstHand.Presentation
             Sprite sprite = T.button16;
             switch (style)
             {
-                case ButtonStyle.Teal: bg = T.teal; fg = Color.white; break;
+                case ButtonStyle.Teal: bg = T.teal; fg = T.ink; break;
                 case ButtonStyle.Secondary: bg = T.card; fg = T.ink; break;
                 case ButtonStyle.Soft: bg = T.paper2; fg = T.ink; break;
                 case ButtonStyle.Ghost: bg = new Color(1, 1, 1, 0); fg = T.ink; break;
                 case ButtonStyle.Danger: bg = T.coralDeep; fg = Color.white; break;
-                default: bg = T.coral; fg = Color.white; break;
+                default: bg = T.coral; fg = T.ink; break;
             }
             var img = Img(parent, "Btn_" + key, sprite, bg, true);
-            if (style == ButtonStyle.Secondary) { var o = Img(img.transform, "Outline", T.button16Line, T.ink); Stretch(o.rectTransform); }
+            if (style != ButtonStyle.Ghost) Sticker(img, T.button16Line);
             var btn = img.gameObject.AddComponent<Button>();
             var c = btn.colors; c.pressedColor = new Color(0.85f, 0.85f, 0.85f); c.disabledColor = new Color(1, 1, 1, 0.4f); btn.colors = c;
             btn.onClick.AddListener(() => onClick?.Invoke());
@@ -259,7 +286,8 @@ namespace FirstHand.Presentation
             var img = Img(parent, "IconBtn_" + icon, T.circle, bg ?? T.card, true);
             img.rectTransform.sizeDelta = new Vector2(D(size), D(size));
             Size(img, size, size);
-            if (outline) { var o = Img(img.transform, "Outline", T.circleLine, T.line); Stretch(o.rectTransform); }
+            Sticker(img, T.circleLine, null, true);
+            HardShadow(img, T.ink, 2.5f);
             var ic = Img(img.transform, "Icon", T.Icon(icon), fg ?? T.ink);
             ic.preserveAspect = true;
             ic.rectTransform.sizeDelta = new Vector2(D(size * 0.5f), D(size * 0.5f));
@@ -289,13 +317,15 @@ namespace FirstHand.Presentation
             sheet = Img(parent, "Sheet", T.sheetTop, T.card, true);
             var rt = sheet.rectTransform;
             rt.anchorMin = new Vector2(0, 0); rt.anchorMax = new Vector2(1, 0); rt.pivot = new Vector2(0.5f, 0);
-            rt.sizeDelta = new Vector2(0, D(height)); rt.anchoredPosition = Vector2.zero;
-            var handle = Img(rt, "Handle", T.pill, T.line);
+            rt.sizeDelta = new Vector2(0, D(height) + Bleed); rt.anchoredPosition = new Vector2(0, -Bleed); // white runs under the home bar
+            var edge = Img(rt, "Outline", T.sheetTopLine, T.ink); Stretch((RectTransform)edge.transform); Overlay(edge);
+            var handle = Img(rt, "Handle", T.pill, T.ink);
             var h = handle.rectTransform;
             h.anchorMin = h.anchorMax = new Vector2(0.5f, 1); h.pivot = new Vector2(0.5f, 1);
-            h.sizeDelta = new Vector2(D(40), D(4)); h.anchoredPosition = new Vector2(0, -D(10));
+            h.sizeDelta = new Vector2(D(44), D(5)); h.anchoredPosition = new Vector2(0, -D(10));
             var content = Rect(rt, "Content");
             Stretch(content, 24, 24, 34, 24);
+            content.offsetMin = new Vector2(content.offsetMin.x, content.offsetMin.y + Bleed);
             return content;
         }
 

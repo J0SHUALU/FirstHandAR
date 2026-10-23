@@ -56,6 +56,7 @@ namespace FirstHand.Presentation
             UIKit.Place(rt, 24, 56, 10, 40);
             var h = UIKit.HStack(rt, 10, 14, 0);
             UIKit.Fit(chip, false, true);
+            UIKit.HardShadow(chip, T.ink, 2.5f);
             dotImg = UIKit.Img(rt, "Dot", T.circle, dot);
             UIKit.Size(dotImg, 10, 10);
             var label = UIKit.Text(rt, key, TextStyle.Title, T.ink, TextAlignmentOptions.MidlineLeft, 14);
@@ -91,12 +92,13 @@ namespace FirstHand.Presentation
             var s = UIKit.Img(root, "Sheet", T.sheetTop, T.card, true);
             sheet = s.rectTransform;
             sheet.anchorMin = new Vector2(0, 0); sheet.anchorMax = new Vector2(1, 0); sheet.pivot = new Vector2(0.5f, 0);
-            sheet.anchoredPosition = Vector2.zero;
+            sheet.anchoredPosition = new Vector2(0, -UIKit.Bleed); // runs under the home bar
             sheet.sizeDelta = Vector2.zero; // full width; height comes from the fitter
             var v = UIKit.VStack(sheet, 16, 24, 0);
-            v.padding = new RectOffset((int)UIKit.D(24), (int)UIKit.D(24), (int)UIKit.D(36), (int)UIKit.D(34));
+            v.padding = new RectOffset((int)UIKit.D(24), (int)UIKit.D(24), (int)UIKit.D(36), (int)(UIKit.D(34) + UIKit.Bleed));
             UIKit.Fit(s);
-            var handle = UIKit.Img(sheet, "Handle", T.pill, T.line);
+            var edge = UIKit.Img(sheet, "Outline", T.sheetTopLine, T.ink); UIKit.Stretch((RectTransform)edge.transform); UIKit.Overlay(edge);
+            var handle = UIKit.Img(sheet, "Handle", T.pill, T.ink);
             var hl = handle.gameObject.AddComponent<LayoutElement>(); hl.ignoreLayout = true;
             var h = handle.rectTransform; h.anchorMin = h.anchorMax = new Vector2(0.5f, 1); h.pivot = new Vector2(0.5f, 1);
             h.sizeDelta = new Vector2(UIKit.D(40), UIKit.D(4)); h.anchoredPosition = new Vector2(0, -UIKit.D(10));
