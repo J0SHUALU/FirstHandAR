@@ -66,6 +66,7 @@ namespace FirstHand.Presentation
             UIKit.HStack(foot, 0);
             UIKit.Size(foot, 40);
             var seg = UIKit.Img(foot, "Lang", T.chip12, T.paper2);
+            UIKit.HardShadow(seg, T.ink, 2.5f);
             UIKit.Size(seg, 40, 150);
             var segH = UIKit.HStack(seg.rectTransform, 0, 3, 3); segH.childForceExpandWidth = true; segH.childControlWidth = true; segH.childForceExpandHeight = true;
             (enTab, enLabel) = Tab(seg.rectTransform, "start.lang_en", () => UI.SetLanguage(Language.English));

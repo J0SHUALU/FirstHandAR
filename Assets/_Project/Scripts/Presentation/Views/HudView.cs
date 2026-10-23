@@ -87,6 +87,7 @@ namespace FirstHand.Presentation
         private void BuildInstruction()
         {
             var card = UIKit.Img(Root, "Instruction", T.card20, T.ink, true);
+            UIKit.HardShadow(card, T.coral);
             var rt = card.rectTransform;
             instructionCard = rt;
             rt.anchorMin = new Vector2(0, 1); rt.anchorMax = new Vector2(1, 1); rt.pivot = new Vector2(0.5f, 1);
@@ -95,11 +96,11 @@ namespace FirstHand.Presentation
             UIKit.Fit(card);
             var speaker = UIKit.Img(rt, "Speaker", T.circle, T.coral);
             UIKit.Size(speaker, 32, 32);
-            var ic = UIKit.Img(speaker.transform, "Icon", T.Icon("speaker"), Color.white); ic.preserveAspect = true; ic.rectTransform.sizeDelta = new Vector2(D(18), D(18));
+            var ic = UIKit.Img(speaker.transform, "Icon", T.Icon("speaker"), T.ink); ic.preserveAspect = true; ic.rectTransform.sizeDelta = new Vector2(D(18), D(18));
             var col = UIKit.Rect(rt, "Col");
             UIKit.VStack(col, 10);
             UIKit.Size(col, -1, -1, 1);
-            instruction = UIKit.Text(col, "", TextStyle.BodyMedium, Color.white, TextAlignmentOptions.Left, 14).GetComponent<LocText>();
+            instruction = UIKit.Text(col, "", TextStyle.BodyMedium, T.card, TextAlignmentOptions.Left, 14).GetComponent<LocText>();
             var hint = UIKit.Img(col, "Hint", T.pill, new Color(1, 1, 1, 0.14f), true);
             var hh = UIKit.HStack(hint.rectTransform, 6, 12, 0);
             UIKit.Fit(hint, false, true);
@@ -194,6 +195,7 @@ namespace FirstHand.Presentation
             {
                 string info = id;
                 var bg = UIKit.Img(c2, "Btn_info." + info, T.button16, T.paper2, true);
+                UIKit.Sticker(bg, T.button16Line, null, true);
                 UIKit.Size(bg, 44);
                 var label = UIKit.Text(bg.transform, "info." + info, TextStyle.BodyMedium, T.ink, TextAlignmentOptions.MidlineLeft, 15);
                 UIKit.Stretch(label.rectTransform, 16, 16, 0, 0);

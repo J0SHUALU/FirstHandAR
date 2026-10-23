@@ -119,6 +119,7 @@ namespace FirstHand.Presentation
             {
                 UIKit.Space(content, 20);
                 var card = UIKit.Img(content, "Tips", T.button16, T.amberTint);
+                UIKit.Sticker(card, T.button16Line);
                 UIKit.VStack(card.rectTransform, 6, 16, 14); UIKit.Fit(card);
                 UIKit.Text(card.transform, "result.tips", TextStyle.Label, T.amberDeep);
                 foreach (var k in tips) UIKit.Text(card.transform, k, TextStyle.BodyMedium, T.ink);
