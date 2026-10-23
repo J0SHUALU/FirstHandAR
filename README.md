@@ -52,6 +52,6 @@ All fonts are under the SIL Open Font License 1.1.
 | Instrument Sans | Instrument | Body text |
 | Geist Mono | Vercel | Numbers, labels, timers |
 
-### Icons, artwork and audio
+### Icons and artwork
 
-The UI icons, ECG line, app icon and screen concepts were drawn for this project in Affinity and are original. Sound effects are synthesised in the editor. Narration clips are placeholders made with the macOS text to speech voice.
+The UI icons, ECG line, app icon and screen concepts were drawn for this project in Affinity and are original. Narration clips are made with the macOS text to speech voice.
