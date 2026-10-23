@@ -87,8 +87,8 @@ namespace FirstHand.EditorTools
             canvas.sortingOrder = 10;
             var scaler = canvasGo.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1080, 1920);
-            scaler.matchWidthOrHeight = 0.5f;
+            scaler.referenceResolution = new Vector2(1080, 2337); // 390 x 844 design frame at 1080 wide
+            scaler.matchWidthOrHeight = 0f;                         // scale by width so concept px map 1:1
             canvasGo.AddComponent<GraphicRaycaster>();
 
             var es = new GameObject("EventSystem");
@@ -121,7 +121,7 @@ namespace FirstHand.EditorTools
             root.transform.SetPositionAndRotation(new Vector3(0, 0, 1.2f), Quaternion.Euler(0, 180, 0));
 
             Prim(PrimitiveType.Cube, root.transform, "Floor 2 x 1.5 m", new Vector3(0, -0.005f, 0.15f), new Vector3(2.2f, 0.01f, 1.7f),
-                             Mat("PreviewFloor", new Color(0.23f, 0.61f, 0.86f, 0.18f), 0.1f, true, true));
+                             Mat("PreviewFloor", new Color(0.078f, 0.722f, 0.651f, 0.16f), 0.1f, true, true));
 
             void Put(string path, Vector3 pos, float yaw = 0)
             {
@@ -168,14 +168,14 @@ namespace FirstHand.EditorTools
             go.AddComponent<ARPlaneMeshVisualizer>();
             go.AddComponent<MeshFilter>();
             var mr = go.AddComponent<MeshRenderer>();
-            mr.sharedMaterial = Mat("PlaneFill", new Color(0.23f, 0.61f, 0.86f, 0.25f), 0.1f, true, true);
+            mr.sharedMaterial = Mat("PlaneFill", new Color(0.078f, 0.722f, 0.651f, 0.18f), 0.1f, true, true);
             mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             go.AddComponent<MeshCollider>();
             var line = go.AddComponent<LineRenderer>();
             line.useWorldSpace = false;
             line.widthMultiplier = 0.006f;
             line.loop = true;
-            line.sharedMaterial = Mat("PlaneEdge", new Color(0.23f, 0.61f, 0.86f, 0.9f), 0.1f, true, true);
+            line.sharedMaterial = Mat("PlaneEdge", new Color(0.078f, 0.722f, 0.651f, 0.9f), 0.1f, true, true);
             return SavePrefab(go, path);
         }
     }
