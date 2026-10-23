@@ -63,6 +63,21 @@ namespace FirstHand.EditorTools
             return mat;
         }
 
+        /// <summary>Flat colour drawn on top of everything (FirstHand/Overlay shader).</summary>
+        public static Material OverlayMat(string name, Color color)
+        {
+            string path = $"{Materials}/{name}.mat";
+            var shader = Shader.Find("FirstHand/Overlay");
+            var mat = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (mat == null) { mat = new Material(shader); AssetDatabase.CreateAsset(mat, path); }
+            mat.shader = shader;
+            mat.SetColor("_BaseColor", color);
+            mat.renderQueue = 4000;
+            mat.enableInstancing = true;
+            EditorUtility.SetDirty(mat);
+            return mat;
+        }
+
         public static void MakeTransparent(Material m)
         {
             m.SetFloat("_Surface", 1);
