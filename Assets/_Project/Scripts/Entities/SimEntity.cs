@@ -12,6 +12,8 @@ namespace FirstHand.Entities
     /// <summary>Things that can be dragged with a finger (recovery position limb handles).</summary>
     public interface IDraggable : IInteractable
     {
+        /// <summary>A point on the plane the finger drags along (the floor for limb handles).</summary>
+        Vector3 DragPlanePoint { get; }
         void OnDragStart();
         void OnDrag(Vector3 worldPoint);
         void OnDragEnd();

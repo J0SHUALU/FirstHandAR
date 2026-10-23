@@ -74,7 +74,7 @@ namespace FirstHand.Presentation
                 {
                     dragging = d;
                     dragFinger = touch.finger.index;
-                    dragPlane = new Plane(Vector3.up, hit.point);
+                    dragPlane = new Plane(Vector3.up, d.DragPlanePoint); // drag along the floor, where the circle is
                     d.OnDragStart();
                     return;
                 }

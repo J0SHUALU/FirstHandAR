@@ -213,6 +213,16 @@ namespace FirstHand.Steps
             next = 0;
             Context.Casualty?.SetRecoveryStage(0);
             Context.Casualty?.SetLimbHandlesActive(true);
+            stageShown = false;
+        }
+
+        private bool stageShown;
+
+        // Shown on the first tick: StepStartedEvent (sent after OnBegin) would otherwise overwrite it.
+        protected override void OnTick(float dt)
+        {
+            if (stageShown) return;
+            stageShown = true;
             ShowStage();
         }
 
