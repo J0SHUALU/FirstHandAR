@@ -6,15 +6,20 @@ using UnityEngine.UI;
 
 namespace FirstHand.Presentation
 {
-    public enum ButtonStyle { Primary, Secondary, Success, Ghost, Danger }
+    public enum ButtonStyle { Primary, Teal, Secondary, Soft, Ghost, Danger }
+    public enum TextStyle { Display, H1, H2, Title, Body, BodyMedium, Small, Label, Mono, MonoLarge, Number }
 
     /// <summary>
-    /// Small builder for uGUI so every screen is assembled the same way, from the same theme tokens.
+    /// Builds uGUI from the Affinity design tokens. Positions and sizes are given in concept pixels
+    /// (390 x 844 frame) and converted with UITheme.D, so values can be read straight off the design.
     /// All text goes through LocText (language switching) and is registered for text scaling (FR-04).
     /// </summary>
     public static class UIKit
     {
         public static UITheme Theme;
+        static UITheme T => Theme;
+        public static float D(float v) => UITheme.D(v);
+
         private static readonly List<(TextMeshProUGUI label, float baseSize)> scalable = new List<(TextMeshProUGUI, float)>();
         private static float textScale = 1f;
 
@@ -22,10 +27,14 @@ namespace FirstHand.Presentation
         {
             textScale = scale;
             scalable.RemoveAll(s => s.label == null);
-            foreach (var (label, size) in scalable) label.fontSize = size * scale;
+            foreach (var (label, size) in scalable)
+            {
+                label.fontSize = size * scale;
+                if (label.enableAutoSizing) label.fontSizeMax = size * scale;
+            }
         }
 
-        // ---------- Layout ----------
+        // ---------- Rects ----------
 
         public static RectTransform Rect(Transform parent, string name)
         {
@@ -38,186 +47,264 @@ namespace FirstHand.Presentation
         public static RectTransform Stretch(RectTransform rt, float l = 0, float r = 0, float t = 0, float b = 0)
         {
             rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
-            rt.offsetMin = new Vector2(l, b); rt.offsetMax = new Vector2(-r, -t);
+            rt.offsetMin = new Vector2(D(l), D(b)); rt.offsetMax = new Vector2(-D(r), -D(t));
             return rt;
         }
 
-        /// <summary>Anchor to top / bottom edge, full width, fixed height.</summary>
-        public static RectTransform Dock(RectTransform rt, bool top, float height, float inset = 0)
+        /// <summary>Place by top-left corner, measured from the parent's top-left (concept px).</summary>
+        public static RectTransform Place(RectTransform rt, float x, float y, float w, float h)
+        {
+            rt.anchorMin = rt.anchorMax = new Vector2(0, 1);
+            rt.pivot = new Vector2(0, 1);
+            rt.anchoredPosition = new Vector2(D(x), -D(y));
+            rt.sizeDelta = new Vector2(D(w), D(h));
+            return rt;
+        }
+
+        /// <summary>Full-width strip with side margins, anchored to the top or bottom edge (concept px).</summary>
+        public static RectTransform Band(RectTransform rt, bool top, float offset, float height, float side = 24)
         {
             rt.anchorMin = new Vector2(0, top ? 1 : 0);
             rt.anchorMax = new Vector2(1, top ? 1 : 0);
             rt.pivot = new Vector2(0.5f, top ? 1 : 0);
-            rt.sizeDelta = new Vector2(-2 * inset, height);
-            rt.anchoredPosition = new Vector2(0, top ? -inset : inset);
+            rt.sizeDelta = new Vector2(-2 * D(side), D(height));
+            rt.anchoredPosition = new Vector2(0, top ? -D(offset) : D(offset));
             return rt;
         }
 
-        public static Image Panel(Transform parent, string name, Color color, Sprite sprite = null)
+        public static Image Img(Transform parent, string name, Sprite sprite, Color color, bool raycast = false)
         {
             var rt = Rect(parent, name);
             var img = rt.gameObject.AddComponent<Image>();
+            img.sprite = sprite;
+            img.type = sprite != null && sprite.border != Vector4.zero ? Image.Type.Sliced : Image.Type.Simple;
             img.color = color;
-            img.sprite = sprite ?? Theme.rounded;
-            img.type = img.sprite != null ? Image.Type.Sliced : Image.Type.Simple;
-            img.raycastTarget = true;
+            img.raycastTarget = raycast;
+            if (sprite != null && sprite == T.pill) rt.gameObject.AddComponent<PillFit>();
             return img;
         }
 
-        public static VerticalLayoutGroup VStack(RectTransform rt, float spacing = -1, float padding = -1, TextAnchor align = TextAnchor.UpperCenter)
+        public static Image Card(Transform parent, string name, Color? color = null, bool outline = false)
+        {
+            var img = Img(parent, name, T.card20, color ?? T.card, true);
+            if (outline) { var o = Img(img.transform, "Outline", T.card20Line, T.line); Stretch(o.rectTransform); Overlay(o); }
+            return img;
+        }
+
+        /// <summary>Keeps decorative overlays (outlines, selection rings) out of layout groups.</summary>
+        public static void Overlay(Component c)
+        {
+            var le = c.GetComponent<LayoutElement>() ?? c.gameObject.AddComponent<LayoutElement>();
+            le.ignoreLayout = true;
+            if (c is Graphic g) g.raycastTarget = false;
+        }
+
+        public static Image Fill(Transform parent, string name, Color color)
+        {
+            var img = Img(parent, name, null, color, true);
+            Stretch(img.rectTransform);
+            return img;
+        }
+
+        // ---------- Layout ----------
+
+        public static VerticalLayoutGroup VStack(RectTransform rt, float spacing, float padH = 0, float padV = 0, TextAnchor align = TextAnchor.UpperLeft)
         {
             var v = rt.gameObject.AddComponent<VerticalLayoutGroup>();
-            v.spacing = spacing < 0 ? Theme.spacing : spacing;
-            int p = Mathf.RoundToInt(padding < 0 ? Theme.padding : padding);
-            v.padding = new RectOffset(p, p, p, p);
+            v.spacing = D(spacing);
+            v.padding = new RectOffset((int)D(padH), (int)D(padH), (int)D(padV), (int)D(padV));
             v.childAlignment = align;
             v.childControlWidth = true; v.childControlHeight = true;
             v.childForceExpandWidth = true; v.childForceExpandHeight = false;
             return v;
         }
 
-        public static HorizontalLayoutGroup HStack(RectTransform rt, float spacing = -1, float padding = 0)
+        public static HorizontalLayoutGroup HStack(RectTransform rt, float spacing, float padH = 0, float padV = 0, TextAnchor align = TextAnchor.MiddleLeft)
         {
             var h = rt.gameObject.AddComponent<HorizontalLayoutGroup>();
-            h.spacing = spacing < 0 ? Theme.spacing : spacing;
-            int p = Mathf.RoundToInt(padding);
-            h.padding = new RectOffset(p, p, p, p);
-            h.childAlignment = TextAnchor.MiddleCenter;
+            h.spacing = D(spacing);
+            h.padding = new RectOffset((int)D(padH), (int)D(padH), (int)D(padV), (int)D(padV));
+            h.childAlignment = align;
             h.childControlWidth = true; h.childControlHeight = true;
-            h.childForceExpandWidth = true; h.childForceExpandHeight = true;
+            h.childForceExpandWidth = false; h.childForceExpandHeight = false;
             return h;
         }
 
         public static LayoutElement Size(Component c, float height = -1, float width = -1, float flexW = -1)
         {
             var le = c.GetComponent<LayoutElement>() ?? c.gameObject.AddComponent<LayoutElement>();
-            if (height >= 0) { le.minHeight = height; le.preferredHeight = height; }
-            if (width >= 0) { le.minWidth = width; le.preferredWidth = width; }
+            if (height >= 0) { le.minHeight = D(height); le.preferredHeight = D(height); }
+            if (width >= 0) { le.minWidth = D(width); le.preferredWidth = D(width); }
             if (flexW >= 0) le.flexibleWidth = flexW;
             return le;
         }
 
-        public static void Fit(Component c)
+        public static void Fit(Component c, bool vertical = true, bool horizontal = false)
         {
-            var f = c.gameObject.AddComponent<ContentSizeFitter>();
-            f.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            var f = c.gameObject.GetComponent<ContentSizeFitter>() ?? c.gameObject.AddComponent<ContentSizeFitter>();
+            if (vertical) f.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            if (horizontal) f.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
 
-        // ---------- Content ----------
-
-        public static TextMeshProUGUI Label(Transform parent, string key, float size = -1, Color? color = null,
-            TextAlignmentOptions align = TextAlignmentOptions.Center, bool bold = false, bool display = false)
+        public static RectTransform Space(Transform parent, float height)
         {
-            var rt = Rect(parent, "Text_" + key);
+            var rt = Rect(parent, "Space");
+            Size(rt, height);
+            return rt;
+        }
+
+        // ---------- Text ----------
+
+        static (TMP_FontAsset font, float size, float spacing) Style(TextStyle s)
+        {
+            switch (s)
+            {
+                case TextStyle.Display: return (T.headBold, 128, -4f);
+                case TextStyle.H1: return (T.headBold, 36, -2.5f);
+                case TextStyle.H2: return (T.headSemi, 22, -1f);
+                case TextStyle.Title: return (T.headSemi, 17, 0);
+                case TextStyle.Body: return (T.body, 15, 0);
+                case TextStyle.BodyMedium: return (T.bodyMedium, 15, 0);
+                case TextStyle.Small: return (T.body, 13, 0);
+                case TextStyle.Label: return (T.mono, 11, 6f);
+                case TextStyle.Mono: return (T.mono, 13, 0);
+                case TextStyle.MonoLarge: return (T.monoMedium, 62, -2f);
+                case TextStyle.Number: return (T.headSemi, 24, -1f);
+                default: return (T.body, 15, 0);
+            }
+        }
+
+        public static TextMeshProUGUI Text(Transform parent, string key, TextStyle style, Color? color = null,
+            TextAlignmentOptions align = TextAlignmentOptions.Left, float? size = null, params object[] args)
+        {
+            var rt = Rect(parent, "T_" + (key ?? "raw"));
             var t = rt.gameObject.AddComponent<TextMeshProUGUI>();
-            var font = display && Theme.displayFont != null ? Theme.displayFont : Theme.font;
+            var (font, s, spacing) = Style(style);
             if (font != null) t.font = font;
-            float baseSize = size < 0 ? Theme.bodySize : size;
+            float baseSize = D(size ?? s);
             t.fontSize = baseSize * textScale;
-            t.color = color ?? Theme.text;
+            t.characterSpacing = spacing;
+            t.color = color ?? (style == TextStyle.Label ? T.muted : T.ink);
             t.alignment = align;
-            t.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal;
             t.textWrappingMode = TextWrappingModes.Normal;
             t.raycastTarget = false;
+            t.lineSpacing = style == TextStyle.H1 ? -12 : 0;
             scalable.Add((t, baseSize));
             var loc = rt.gameObject.AddComponent<LocText>();
-            if (!string.IsNullOrEmpty(key)) loc.Set(key);
+            loc.Upper = style == TextStyle.Label;
+            if (!string.IsNullOrEmpty(key)) loc.Set(key, args);
             return t;
         }
 
-        /// <summary>A label whose text is set directly (names, numbers) rather than from the text table.</summary>
-        public static TextMeshProUGUI Raw(Transform parent, string text, float size = -1, Color? color = null,
-            TextAlignmentOptions align = TextAlignmentOptions.Center, bool bold = false, bool display = false)
+        /// <summary>Text set directly (names, numbers), not from the text table.</summary>
+        public static TextMeshProUGUI Raw(Transform parent, string text, TextStyle style, Color? color = null,
+            TextAlignmentOptions align = TextAlignmentOptions.Left, float? size = null)
         {
-            var t = Label(parent, null, size, color, align, bold, display);
+            var t = Text(parent, null, style, color, align, size);
             UnityEngine.Object.DestroyImmediate(t.GetComponent<LocText>());
-            t.text = text;
+            t.text = style == TextStyle.Label ? text.ToUpperInvariant() : text;
             return t;
         }
 
-        public static Image Icon(Transform parent, string name, float size, Color? tint = null)
+        // ---------- Controls ----------
+
+        public static Image Icon(Transform parent, string name, float size, Color color)
         {
-            var rt = Rect(parent, "Icon_" + name);
-            var img = rt.gameObject.AddComponent<Image>();
-            img.sprite = Theme.Icon(name);
+            var img = Img(parent, "Icon_" + name, T.Icon(name), color);
             img.preserveAspect = true;
-            img.color = tint ?? Theme.text;
-            img.raycastTarget = false;
-            img.enabled = img.sprite != null;
+            img.rectTransform.sizeDelta = new Vector2(D(size), D(size));
             Size(img, size, size);
             return img;
         }
 
-        public static Button Button(Transform parent, string key, ButtonStyle style, Action onClick, string icon = null, float height = -1)
+        public static Button Button(Transform parent, string key, ButtonStyle style, Action onClick, float height = 56, bool arrow = true)
         {
-            var bg = Panel(parent, "Btn_" + key, StyleColor(style), Theme.pill ?? Theme.rounded);
-            var btn = bg.gameObject.AddComponent<Button>();
-            var colors = btn.colors;
-            colors.pressedColor = new Color(0.8f, 0.8f, 0.8f);
-            colors.disabledColor = new Color(1, 1, 1, 0.35f);
-            btn.colors = colors;
-            btn.onClick.AddListener(() => onClick?.Invoke());
-            Size(bg, height < 0 ? Theme.buttonHeight : height);
-
-            // Label fills the button and is centred; an optional icon sits on the left edge.
-            bool hasIcon = !string.IsNullOrEmpty(icon) && Theme.Icon(icon) != null;
-            var color = style == ButtonStyle.Ghost ? Theme.text : Color.white;
-            if (hasIcon)
+            Color bg, fg;
+            Sprite sprite = T.button16;
+            switch (style)
             {
-                var ic = Icon(bg.transform, icon, 60, color);
-                var irt = ic.rectTransform;
-                irt.anchorMin = irt.anchorMax = new Vector2(0, 0.5f);
-                irt.pivot = new Vector2(0, 0.5f);
-                irt.sizeDelta = new Vector2(60, 60);
-                irt.anchoredPosition = new Vector2(36, 0);
+                case ButtonStyle.Teal: bg = T.teal; fg = Color.white; break;
+                case ButtonStyle.Secondary: bg = T.card; fg = T.ink; break;
+                case ButtonStyle.Soft: bg = T.paper2; fg = T.ink; break;
+                case ButtonStyle.Ghost: bg = new Color(1, 1, 1, 0); fg = T.ink; break;
+                case ButtonStyle.Danger: bg = T.coralDeep; fg = Color.white; break;
+                default: bg = T.coral; fg = Color.white; break;
             }
-            var label = Label(bg.transform, key, Theme.bodySize, color, TextAlignmentOptions.Center, true);
-            Stretch(label.rectTransform, hasIcon ? 100 : 24, hasIcon ? 100 : 24, 0, 0);
+            var img = Img(parent, "Btn_" + key, sprite, bg, true);
+            if (style == ButtonStyle.Secondary) { var o = Img(img.transform, "Outline", T.button16Line, T.ink); Stretch(o.rectTransform); }
+            var btn = img.gameObject.AddComponent<Button>();
+            var c = btn.colors; c.pressedColor = new Color(0.85f, 0.85f, 0.85f); c.disabledColor = new Color(1, 1, 1, 0.4f); btn.colors = c;
+            btn.onClick.AddListener(() => onClick?.Invoke());
+            Size(img, height);
+
+            bool showArrow = arrow && (style == ButtonStyle.Primary || style == ButtonStyle.Teal);
+            var label = Text(img.transform, key, TextStyle.Title, fg, showArrow ? TextAlignmentOptions.Left : TextAlignmentOptions.Center, 16);
             label.textWrappingMode = TextWrappingModes.NoWrap;
-            label.enableAutoSizing = true;
-            label.fontSizeMax = Theme.bodySize;
-            label.fontSizeMin = Theme.bodySize * 0.6f;
+            label.enableAutoSizing = true; label.fontSizeMax = label.fontSize; label.fontSizeMin = label.fontSize * 0.7f;
+            Stretch(label.rectTransform, 20, showArrow ? 52 : 20, 0, 0);
+            if (showArrow)
+            {
+                var a = Img(img.transform, "Arrow", T.Icon("arrow"), fg);
+                a.preserveAspect = true;
+                var rt = a.rectTransform;
+                rt.anchorMin = rt.anchorMax = new Vector2(1, 0.5f); rt.pivot = new Vector2(1, 0.5f);
+                rt.sizeDelta = new Vector2(D(20), D(20)); rt.anchoredPosition = new Vector2(-D(20), 0);
+            }
             return btn;
         }
 
-        public static Color StyleColor(ButtonStyle s)
+        /// <summary>Round icon button (close, settings, rotate).</summary>
+        public static Button IconButton(Transform parent, string icon, Action onClick, float size = 40, Color? bg = null, Color? fg = null, bool outline = false)
         {
-            switch (s)
+            var img = Img(parent, "IconBtn_" + icon, T.circle, bg ?? T.card, true);
+            img.rectTransform.sizeDelta = new Vector2(D(size), D(size));
+            Size(img, size, size);
+            if (outline) { var o = Img(img.transform, "Outline", T.circleLine, T.line); Stretch(o.rectTransform); }
+            var ic = Img(img.transform, "Icon", T.Icon(icon), fg ?? T.ink);
+            ic.preserveAspect = true;
+            ic.rectTransform.sizeDelta = new Vector2(D(size * 0.5f), D(size * 0.5f));
+            var btn = img.gameObject.AddComponent<Button>();
+            btn.onClick.AddListener(() => onClick?.Invoke());
+            return btn;
+        }
+
+        /// <summary>Small round status badge with an icon (check, !).</summary>
+        public static Image Badge(Transform parent, string icon, Color bg, float size = 22)
+        {
+            var img = Img(parent, "Badge", T.circle, bg);
+            img.rectTransform.sizeDelta = new Vector2(D(size), D(size));
+            Size(img, size, size);
+            if (icon != null)
             {
-                case ButtonStyle.Primary: return Theme.primary;
-                case ButtonStyle.Success: return Theme.success;
-                case ButtonStyle.Danger: return new Color(0.55f, 0.12f, 0.15f);
-                case ButtonStyle.Ghost: return new Color(1, 1, 1, 0.08f);
-                default: return Theme.surfaceRaised;
+                var ic = Img(img.transform, "Icon", T.Icon(icon), Color.white);
+                ic.preserveAspect = true;
+                ic.rectTransform.sizeDelta = new Vector2(D(size * 0.62f), D(size * 0.62f));
             }
+            return img;
         }
 
-        public static TMP_InputField Input(Transform parent, string placeholderKey, int limit, TMP_InputField.ContentType type)
+        /// <summary>White bottom sheet with a grab handle; returns the content area (padded, top-down stack).</summary>
+        public static RectTransform Sheet(RectTransform parent, float height, out Image sheet)
         {
-            var bg = Panel(parent, "Input", Theme.surfaceRaised);
-            Size(bg, Theme.buttonHeight);
-            var area = Rect(bg.transform, "Text Area");
-            Stretch(area, 36, 36, 10, 10);
-            area.gameObject.AddComponent<RectMask2D>();
-            var ph = Label(area, placeholderKey, Theme.bodySize, Theme.textMuted, TextAlignmentOptions.Left);
-            Stretch(ph.rectTransform);
-            var txt = Raw(area, "", Theme.bodySize, Theme.text, TextAlignmentOptions.Left);
-            Stretch(txt.rectTransform);
-            var input = bg.gameObject.AddComponent<TMP_InputField>();
-            input.textViewport = area;
-            input.textComponent = txt;
-            input.placeholder = ph;
-            input.characterLimit = limit;
-            input.contentType = type;
-            return input;
+            sheet = Img(parent, "Sheet", T.sheetTop, T.card, true);
+            var rt = sheet.rectTransform;
+            rt.anchorMin = new Vector2(0, 0); rt.anchorMax = new Vector2(1, 0); rt.pivot = new Vector2(0.5f, 0);
+            rt.sizeDelta = new Vector2(0, D(height)); rt.anchoredPosition = Vector2.zero;
+            var handle = Img(rt, "Handle", T.pill, T.line);
+            var h = handle.rectTransform;
+            h.anchorMin = h.anchorMax = new Vector2(0.5f, 1); h.pivot = new Vector2(0.5f, 1);
+            h.sizeDelta = new Vector2(D(40), D(4)); h.anchoredPosition = new Vector2(0, -D(10));
+            var content = Rect(rt, "Content");
+            Stretch(content, 24, 24, 34, 24);
+            return content;
         }
 
-        public static Image Bar(Transform parent, float height, out Image fill, Color fillColor)
+        /// <summary>Thin progress bar; returns the fill so callers can move it with SetBar.</summary>
+        public static Image Bar(Transform parent, float height, out Image fill, Color fillColor, Color? track = null)
         {
-            var bg = Panel(parent, "Bar", new Color(1, 1, 1, 0.12f), Theme.pill);
+            var bg = Img(parent, "Bar", T.pill, track ?? T.paper2);
             Size(bg, height);
-            fill = Panel(bg.transform, "Fill", fillColor, Theme.pill);
-            fill.raycastTarget = false;
+            fill = Img(bg.transform, "Fill", T.pill, fillColor);
             var rt = fill.rectTransform;
             rt.anchorMin = Vector2.zero; rt.anchorMax = new Vector2(0, 1);
             rt.offsetMin = rt.offsetMax = Vector2.zero;
@@ -231,10 +318,41 @@ namespace FirstHand.Presentation
             rt.offsetMax = Vector2.zero;
         }
 
-        /// <summary>Vertical scroll area; returns the content transform to fill (auto-sized by its layout).</summary>
-        public static RectTransform Scroll(RectTransform viewportParent, float spacing = -1, float padding = -1)
+        /// <summary>The ECG line from the brand, as a tinted sprite.</summary>
+        public static Image Ecg(Transform parent, Color color, float height = 36)
         {
-            var viewport = Rect(viewportParent, "Viewport");
+            var img = Img(parent, "ECG", T.Icon("ecg"), color);
+            img.preserveAspect = false;
+            Size(img, height);
+            return img;
+        }
+
+        public static TMP_InputField Input(Transform parent, string placeholderKey, int limit, TMP_InputField.ContentType type)
+        {
+            var bg = Img(parent, "Input", T.button16, T.paper2, true);
+            Size(bg, 56);
+            var area = Rect(bg.transform, "Text Area");
+            Stretch(area, 16, 16, 6, 6);
+            area.gameObject.AddComponent<RectMask2D>();
+            var ph = Text(area, placeholderKey, TextStyle.Body, T.muted, TextAlignmentOptions.Left);
+            Stretch(ph.rectTransform);
+            ph.alignment = TextAlignmentOptions.MidlineLeft;
+            var txt = Raw(area, "", TextStyle.Body, T.ink, TextAlignmentOptions.MidlineLeft);
+            Stretch(txt.rectTransform);
+            var input = bg.gameObject.AddComponent<TMP_InputField>();
+            input.textViewport = area;
+            input.textComponent = txt;
+            input.placeholder = ph;
+            input.characterLimit = limit;
+            input.contentType = type;
+            input.pointSize = txt.fontSize;
+            return input;
+        }
+
+        /// <summary>Vertical scroll area filling the parent; returns the content to fill (top-down stack).</summary>
+        public static RectTransform Scroll(RectTransform parent, float spacing, float padH, float padTop, float padBottom)
+        {
+            var viewport = Rect(parent, "Viewport");
             Stretch(viewport);
             viewport.gameObject.AddComponent<RectMask2D>();
             var hit = viewport.gameObject.AddComponent<Image>();
@@ -244,7 +362,8 @@ namespace FirstHand.Presentation
             content.anchorMin = new Vector2(0, 1); content.anchorMax = new Vector2(1, 1);
             content.pivot = new Vector2(0.5f, 1);
             content.sizeDelta = Vector2.zero;
-            VStack(content, spacing, padding);
+            var v = VStack(content, spacing, padH, 0);
+            v.padding = new RectOffset((int)D(padH), (int)D(padH), (int)D(padTop), (int)D(padBottom));
             Fit(content);
 
             var scroll = viewport.gameObject.AddComponent<ScrollRect>();

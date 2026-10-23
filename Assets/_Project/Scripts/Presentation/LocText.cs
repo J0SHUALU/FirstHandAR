@@ -17,6 +17,9 @@ namespace FirstHand.Presentation
         private object[] args;
         private TextMeshProUGUI label;
 
+        /// <summary>Mono labels in the design are uppercase in both languages.</summary>
+        public bool Upper { get; set; }
+
         public void Set(string newKey, params object[] newArgs)
         {
             key = newKey;
@@ -32,7 +35,9 @@ namespace FirstHand.Presentation
         private void Refresh()
         {
             if (label == null) label = GetComponent<TextMeshProUGUI>();
-            label.text = args != null && args.Length > 0 ? LocalizationService.Format(key, args) : LocalizationService.Get(key);
+            if (string.IsNullOrEmpty(key)) return;
+            var s = args != null && args.Length > 0 ? LocalizationService.Format(key, args) : LocalizationService.Get(key);
+            label.text = Upper ? s.ToUpperInvariant() : s;
         }
     }
 }
