@@ -16,3 +16,17 @@ All models were downloaded from Poly Pizza (poly.pizza). Sound effects are synth
 | Water bottle | jeremy | CC-BY 3.0 | Decoy |
 | Houseplant | Quaternius | CC0 | Decoy |
 | Smartphone | smallbigsquare | CC0 | Phone prop |
+
+## Fonts
+
+All fonts are under the SIL Open Font License 1.1.
+
+| Font | Author | Used for |
+|---|---|---|
+| Inter Tight | Rasmus Andersson | Headings |
+| Instrument Sans | Instrument | Body text |
+| Geist Mono | Vercel | Numbers, labels, timers |
+
+## Icons and artwork
+
+The UI icons, ECG line, app icon and screen concepts were drawn for this project in Affinity and are original.

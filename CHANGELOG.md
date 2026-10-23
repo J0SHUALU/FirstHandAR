@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-23
+- New clinical light theme: generated card, sheet and pill shapes, TMP font assets, brand mark
+- All screens restyled to the approved concepts (start, scan, placement, mode, HUD, call, results, progress, facilitator)
+- Bottom sheet modals and PIN pad, toast placed under the instruction card
+- Teal plane visuals, phone shaped canvas reference
+
 ## 2026-10-22
 - Narration placeholders (English and Pidgin), Bootstrap scene, fonts, UI icons, app icon, design exports
 
