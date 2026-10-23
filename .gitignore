@@ -113,14 +113,9 @@ InitTestScene*.unity*
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
-# Local scratch
-_unused/
+# Android builds
 *.apk
 *.aab
-
-# Editor captures
-Assets/Screenshots/
-Assets/Screenshots.meta
 
 # macOS
 .DS_Store
