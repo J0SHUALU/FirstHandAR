@@ -132,11 +132,14 @@ namespace FirstHand.EditorTools
                 go.transform.localRotation = Quaternion.Euler(0, yaw, 0);
             }
             Put($"{Prefabs}/Casualty.prefab", Vector3.zero);
-            Put($"{Prefabs}/PhoneProp.prefab", new Vector3(0.35f, 0, 0.3f), 20);
-            Put($"{HazardPrefabs}/Hazard_WetFloor.prefab", new Vector3(-0.75f, 0, 0.55f));
-            Put($"{HazardPrefabs}/Hazard_GasCylinder.prefab", new Vector3(0.8f, 0, -0.5f));
-            Put($"{HazardPrefabs}/Decoy_Bag.prefab", new Vector3(0.8f, 0, 0.5f), 30);
-            Put($"{HazardPrefabs}/Decoy_Plant.prefab", new Vector3(-1.05f, 0, -0.55f));
+            // Show the first recovery position stage so its size and placement can be checked in the Scene view.
+            foreach (var t in root.GetComponentsInChildren<Transform>(true))
+                if (t.name == "Handle_near_arm" || t.name == "Target_near_arm" || t.name == "Guide_near_arm") t.gameObject.SetActive(true);
+            Put($"{Prefabs}/PhoneProp.prefab", new Vector3(0.55f, 0, 0.75f), 20);
+            Put($"{HazardPrefabs}/Hazard_WetFloor.prefab", new Vector3(-1.3f, 0, 0.6f));
+            Put($"{HazardPrefabs}/Hazard_GasCylinder.prefab", new Vector3(1.2f, 0, -0.65f));
+            Put($"{HazardPrefabs}/Decoy_Bag.prefab", new Vector3(0.4f, 0, -0.95f), 30);
+            Put($"{HazardPrefabs}/Decoy_Plant.prefab", new Vector3(-1.2f, 0, -0.65f));
 
             var sv = SceneView.lastActiveSceneView;
             if (sv != null)

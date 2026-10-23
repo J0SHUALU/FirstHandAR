@@ -20,13 +20,14 @@ namespace FirstHand.Entities
         [SerializeField] private string tapMarkerKey = "TapMarker";
         [SerializeField] private int tapMarkerPrewarm = 12;
 
-        [Tooltip("Local spots around the casualty where props can appear (metres, scene space)")]
+        [Tooltip("Local spots around the casualty where props can appear (metres, scene space). They sit on the far " +
+                 "side and past the head and feet, so nothing covers the recovery position circles on the near side.")]
         [SerializeField] private Vector3[] propSlots =
         {
-            new Vector3(-0.85f, 0, 0.6f), new Vector3(0.9f, 0, 0.55f), new Vector3(-1.05f, 0, -0.55f),
-            new Vector3(0.95f, 0, -0.55f), new Vector3(0f, 0, 0.8f), new Vector3(0.05f, 0, -0.85f)
+            new Vector3(-1.3f, 0, 0.6f), new Vector3(1.25f, 0, 0.6f), new Vector3(-1.2f, 0, -0.65f),
+            new Vector3(1.2f, 0, -0.65f), new Vector3(-0.45f, 0, -0.95f), new Vector3(0.4f, 0, -0.95f)
         };
-        [SerializeField] private Vector3 phoneSlot = new Vector3(0.35f, 0, 0.3f);
+        [SerializeField] private Vector3 phoneSlot = new Vector3(0.55f, 0, 0.75f);
 
         private readonly AssetService assets = new AssetService();
         private readonly Dictionary<string, ComponentPool<Hazard>> hazardPools = new Dictionary<string, ComponentPool<Hazard>>();
