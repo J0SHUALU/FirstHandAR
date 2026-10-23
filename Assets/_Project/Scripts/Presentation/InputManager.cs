@@ -68,8 +68,7 @@ namespace FirstHand.Presentation
             EventBus.Publish(new ScreenTapEvent { ScreenPosition = pos });
 
             var ray = arCamera.ScreenPointToRay(pos);
-            if (Physics.Raycast(ray, out var hit, maxRayDistance, interactableLayers, QueryTriggerInteraction.Collide)
-                && hit.collider.GetComponentInParent<IInteractable>() is IInteractable target)
+            if (FindTarget(ray, out var hit) is IInteractable target)
             {
                 if (target is IDraggable d && dragging == null)
                 {
@@ -87,6 +86,32 @@ namespace FirstHand.Presentation
             {
                 EventBus.Publish(new TapInputEvent { TargetId = null, WorldPoint = Vector3.zero, HitInteractable = false });
             }
+        }
+
+        private readonly RaycastHit[] rayHits = new RaycastHit[16];
+
+        /// <summary>
+        /// Nearest interactable under the finger, except that a draggable handle wins even if the body is in
+        /// front of it, so recovery position handles can always be grabbed.
+        /// </summary>
+        private IInteractable FindTarget(Ray ray, out RaycastHit best)
+        {
+            best = default;
+            int n = Physics.RaycastNonAlloc(ray, rayHits, maxRayDistance, interactableLayers, QueryTriggerInteraction.Collide);
+            IInteractable nearest = null, drag = null;
+            float nearestD = float.MaxValue, dragD = float.MaxValue;
+            RaycastHit nearestHit = default, dragHit = default;
+            for (int i = 0; i < n; i++)
+            {
+                var it = rayHits[i].collider.GetComponentInParent<IInteractable>();
+                if (it == null) continue;
+                float d = rayHits[i].distance;
+                if (it is IDraggable && d < dragD) { drag = it; dragD = d; dragHit = rayHits[i]; }
+                if (d < nearestD) { nearest = it; nearestD = d; nearestHit = rayHits[i]; }
+            }
+            if (drag != null) { best = dragHit; return drag; }
+            best = nearestHit;
+            return nearest;
         }
 
         private static readonly System.Collections.Generic.List<RaycastResult> uiHits = new System.Collections.Generic.List<RaycastResult>();
