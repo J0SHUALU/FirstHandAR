@@ -1,146 +1,171 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using FirstHand.Core;
 using FirstHand.Data;
 
 namespace FirstHand.Presentation
 {
     /// <summary>
-    /// Start screen: title, how it works, who is training (sign in / new trainee), Start, the five most recent
-    /// sessions, and language / settings / facilitator entry.
+    /// Start (concept 01): brand, headline, who is training, Start, language and facilitator entry.
+    /// Tapping the signed-in trainee opens their last five sessions (ProgressView).
     /// </summary>
     public class StartView : View
     {
-        private RectTransform account;
-        private RectTransform recentList;
-        private TextMeshProUGUI recentTitle;
+        private RectTransform trainees;
+        private Button startButton;
+        private Image enTab, pcmTab;
+        private TextMeshProUGUI enLabel, pcmLabel;
 
         protected override void Build()
         {
-            var bg = UIKit.Panel(Root, "Background", T.background);
-            bg.sprite = null; bg.type = Image.Type.Simple;
-            UIKit.Stretch(bg.rectTransform);
+            UIKit.Fill(Root, "Paper", T.paper);
+            var content = UIKit.Scroll(Root, 0, 24, 56, 28);
 
-            var content = UIKit.Scroll(Root);
+            // Brand row
+            var brand = UIKit.Rect(content, "Brand");
+            UIKit.HStack(brand, 10);
+            UIKit.Size(brand, 40);
+            var mark = UIKit.Img(brand, "Mark", T.mark, Color.white); mark.preserveAspect = true; UIKit.Size(mark, 30, 30);
+            var name = UIKit.Raw(brand, "FirstHand", TextStyle.Title, T.ink, TextAlignmentOptions.MidlineLeft, 19);
+            name.font = T.headBold;
+            UIKit.Size(name, -1, -1, 1);
+            UIKit.IconButton(brand, "gear", UI.OpenSettings, 40, T.card, T.ink, true);
 
-            // Header
-            var logo = UIKit.Rect(content, "Logo");
-            var logoImg = logo.gameObject.AddComponent<Image>();
-            logoImg.sprite = T.logo; logoImg.preserveAspect = true; logoImg.enabled = T.logo != null;
-            UIKit.Size(logoImg, T.logo != null ? 260 : 0);
-            UIKit.Label(content, "app.title", T.titleSize * 1.3f, T.text, TextAlignmentOptions.Center, true, true);
-            UIKit.Label(content, "start.tagline", T.bodySize, T.textMuted);
+            UIKit.Space(content, 42);
+            UIKit.Text(content, "start.kicker", TextStyle.Label);
+            UIKit.Space(content, 14);
+            UIKit.Text(content, "start.headline", TextStyle.H1, T.ink);
+            UIKit.Text(content, "start.headline_accent", TextStyle.H1, T.coral);
+            UIKit.Space(content, 18);
+            UIKit.Ecg(content, T.coral, 36);
+            UIKit.Space(content, 26);
+            UIKit.Text(content, "start.who", TextStyle.Label);
+            UIKit.Space(content, 12);
 
-            // How it works (Start screen instructions)
-            var how = Card(content, "HowItWorks");
-            UIKit.VStack(how.rectTransform, 18);
-            UIKit.Fit(how);
-            UIKit.Label(how.transform, "start.how_title", T.bodySize * 1.1f, T.text, TextAlignmentOptions.Left, true);
-            foreach (var k in new[] { "start.how1", "start.how2", "start.how3", "start.how4" })
-                UIKit.Label(how.transform, k, T.bodySize * 0.9f, T.textMuted, TextAlignmentOptions.Left);
+            trainees = UIKit.Rect(content, "Trainees");
+            UIKit.VStack(trainees, 10);
+            UIKit.Fit(trainees);
 
-            // Account area (rebuilt whenever the screen shows)
-            account = UIKit.Rect(content, "Account");
-            UIKit.VStack(account, -1, 0);
-            UIKit.Fit(account);
+            UIKit.Space(content, 14);
+            var add = UIKit.Rect(content, "Add");
+            UIKit.HStack(add, 10);
+            UIKit.Size(add, 30);
+            UIKit.Icon(add, "plus", 20, T.coral);
+            UIKit.Text(add, "start.new_trainee", TextStyle.Title, T.coral, TextAlignmentOptions.MidlineLeft, 15);
+            var addBtn = add.gameObject.AddComponent<Button>();
+            add.gameObject.AddComponent<Image>().color = Color.clear;
+            addBtn.onClick.AddListener(Register);
 
-            // Recent sessions
-            var recent = Card(content, "Recent");
-            UIKit.VStack(recent.rectTransform, 12);
-            UIKit.Fit(recent);
-            recentTitle = UIKit.Label(recent.transform, "start.recent", T.bodySize * 1.1f, T.text, TextAlignmentOptions.Left, true);
-            recentList = UIKit.Rect(recent.transform, "List");
-            UIKit.VStack(recentList, 10, 0);
-            UIKit.Fit(recentList);
+            UIKit.Space(content, 44);
+            startButton = UIKit.Button(content, "start.begin", ButtonStyle.Primary, () => Act("start"));
+            UIKit.Space(content, 18);
 
-            // Footer: language, settings, facilitator
-            var footer = UIKit.Rect(content, "Footer");
-            UIKit.HStack(footer, 18);
-            UIKit.Size(footer, T.buttonHeight * 0.85f);
-            UIKit.Button(footer, "start.lang_en", ButtonStyle.Ghost, () => UI.SetLanguage(Language.English), null, T.buttonHeight * 0.85f);
-            UIKit.Button(footer, "start.lang_pcm", ButtonStyle.Ghost, () => UI.SetLanguage(Language.Pidgin), null, T.buttonHeight * 0.85f);
-            UIKit.Button(footer, "start.settings", ButtonStyle.Ghost, UI.OpenSettings, "settings", T.buttonHeight * 0.85f);
-            UIKit.Button(content, "start.facilitator", ButtonStyle.Ghost, UI.OpenFacilitator, "lock", T.buttonHeight * 0.8f);
+            // Language + facilitator
+            var foot = UIKit.Rect(content, "Footer");
+            UIKit.HStack(foot, 0);
+            UIKit.Size(foot, 40);
+            var seg = UIKit.Img(foot, "Lang", T.chip12, T.paper2);
+            UIKit.Size(seg, 40, 150);
+            var segH = UIKit.HStack(seg.rectTransform, 0, 3, 3); segH.childForceExpandWidth = true; segH.childControlWidth = true; segH.childForceExpandHeight = true;
+            (enTab, enLabel) = Tab(seg.rectTransform, "start.lang_en", () => UI.SetLanguage(Language.English));
+            (pcmTab, pcmLabel) = Tab(seg.rectTransform, "start.lang_pcm", () => UI.SetLanguage(Language.Pidgin));
+            var spacer = UIKit.Rect(foot, "Spacer"); UIKit.Size(spacer, 1, -1, 1);
+            var fac = UIKit.Rect(foot, "Facilitator");
+            UIKit.HStack(fac, 6);
+            UIKit.Icon(fac, "lock", 16, T.muted);
+            UIKit.Text(fac, "start.facilitator", TextStyle.Small, T.muted, TextAlignmentOptions.MidlineLeft);
+            fac.gameObject.AddComponent<Image>().color = Color.clear;
+            fac.gameObject.AddComponent<Button>().onClick.AddListener(UI.OpenFacilitator);
         }
 
-        protected override void OnShow() => Refresh();
+        private (Image, TextMeshProUGUI) Tab(RectTransform parent, string key, System.Action onClick)
+        {
+            var tab = UIKit.Img(parent, "Tab", T.chip12, T.card, true);
+            var label = UIKit.Text(tab.transform, key, TextStyle.Title, T.ink, TextAlignmentOptions.Center, 14);
+            UIKit.Stretch(label.rectTransform);
+            tab.gameObject.AddComponent<Button>().onClick.AddListener(() => onClick());
+            return (tab, label);
+        }
+
+        protected override void OnShow()
+        {
+            EventBus.Subscribe<LanguageChangedEvent>(OnLang);
+            Refresh();
+        }
+
+        protected override void OnHide() => EventBus.Unsubscribe<LanguageChangedEvent>(OnLang);
+        private void OnLang(LanguageChangedEvent e) => RefreshLanguage();
 
         public void Refresh()
         {
-            BuildAccount();
-            BuildRecent();
+            BuildTrainees();
+            RefreshLanguage();
+            startButton.gameObject.SetActive(DataManager.Instance.CurrentTrainee != null);
         }
 
-        private void BuildAccount()
+        private void RefreshLanguage()
         {
-            UIKit.Clear(account);
-            var dm = DataManager.Instance;
-            var trainee = dm.CurrentTrainee;
+            bool en = LocalizationService.Instance.Current == Language.English;
+            enTab.color = en ? T.card : new Color(0, 0, 0, 0);
+            pcmTab.color = en ? new Color(0, 0, 0, 0) : T.card;
+            enLabel.color = en ? T.ink : T.muted;
+            pcmLabel.color = en ? T.muted : T.ink;
+        }
 
-            if (trainee != null)
+        private void BuildTrainees()
+        {
+            UIKit.Clear(trainees);
+            var dm = DataManager.Instance;
+            if (dm.Profiles.Count == 0)
             {
-                var hello = UIKit.Label(account, "start.hello", T.titleSize * 0.8f, T.text, TextAlignmentOptions.Center, true);
-                hello.GetComponent<LocText>().Set("start.hello", trainee.displayName);
-                UIKit.Button(account, "start.begin", ButtonStyle.Primary, () => Act("start"), "play", T.buttonHeight * 1.2f);
-                UIKit.Button(account, "start.sign_out", ButtonStyle.Ghost, () => { dm.SignOut(); Refresh(); });
+                UIKit.Text(trainees, "start.no_profiles", TextStyle.Body, T.muted);
                 return;
             }
-
-            var card = Card(account, "WhoCard");
-            UIKit.VStack(card.rectTransform, 16);
-            UIKit.Fit(card);
-            UIKit.Label(card.transform, "start.who", T.bodySize * 1.1f, T.text, TextAlignmentOptions.Left, true);
-            if (dm.Profiles.Count == 0) UIKit.Label(card.transform, "start.no_profiles", T.bodySize * 0.9f, T.textMuted, TextAlignmentOptions.Left);
+            var tints = new[] { T.tealTint, T.amberTint, T.coralTint, T.paper2 };
+            int i = 0;
             foreach (var p in dm.Profiles)
             {
                 var profile = p;
-                var b = UIKit.Button(card.transform, null, ButtonStyle.Secondary, () => SignIn(profile), "person");
-                b.GetComponentInChildren<TextMeshProUGUI>().text = profile.displayName;
-                UnityEngine.Object.DestroyImmediate(b.GetComponentInChildren<LocText>());
+                bool current = dm.CurrentTrainee != null && dm.CurrentTrainee.traineeId == p.traineeId;
+                var sessions = dm.GetSessions(p.traineeId);
+                int best = -1; bool passed = false;
+                foreach (var s in sessions) if (s.IsComplete && s.Mode == TrainingMode.Assessment) { if (s.score > best) best = s.score; passed |= s.passed; }
+                string meta = passed ? LocalizationService.Format("start.meta_ready", best)
+                            : best >= 0 ? LocalizationService.Format("start.meta_best", sessions.Count, best)
+                            : LocalizationService.Format("start.meta_attempts", sessions.Count);
+                TraineeRow(trainees, profile.displayName, meta, tints[i++ % tints.Length], current,
+                    current ? (System.Action)(() => UI.ShowProgress()) : () => SignIn(profile));
             }
-            UIKit.Button(account, "start.new_trainee", ButtonStyle.Primary, Register, "add");
         }
 
-        private void BuildRecent()
+        private void TraineeRow(Transform parent, string name, string meta, Color tint, bool selected, System.Action onTap)
         {
-            UIKit.Clear(recentList);
-            var dm = DataManager.Instance;
-            var trainee = dm.CurrentTrainee;
-            var sessions = trainee != null ? dm.GetSessions(trainee.traineeId, 5) : dm.GetRecentSessionsAllTrainees(5);
-            recentTitle.GetComponent<LocText>().Set(trainee != null ? "start.recent_mine" : "start.recent");
-
-            if (sessions.Count == 0)
-            {
-                UIKit.Label(recentList, "start.no_sessions", T.bodySize * 0.85f, T.textMuted, TextAlignmentOptions.Left);
-                return;
-            }
-            foreach (var s in sessions) SessionRow(recentList, s, trainee == null ? dm.DisplayNameFor(s.traineeId) : null);
+            var row = UIKit.Card(parent, "Trainee", T.card, !selected);
+            UIKit.Size(row, 72);
+            if (selected) { var o = UIKit.Img(row.transform, "Selected", T.card20Line, T.ink); UIKit.Stretch(o.rectTransform); UIKit.Overlay(o); }
+            var h = UIKit.HStack(row.rectTransform, 14, 16, 0);
+            var avatar = UIKit.Img(row.transform, "Avatar", T.circle, tint);
+            UIKit.Size(avatar, 40, 40);
+            var initials = UIKit.Raw(avatar.transform, Initials(name), TextStyle.Title, T.ink, TextAlignmentOptions.Center, 13);
+            UIKit.Stretch(initials.rectTransform);
+            var col = UIKit.Rect(row.transform, "Text");
+            UIKit.VStack(col, 2, 0, 0, TextAnchor.MiddleLeft);
+            UIKit.Size(col, -1, -1, 1);
+            UIKit.Raw(col, name, TextStyle.Title, T.ink, TextAlignmentOptions.Left, 16);
+            UIKit.Raw(col, meta, TextStyle.Label, T.muted, TextAlignmentOptions.Left, 10);
+            if (selected) UIKit.Badge(row.transform, "check", T.ink, 22);
+            else UIKit.Icon(row.transform, "chevron", 18, T.muted);
+            row.gameObject.AddComponent<Button>().onClick.AddListener(() => onTap());
         }
 
-        public static void SessionRow(Transform parent, SessionRecord s, string who)
+        private static string Initials(string name)
         {
-            var T = UIKit.Theme;
-            var row = UIKit.Panel(parent, "Row", T.surfaceRaised);
-            UIKit.Size(row, 120);
-            var h = UIKit.HStack(row.rectTransform, 16, 0);
-            h.padding = new RectOffset(28, 28, 8, 8);
-
-            var date = DateTimeOffset.FromUnixTimeSeconds(s.startedAt).ToLocalTime().ToString("dd MMM HH:mm");
-            var left = UIKit.Raw(row.transform, (who != null ? who + "  " : "") + date, T.bodySize * 0.75f, T.textMuted, TextAlignmentOptions.Left);
-            UIKit.Size(left, -1, -1, 2);
-            var mode = UIKit.Label(row.transform, s.Mode == TrainingMode.Assessment ? "mode.assess" : "mode.practice", T.bodySize * 0.75f, T.text, TextAlignmentOptions.Center);
-            UIKit.Size(mode, -1, -1, 1.2f);
-            var score = UIKit.Raw(row.transform, s.IsComplete ? s.score.ToString() : "-", T.bodySize, T.text, TextAlignmentOptions.Center, true);
-            UIKit.Size(score, -1, -1, 0.6f);
-
-            string badgeKey; Color badgeColor;
-            if (!s.IsComplete) { badgeKey = "result.incomplete"; badgeColor = T.textMuted; }
-            else if (s.Mode == TrainingMode.Practice) { badgeKey = "result.practice"; badgeColor = T.info; }
-            else if (s.passed) { badgeKey = "result.pass"; badgeColor = T.success; }
-            else { badgeKey = "result.not_yet"; badgeColor = T.warning; }
-            var badge = UIKit.Label(row.transform, badgeKey, T.bodySize * 0.7f, badgeColor, TextAlignmentOptions.Right, true);
-            UIKit.Size(badge, -1, -1, 1.3f);
+            var parts = name.Split(' ');
+            string s = parts[0].Substring(0, 1);
+            if (parts.Length > 1 && parts[1].Length > 0) s += parts[1].Substring(0, 1);
+            else if (parts[0].Length > 1) s += parts[0].Substring(1, 1);
+            return s.ToUpperInvariant();
         }
 
         // ---------- Sign in / register ----------
@@ -151,16 +176,9 @@ namespace FirstHand.Presentation
             {
                 switch (DataManager.Instance.SignIn(p.traineeId, pin, out int secs))
                 {
-                    case SignInResult.Ok:
-                        UI.ApplyTraineeLanguage();
-                        Refresh();
-                        break;
-                    case SignInResult.WrongPin:
-                        UI.Toast("pin.wrong", Core.FeedbackKind.Mistake);
-                        break;
-                    case SignInResult.Locked:
-                        UI.Modal.Message("pin.locked_title", "pin.locked", null, secs);
-                        break;
+                    case SignInResult.Ok: UI.ApplyTraineeLanguage(); Refresh(); break;
+                    case SignInResult.WrongPin: UI.Toast("pin.wrong", FeedbackKind.Mistake); break;
+                    case SignInResult.Locked: UI.Modal.Message("pin.locked_title", "pin.locked", null, secs); break;
                 }
             }, p.displayName);
         }
@@ -168,23 +186,23 @@ namespace FirstHand.Presentation
         private void Register()
         {
             var c = UI.Modal.Open("reg.title");
-            UIKit.Label(c, "reg.name_help", T.bodySize * 0.9f, T.textMuted);
+            UIKit.Text(c, "reg.name_help", TextStyle.Body, T.ink2);
             var input = UIKit.Input(c, "reg.name_placeholder", 20, TMP_InputField.ContentType.Standard);
             UIKit.Button(c, "ui.next", ButtonStyle.Primary, () =>
             {
                 string name = input.text.Trim();
-                if (name.Length < 2) { UI.Toast("reg.name_short", Core.FeedbackKind.Mistake); return; }
+                if (name.Length < 2) { UI.Toast("reg.name_short", FeedbackKind.Mistake); return; }
                 UI.Modal.PinPad("reg.choose_pin", pin1 =>
                     UI.Modal.PinPad("reg.confirm_pin", pin2 =>
                     {
-                        if (pin1 != pin2) { UI.Toast("reg.pin_mismatch", Core.FeedbackKind.Mistake); return; }
+                        if (pin1 != pin2) { UI.Toast("reg.pin_mismatch", FeedbackKind.Mistake); return; }
                         var result = DataManager.Instance.Register(name, pin1, LocalizationService.Instance.Current, out _);
-                        if (result == RegisterResult.NameTaken) UI.Toast("reg.name_taken", Core.FeedbackKind.Mistake);
-                        else if (result != RegisterResult.Ok) UI.Toast("reg.failed", Core.FeedbackKind.Mistake);
-                        else { UI.Toast("reg.done", Core.FeedbackKind.Success); Refresh(); }
+                        if (result == RegisterResult.NameTaken) UI.Toast("reg.name_taken", FeedbackKind.Mistake);
+                        else if (result != RegisterResult.Ok) UI.Toast("reg.failed", FeedbackKind.Mistake);
+                        else { UI.Toast("reg.done", FeedbackKind.Success); Refresh(); }
                     }, name), name);
             });
-            UIKit.Button(c, "ui.cancel", ButtonStyle.Ghost, UI.Modal.Close);
+            UIKit.Button(c, "ui.cancel", ButtonStyle.Ghost, UI.Modal.Close, 48, false);
         }
     }
 }
