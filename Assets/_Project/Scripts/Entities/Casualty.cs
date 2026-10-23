@@ -82,8 +82,10 @@ namespace FirstHand.Entities
             {
                 float rise = IsBreathing ? Mathf.Sin(Time.time * Mathf.PI * 2f / 4f) * breathAmplitude : 0f;
                 dip = Mathf.MoveTowards(dip, 0f, Time.deltaTime * 0.3f);
-                var up = chestMesh.parent != null ? chestMesh.parent.InverseTransformDirection(transform.up) : Vector3.up;
-                chestMesh.localPosition = chestRestLocal + up * (rise - dip);
+                // World metres converted into the parent's local units. The rig has scaled nodes (x100) in its
+                // chain, so a direction alone would turn a few millimetres of breath into a large stretch.
+                Vector3 offset = transform.up * (rise - dip);
+                chestMesh.localPosition = chestRestLocal + (chestMesh.parent != null ? chestMesh.parent.InverseTransformVector(offset) : offset);
             }
 
             // A pivot can appear in several stages (the near arm moves again when the body rolls):
