@@ -96,7 +96,10 @@ namespace FirstHand.EditorTools
             return t;
         }
 
-        // ---------- Theme + base sprites ----------
+        // ---------- Theme: shapes, fonts, icons ----------
+
+        public const string Fonts = Root + "/UI/Fonts";
+        public const string IconDir = Root + "/UI/Icon";
 
         public static UITheme BuildTheme()
         {
@@ -104,57 +107,131 @@ namespace FirstHand.EditorTools
             var theme = AssetDatabase.LoadAssetAtPath<UITheme>(ThemePath);
             if (theme == null) { theme = ScriptableObject.CreateInstance<UITheme>(); AssetDatabase.CreateAsset(theme, ThemePath); }
 
-            theme.rounded = RoundedSprite("ui_rounded", 128, 36, 40);
-            theme.pill = RoundedSprite("ui_pill", 128, 63, 63);
-            theme.circle = RoundedSprite("ui_circle", 256, 127, 0);
-            if (theme.font == null) theme.font = TMP_Settings.defaultFontAsset;
-            if (theme.displayFont == null) theme.displayFont = theme.font;
+            // Shapes at canvas resolution (1 px = 1 canvas unit), radii taken from the Affinity concepts.
+            int R(float concept) => Mathf.RoundToInt(UITheme.D(concept));
+            theme.card20 = Shape("shape_card20", R(20), 0, false);
+            theme.card20Line = Shape("shape_card20_line", R(20), 3, false);
+            theme.button16 = Shape("shape_button16", R(16), 0, false);
+            theme.button16Line = Shape("shape_button16_line", R(16), 4, false);
+            theme.chip12 = Shape("shape_chip12", R(12), 0, false);
+            theme.sheetTop = Shape("shape_sheet_top", R(28), 0, true);
+            theme.pill = Shape("shape_pill", 64, 0, false);
+            theme.circle = Disc("shape_circle", 256, 0);
+            theme.circleLine = Disc("shape_circle_line", 256, 14);
+            theme.ring = Disc("shape_ring", 256, 26);
 
-            // Affinity exports dropped into UI/Sprites/Icons as icon_<name>.png are picked up automatically.
+            // Fonts (Inter Tight, Instrument Sans, Geist Mono; all SIL OFL)
+            theme.headBold = FontAsset("InterTight-Bold");
+            theme.headSemi = FontAsset("InterTight-SemiBold");
+            theme.body = FontAsset("InstrumentSans_400Regular");
+            theme.bodyMedium = FontAsset("InstrumentSans_500Medium");
+            theme.mono = FontAsset("GeistMono-Regular");
+            theme.monoMedium = FontAsset("GeistMono-Medium");
+
+            // Icons exported from Affinity (icon_<name>.png, white, tinted at runtime)
             theme.icons.Clear();
-            foreach (var guid in AssetDatabase.FindAssets("t:Sprite", new[] { Sprites }))
+            foreach (var guid in AssetDatabase.FindAssets("t:Texture2D", new[] { Sprites }))
             {
                 var p = AssetDatabase.GUIDToAssetPath(guid);
                 var file = Path.GetFileNameWithoutExtension(p);
                 if (!file.StartsWith("icon_")) continue;
-                theme.icons.Add(new UITheme.NamedSprite { name = file.Substring(5), sprite = AssetDatabase.LoadAssetAtPath<Sprite>(p) });
+                theme.icons.Add(new UITheme.NamedSprite { name = file.Substring(5), sprite = ImportSprite(p, Vector4.zero) });
             }
-            var logo = AssetDatabase.LoadAssetAtPath<Sprite>($"{Sprites}/logo.png");
-            if (logo != null) theme.logo = logo;
+
+            // Brand mark = the app icon artwork
+            string markPath = $"{Sprites}/brand_mark.png";
+            if (!File.Exists(markPath) && File.Exists($"{IconDir}/AppIcon-1024.png")) { File.Copy($"{IconDir}/AppIcon-1024.png", markPath); AssetDatabase.ImportAsset(markPath); }
+            if (File.Exists(markPath)) theme.mark = ImportSprite(markPath, Vector4.zero, 256);
 
             EditorUtility.SetDirty(theme);
             AssetDatabase.SaveAssets();
             return theme;
         }
 
-        /// <summary>White anti-aliased rounded rectangle, imported as a 9-sliced sprite.</summary>
-        private static Sprite RoundedSprite(string name, int size, int radius, int border)
+        private static TMP_FontAsset FontAsset(string file)
+        {
+            string assetPath = $"{Fonts}/{file} SDF.asset";
+            var existing = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(assetPath);
+            if (existing != null) return existing;
+            var font = AssetDatabase.LoadAssetAtPath<Font>($"{Fonts}/{file}.ttf");
+            if (font == null) { Debug.LogWarning("[Theme] Missing font " + file); return TMP_Settings.defaultFontAsset; }
+            var fa = TMP_FontAsset.CreateFontAsset(font, 90, 9, UnityEngine.TextCore.LowLevel.GlyphRenderMode.SDFAA, 1024, 1024,
+                                                   AtlasPopulationMode.Dynamic, true);
+            fa.name = file + " SDF";
+            AssetDatabase.CreateAsset(fa, assetPath);
+            fa.atlasTextures[0].name = file + " Atlas";
+            AssetDatabase.AddObjectToAsset(fa.atlasTextures[0], fa);
+            fa.material.name = file + " Material";
+            AssetDatabase.AddObjectToAsset(fa.material, fa);
+            fa.TryAddCharacters(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]_abcdefghijklmnopqrstuvwxyz{|}~·×—–’");
+            EditorUtility.SetDirty(fa);
+            AssetDatabase.SaveAssets();
+            return fa;
+        }
+
+        /// <summary>Anti-aliased rounded rectangle (filled or outline), imported 9-sliced.</summary>
+        private static Sprite Shape(string name, int radius, int stroke, bool topOnly)
         {
             string path = $"{Sprites}/{name}.png";
-            if (!File.Exists(path))
+            int size = radius * 2 + 4;
+            var tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
+            var px = new Color32[size * size];
+            for (int y = 0; y < size; y++)
+            for (int x = 0; x < size; x++)
             {
-                var tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
-                var px = new Color32[size * size];
-                for (int y = 0; y < size; y++)
-                for (int x = 0; x < size; x++)
-                {
-                    float cx = Mathf.Clamp(x + 0.5f, radius, size - radius);
-                    float cy = Mathf.Clamp(y + 0.5f, radius, size - radius);
-                    float d = Vector2.Distance(new Vector2(x + 0.5f, y + 0.5f), new Vector2(cx, cy));
-                    byte a = (byte)(Mathf.Clamp01(radius - d + 0.5f) * 255);
-                    px[y * size + x] = new Color32(255, 255, 255, a);
-                }
-                tex.SetPixels32(px);
-                File.WriteAllBytes(path, tex.EncodeToPNG());
-                Object.DestroyImmediate(tex);
-                AssetDatabase.ImportAsset(path);
+                float fx = x + 0.5f, fy = y + 0.5f;
+                bool roundCorner = !topOnly || fy > size / 2f; // texture y is up: top half has the rounded corners
+                float r = roundCorner ? radius : 0;
+                float cx = Mathf.Clamp(fx, r, size - r), cy = Mathf.Clamp(fy, r, size - r);
+                float d = r > 0 ? Vector2.Distance(new Vector2(fx, fy), new Vector2(cx, cy)) - r
+                                : -Mathf.Min(Mathf.Min(fx, size - fx), Mathf.Min(fy, size - fy));
+                if (r > 0 && (fx > r && fx < size - r || fy > r && fy < size - r))
+                    d = -Mathf.Min(Mathf.Min(fx, size - fx), Mathf.Min(fy, size - fy));
+                float a = Mathf.Clamp01(0.5f - d);
+                if (stroke > 0) a *= Mathf.Clamp01(0.5f + d + stroke);
+                px[y * size + x] = new Color32(255, 255, 255, (byte)(a * 255));
             }
+            tex.SetPixels32(px);
+            File.WriteAllBytes(path, tex.EncodeToPNG());
+            Object.DestroyImmediate(tex);
+            AssetDatabase.ImportAsset(path);
+            int b = radius + 1;
+            return ImportSprite(path, topOnly ? new Vector4(b, 1, b, b) : new Vector4(b, b, b, b));
+        }
+
+        /// <summary>Anti-aliased disc or ring.</summary>
+        private static Sprite Disc(string name, int size, int stroke)
+        {
+            string path = $"{Sprites}/{name}.png";
+            var tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
+            var px = new Color32[size * size];
+            float c = size / 2f, r = size / 2f - 1;
+            for (int y = 0; y < size; y++)
+            for (int x = 0; x < size; x++)
+            {
+                float d = Vector2.Distance(new Vector2(x + 0.5f, y + 0.5f), new Vector2(c, c)) - r;
+                float a = Mathf.Clamp01(0.5f - d);
+                if (stroke > 0) a *= Mathf.Clamp01(0.5f + d + stroke);
+                px[y * size + x] = new Color32(255, 255, 255, (byte)(a * 255));
+            }
+            tex.SetPixels32(px);
+            File.WriteAllBytes(path, tex.EncodeToPNG());
+            Object.DestroyImmediate(tex);
+            AssetDatabase.ImportAsset(path);
+            return ImportSprite(path, Vector4.zero);
+        }
+
+        private static Sprite ImportSprite(string path, Vector4 border, int maxSize = 2048)
+        {
             var imp = (TextureImporter)AssetImporter.GetAtPath(path);
             imp.textureType = TextureImporterType.Sprite;
             imp.spriteImportMode = SpriteImportMode.Single;
             imp.mipmapEnabled = false;
             imp.alphaIsTransparency = true;
-            imp.spriteBorder = new Vector4(border, border, border, border);
+            imp.spriteBorder = border;
+            imp.spritePixelsPerUnit = 100;
+            imp.maxTextureSize = maxSize;
+            imp.textureCompression = TextureImporterCompression.Uncompressed;
             imp.SaveAndReimport();
             return AssetDatabase.LoadAssetAtPath<Sprite>(path);
         }

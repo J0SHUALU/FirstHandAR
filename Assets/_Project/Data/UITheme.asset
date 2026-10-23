@@ -12,26 +12,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c466bf68fb242428cbc432324c49df, type: 3}
   m_Name: UITheme
   m_EditorClassIdentifier: FirstHand.Runtime::FirstHand.Presentation.UITheme
-  background: {r: 0.05490196, g: 0.101960786, b: 0.16862746, a: 0.9490196}
-  surface: {r: 0.09019608, g: 0.16470589, b: 0.25882354, a: 0.9607843}
-  surfaceRaised: {r: 0.13333334, g: 0.22745098, b: 0.34509805, a: 1}
-  text: {r: 0.96862745, g: 0.9529412, b: 0.91764706, a: 1}
-  textMuted: {r: 0.6627451, g: 0.7176471, b: 0.7882353, a: 1}
-  primary: {r: 0.9019608, g: 0.22352941, b: 0.27450982, a: 1}
-  success: {r: 0.16862746, g: 0.7137255, b: 0.4509804, a: 1}
-  warning: {r: 0.95686275, g: 0.6392157, b: 0, a: 1}
-  info: {r: 0.22745098, g: 0.60784316, b: 0.8627451, a: 1}
+  paper: {r: 0.98039216, g: 0.98039216, b: 0.96862745, a: 1}
+  paper2: {r: 0.94509804, g: 0.9411765, b: 0.92156863, a: 1}
+  card: {r: 1, g: 1, b: 1, a: 1}
+  ink: {r: 0.05882353, g: 0.09019608, b: 0.16470589, a: 1}
+  ink2: {r: 0.2, g: 0.25490198, b: 0.33333334, a: 1}
+  muted: {r: 0.39215687, g: 0.45490196, b: 0.54509807, a: 1}
+  line: {r: 0.89411765, g: 0.8862745, b: 0.8627451, a: 1}
+  coral: {r: 1, g: 0.3019608, b: 0.30980393, a: 1}
+  coralDeep: {r: 0.8862745, g: 0.23137255, b: 0.23921569, a: 1}
+  coralTint: {r: 1, g: 0.9098039, b: 0.9098039, a: 1}
+  teal: {r: 0.078431375, g: 0.72156864, b: 0.6509804, a: 1}
+  tealDeep: {r: 0.05882353, g: 0.4627451, b: 0.43137255, a: 1}
+  tealTint: {r: 0.8666667, g: 0.9607843, b: 0.9490196, a: 1}
+  amber: {r: 0.9607843, g: 0.61960787, b: 0.043137256, a: 1}
+  amberDeep: {r: 0.7058824, g: 0.3254902, b: 0.03529412, a: 1}
+  amberTint: {r: 0.99607843, g: 0.94509804, b: 0.8392157, a: 1}
   scrim: {r: 0, g: 0, b: 0, a: 0.55}
-  font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  displayFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  bodySize: 44
-  titleSize: 64
-  displaySize: 150
-  rounded: {fileID: 21300000, guid: 4a6cb09ed7fb54076bad63a89ac32ada, type: 3}
-  pill: {fileID: 21300000, guid: 4eac146b08694492a80ff7293b07fa2a, type: 3}
-  circle: {fileID: 21300000, guid: 10332578e96f74214a8d5ad1740eafef, type: 3}
-  logo: {fileID: 0}
-  icons: []
-  buttonHeight: 150
-  spacing: 28
-  padding: 48
+  headBold: {fileID: 11400000, guid: 150b972679a854d23a4bb6eef1db73b9, type: 2}
+  headSemi: {fileID: 11400000, guid: 3b0846d37360b40f0aa16e1832070dda, type: 2}
+  body: {fileID: 11400000, guid: db93467f492ca4a54a60d809b76f6141, type: 2}
+  bodyMedium: {fileID: 11400000, guid: 725322c60176440d08c7dca4f44351fe, type: 2}
+  mono: {fileID: 11400000, guid: 6dca5f205f9004110b1d69047c3072c3, type: 2}
+  monoMedium: {fileID: 11400000, guid: 3613b184215984042817a168f6a9bb17, type: 2}
+  card20: {fileID: 21300000, guid: 82330cac6e90b4cb88081c2470867475, type: 3}
+  card20Line: {fileID: 21300000, guid: f18db2c1bc2fc40f384b05343a0be798, type: 3}
+  button16: {fileID: 21300000, guid: fdcd79364f0ac44bdb7e0c8b46e467f2, type: 3}
+  button16Line: {fileID: 21300000, guid: 0a003cf7f842b46b0931fe33f453f3a5, type: 3}
+  chip12: {fileID: 21300000, guid: b8bfde14a0b6f43db8fdb23de8a2f214, type: 3}
+  sheetTop: {fileID: 21300000, guid: 19d9a03066c3c4a4fa12a4ce4883b974, type: 3}
+  pill: {fileID: 21300000, guid: 1d9d24de4ff094b1280ba696df311235, type: 3}
+  circle: {fileID: 21300000, guid: c3a5bbe2ecc874c68814040cd456dc0a, type: 3}
+  circleLine: {fileID: 21300000, guid: bcaec4ce48e774c76833b517cc51cbd5, type: 3}
+  ring: {fileID: 21300000, guid: ff6f4488400924fa39b0fefc0ee9f7ca, type: 3}
+  mark: {fileID: 21300000, guid: 3d58305759c1949cc8d5860146656869, type: 3}
+  icons:
+  - name: arrow
+    sprite: {fileID: 21300000, guid: 4e90a52edb5244997b6c38876dad27c3, type: 3}
+  - name: back
+    sprite: {fileID: 21300000, guid: 7e916d94c4295405c9666cd82ec7b895, type: 3}
+  - name: backspace
+    sprite: {fileID: 21300000, guid: f91d3cdaee4b94f46ade142706f7af4f, type: 3}
+  - name: check
+    sprite: {fileID: 21300000, guid: 775fdef8aa2bc4758bf294f5f7d118c1, type: 3}
+  - name: chevron
+    sprite: {fileID: 21300000, guid: 0c9f5aebcb1ba4e9bae9114fd5739cc5, type: 3}
+  - name: close
+    sprite: {fileID: 21300000, guid: 7ef40a8a2ed44413c8cc3b520ba82ec1, type: 3}
+  - name: delete
+    sprite: {fileID: 21300000, guid: 98c94d12a8cbd4ee9ba8964f3870c06f, type: 3}
+  - name: dot
+    sprite: {fileID: 21300000, guid: f33ed9f36e8d748dfb22320ba55374ca, type: 3}
+  - name: ecg
+    sprite: {fileID: 21300000, guid: 3d5013cc78ba44f6e9a9ef26b3ba902a, type: 3}
+  - name: export
+    sprite: {fileID: 21300000, guid: 6804cb00accbc48dc9079edb34b2445e, type: 3}
+  - name: gear
+    sprite: {fileID: 21300000, guid: 3ad26e6d058864d51b7d445208443773, type: 3}
+  - name: hint
+    sprite: {fileID: 21300000, guid: 256bddd8f3326400ba93502796eb064a, type: 3}
+  - name: home
+    sprite: {fileID: 21300000, guid: 0d53a68507af3444b807e06f81b3b94a, type: 3}
+  - name: lock
+    sprite: {fileID: 21300000, guid: 7fb955e6613d847b0948feaa5d52999c, type: 3}
+  - name: move
+    sprite: {fileID: 21300000, guid: 8bc412e07b1ad4a70b10acf0c4e66ef7, type: 3}
+  - name: pause
+    sprite: {fileID: 21300000, guid: d838b06674498438583acae23d0edc05, type: 3}
+  - name: person
+    sprite: {fileID: 21300000, guid: 1f4e138ea49d246b38282da730cea144, type: 3}
+  - name: phone
+    sprite: {fileID: 21300000, guid: 0bd6fbccb0e7f42eb8068bbf49544561, type: 3}
+  - name: play
+    sprite: {fileID: 21300000, guid: 706bfc39122ae4a84bd8b683d936b463, type: 3}
+  - name: plus
+    sprite: {fileID: 21300000, guid: e67cab7554c3e42e8b7e85966b710fa6, type: 3}
+  - name: retry
+    sprite: {fileID: 21300000, guid: f7ded0d11115343308403e9f8f139189, type: 3}
+  - name: rotate_left
+    sprite: {fileID: 21300000, guid: cbeaf405206b2478aa6726688dcceda8, type: 3}
+  - name: rotate_right
+    sprite: {fileID: 21300000, guid: 3d3e9006b28b4470484081dda190c28d, type: 3}
+  - name: scan
+    sprite: {fileID: 21300000, guid: de31a04397f8c424e9f970726d885520, type: 3}
+  - name: speaker
+    sprite: {fileID: 21300000, guid: 16288a1d6a4d6421c9cc809bb11c7524, type: 3}
+  - name: timer
+    sprite: {fileID: 21300000, guid: 700028a2af8224583800b1cb92aee7a3, type: 3}
