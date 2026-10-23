@@ -214,17 +214,20 @@ namespace FirstHand.EditorTools
 
         private static LimbHandle Handle(Transform root, string limbId, Vector3 pos, Vector3 targetPos)
         {
-            var h = Prim(PrimitiveType.Sphere, root, "Handle_" + limbId, pos, Vector3.one * 0.075f, handleMat, true);
+            // Float the ball clearly above the limb so it is never hidden inside the body mesh.
+            pos.y += 0.16f;
+            var h = Prim(PrimitiveType.Sphere, root, "Handle_" + limbId, pos, Vector3.one * 0.1f, handleMat, true);
             var sc = h.GetComponent<SphereCollider>();
-            sc.radius = 1.0f; // 0.075 m visual, 0.15 m touch area
+            sc.radius = 1.0f; // 0.1 m visual, 0.2 m touch area
             sc.isTrigger = true;
-            var target = Prim(PrimitiveType.Cylinder, root, "Target_" + limbId, targetPos, new Vector3(0.16f, 0.004f, 0.16f), targetMat);
+            targetPos.y = 0.01f; // drop target sits on the floor as a green circle
+            var target = Prim(PrimitiveType.Cylinder, root, "Target_" + limbId, targetPos, new Vector3(0.22f, 0.004f, 0.22f), targetMat);
             target.SetActive(false);
             var lh = h.AddComponent<LimbHandle>();
             Set(lh, "limbId", limbId);
             Set(lh, "dropTarget", target.transform);
             Set(lh, "visual", h.GetComponent<Renderer>());
-            Set(lh, "acceptRadius", 0.16f);
+            Set(lh, "acceptRadius", 0.18f);
             h.SetActive(false);
             return lh;
         }

@@ -121,7 +121,7 @@ namespace FirstHand.EditorTools
             { "instr.call", "No answer. Call 112 and tell them what they need.", "E no answer. Call 112, tell dem wetin dem need." },
             { "instr.breathing", "Hold the button. Look, listen and feel for 5 to 10 seconds.", "Hold the button. Look, listen, feel am for 5 reach 10 seconds." },
             { "instr.compressions", "Not breathing. Push the middle of the chest 30 times, fast and steady.", "E no dey breathe. Press middle of chest 30 times, fast and steady." },
-            { "instr.recovery", "He is breathing. Drag the glowing points to roll him onto his side.", "E dey breathe. Drag the light points make you turn am for side." },
+            { "instr.recovery", "He is breathing. Drag the yellow ball to the green circle, one part at a time.", "E dey breathe. Drag the yellow ball go the green circle, one by one." },
 
             // ----- Hints (Practice only) -----
             { "hint.hazards", "Check the floor around him. Water, wires, glass, gas, smoke, moving things.", "Check floor around am. Water, wire, glass, gas, smoke, things wey dey move." },
@@ -132,11 +132,11 @@ namespace FirstHand.EditorTools
             { "hint.call_info", "They need: where, what happened, and breathing.", "Dem need: where, wetin happen, and breathing." },
             { "hint.breathing", "Hold the button until it turns green, then let go.", "Hold the button until e turn green, then leave am." },
             { "hint.compressions", "Tap the lower middle of the chest. Aim for 100 to 120 a minute.", "Tap lower middle of chest. Make am 100 reach 120 every minute." },
-            { "hint.recovery.near_arm", "Drag the near hand out to the side.", "Drag the near hand go side." },
-            { "hint.recovery.far_hand", "Bring the far hand to his near cheek.", "Bring the far hand put for im near cheek." },
-            { "hint.recovery.far_knee", "Pull the far knee up toward you.", "Pull the far knee come your side." },
-            { "hint.recovery.roll", "Pull at the hip to roll him toward you.", "Pull the hip make e roll come your side." },
-            { "hint.recovery.head_tilt", "Tilt the head back to keep the airway open.", "Tilt the head back make air pass well." },
+            { "hint.recovery.near_arm", "1 of 5. Drag the yellow ball on his near hand to the green circle.", "1 of 5. Drag the yellow ball for im near hand go the green circle." },
+            { "hint.recovery.far_hand", "2 of 5. Drag his far hand ball to the circle by his cheek.", "2 of 5. Drag im far hand ball go the circle near im cheek." },
+            { "hint.recovery.far_knee", "3 of 5. Drag the knee ball to the circle to bend his far knee.", "3 of 5. Drag the knee ball go the circle make im far knee bend." },
+            { "hint.recovery.roll", "4 of 5. Drag the hip ball toward you to roll him onto his side.", "4 of 5. Drag the hip ball come your side make e roll for side." },
+            { "hint.recovery.head_tilt", "5 of 5. Drag the head ball back to tilt his head and open the airway.", "5 of 5. Drag the head ball back make im head tilt, make air pass." },
 
             // ----- Feedback -----
             { "fb.timeout", "Time is up for this step. Moving on.", "Time don finish for this step. Make we move." },

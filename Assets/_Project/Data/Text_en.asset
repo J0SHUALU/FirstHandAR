@@ -223,7 +223,8 @@ MonoBehaviour:
   - key: instr.compressions
     text: Not breathing. Push the middle of the chest 30 times, fast and steady.
   - key: instr.recovery
-    text: He is breathing. Drag the glowing points to roll him onto his side.
+    text: He is breathing. Drag the yellow ball to the green circle, one part at
+      a time.
   - key: hint.hazards
     text: Check the floor around him. Water, wires, glass, gas, smoke, moving things.
   - key: hint.hazards_one_more
@@ -241,15 +242,15 @@ MonoBehaviour:
   - key: hint.compressions
     text: Tap the lower middle of the chest. Aim for 100 to 120 a minute.
   - key: hint.recovery.near_arm
-    text: Drag the near hand out to the side.
+    text: 1 of 5. Drag the yellow ball on his near hand to the green circle.
   - key: hint.recovery.far_hand
-    text: Bring the far hand to his near cheek.
+    text: 2 of 5. Drag his far hand ball to the circle by his cheek.
   - key: hint.recovery.far_knee
-    text: Pull the far knee up toward you.
+    text: 3 of 5. Drag the knee ball to the circle to bend his far knee.
   - key: hint.recovery.roll
-    text: Pull at the hip to roll him toward you.
+    text: 4 of 5. Drag the hip ball toward you to roll him onto his side.
   - key: hint.recovery.head_tilt
-    text: Tilt the head back to keep the airway open.
+    text: 5 of 5. Drag the head ball back to tilt his head and open the airway.
   - key: fb.timeout
     text: Time is up for this step. Moving on.
   - key: fb.hazard_found

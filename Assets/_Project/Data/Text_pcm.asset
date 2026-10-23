@@ -223,7 +223,7 @@ MonoBehaviour:
   - key: instr.compressions
     text: E no dey breathe. Press middle of chest 30 times, fast and steady.
   - key: instr.recovery
-    text: E dey breathe. Drag the light points make you turn am for side.
+    text: E dey breathe. Drag the yellow ball go the green circle, one by one.
   - key: hint.hazards
     text: Check floor around am. Water, wire, glass, gas, smoke, things wey dey move.
   - key: hint.hazards_one_more
@@ -241,15 +241,15 @@ MonoBehaviour:
   - key: hint.compressions
     text: Tap lower middle of chest. Make am 100 reach 120 every minute.
   - key: hint.recovery.near_arm
-    text: Drag the near hand go side.
+    text: 1 of 5. Drag the yellow ball for im near hand go the green circle.
   - key: hint.recovery.far_hand
-    text: Bring the far hand put for im near cheek.
+    text: 2 of 5. Drag im far hand ball go the circle near im cheek.
   - key: hint.recovery.far_knee
-    text: Pull the far knee come your side.
+    text: 3 of 5. Drag the knee ball go the circle make im far knee bend.
   - key: hint.recovery.roll
-    text: Pull the hip make e roll come your side.
+    text: 4 of 5. Drag the hip ball come your side make e roll for side.
   - key: hint.recovery.head_tilt
-    text: Tilt the head back make air pass well.
+    text: 5 of 5. Drag the head ball back make im head tilt, make air pass.
   - key: fb.timeout
     text: Time don finish for this step. Make we move.
   - key: fb.hazard_found
