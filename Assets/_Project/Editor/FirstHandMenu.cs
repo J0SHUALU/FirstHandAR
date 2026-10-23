@@ -56,6 +56,27 @@ namespace FirstHand.EditorTools
             ApplyAppIcon();
         }
 
+        public const string ApkPath = "Builds/FirstHandAR.apk";
+
+        /// <summary>Builds Addressables content, then a release APK for ARM64 Android into Builds/.</summary>
+        [MenuItem("FirstHand/4. Build Android APK", priority = 23)]
+        public static void BuildAndroid()
+        {
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+                EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
+            ConfigurePlayer();
+            UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent();
+            System.IO.Directory.CreateDirectory("Builds");
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                scenes = new[] { SceneBuilder.ScenePath },
+                locationPathName = ApkPath,
+                target = BuildTarget.Android,
+                options = BuildOptions.None
+            });
+            Debug.Log($"[FirstHand] Android build {report.summary.result}, {report.summary.totalSize / (1024 * 1024)} MB, {report.summary.totalErrors} errors -> {ApkPath}");
+        }
+
         private const string IconDir = "Assets/_Project/UI/Icon/";
 
         /// <summary>App icon designed in Affinity: full icon for legacy/round, layered for Android adaptive icons.</summary>
