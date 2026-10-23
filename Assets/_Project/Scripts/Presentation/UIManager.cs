@@ -28,11 +28,12 @@ namespace FirstHand.Presentation
         private PauseView pauseView;
         private ResultsView resultsView;
         private FacilitatorView facilitatorView;
+        private ProgressView progressView;
         private View[] stateViews;
 
         private RectTransform toast;
         private TextMeshProUGUI toastText;
-        private Image toastBg;
+        private Image toastBg, toastDot;
         private float toastUntil;
         private bool built;
         private bool trackingLost;
@@ -67,26 +68,31 @@ namespace FirstHand.Presentation
             pauseView = new PauseView();
             resultsView = new ResultsView();
             facilitatorView = new FacilitatorView();
+            progressView = new ProgressView();
             stateViews = new View[] { startView, scanView, placementView, modeView, hudView, pauseView, resultsView };
             foreach (var v in stateViews) v.Create(safe, this);
             facilitatorView.Create(safe, this);
+            progressView.Create(safe, this);
 
             BuildToast(safe);
             Modal = new ModalLayer(safe);
             built = true;
         }
 
+        /// <summary>Feedback toast: dark pill under the step card with a coloured dot (colour + words, NFR-05).</summary>
         private void BuildToast(RectTransform parent)
         {
-            toastBg = UIKit.Panel(parent, "Toast", theme.surfaceRaised, theme.pill);
-            toastBg.raycastTarget = false;
+            toastBg = UIKit.Img(parent, "Toast", theme.chip12, theme.ink);
             toast = toastBg.rectTransform;
-            toast.anchorMin = new Vector2(0, 1); toast.anchorMax = new Vector2(1, 1);
-            toast.pivot = new Vector2(0.5f, 1);
-            toast.sizeDelta = new Vector2(-2 * theme.padding, 150);
-            toast.anchoredPosition = new Vector2(0, -320);
-            toastText = UIKit.Label(toast, "", theme.bodySize * 0.95f, Color.white, TextAlignmentOptions.Center, true);
-            UIKit.Stretch(toastText.rectTransform, 30, 30, 10, 10);
+            toast.anchorMin = new Vector2(0, 1); toast.anchorMax = new Vector2(1, 1); toast.pivot = new Vector2(0.5f, 1);
+            toast.sizeDelta = new Vector2(-UIKit.D(48), 0);
+            toast.anchoredPosition = new Vector2(0, -UIKit.D(250));
+            UIKit.HStack(toast, 12, 16, 12);
+            UIKit.Fit(toastBg);
+            toastDot = UIKit.Img(toast, "Dot", theme.circle, theme.teal);
+            UIKit.Size(toastDot, 10, 10);
+            toastText = UIKit.Text(toast, "", TextStyle.BodyMedium, Color.white, TextAlignmentOptions.MidlineLeft, 14);
+            UIKit.Size(toastText, -1, -1, 1);
             toast.gameObject.SetActive(false);
         }
 
@@ -109,6 +115,9 @@ namespace FirstHand.Presentation
             if (!built) return;
             if (toast.gameObject.activeSelf && Time.unscaledTime > toastUntil) toast.gameObject.SetActive(false);
             if (scanView.Visible) scanView.Tick(Time.deltaTime);
+            // In the attempt the toast sits under the instruction card; elsewhere under the status chip.
+            float toastY = hudView.Visible ? hudView.InstructionBottom + UIKit.D(10) : UIKit.D(250);
+            toast.anchoredPosition = new Vector2(0, -toastY);
             if (facilitatorView.Visible)
             {
                 if (Pointer.current != null && Pointer.current.press.isPressed) facilitatorView.Touch();
@@ -125,7 +134,7 @@ namespace FirstHand.Presentation
             View target = null;
             switch (e.Current)
             {
-                case SimStateId.Start: target = startView; break;
+                case SimStateId.Start: target = startView; progressView.Hide(); facilitatorView.Hide(); break;
                 case SimStateId.Scanning: target = scanView; break;
                 case SimStateId.Placement: target = placementView; break;
                 case SimStateId.ModeSelect: target = modeView; break;
@@ -157,9 +166,9 @@ namespace FirstHand.Presentation
         {
             if (!built || string.IsNullOrEmpty(key)) return;
             toastText.GetComponent<LocText>().Set(key);
-            toastBg.color = kind == FeedbackKind.Mistake ? theme.primary
-                          : kind == FeedbackKind.Warning ? theme.warning
-                          : kind == FeedbackKind.Success ? theme.success : theme.surfaceRaised;
+            toastDot.color = kind == FeedbackKind.Mistake ? theme.coral
+                           : kind == FeedbackKind.Warning ? theme.amber
+                           : kind == FeedbackKind.Success ? theme.teal : Color.white;
             toast.gameObject.SetActive(true);
             toast.SetAsLastSibling();
             toastUntil = Time.unscaledTime + seconds;
@@ -181,28 +190,31 @@ namespace FirstHand.Presentation
         public void OpenSettings()
         {
             var c = Modal.Open("settings.title");
-            UIKit.Label(c, "settings.volume", theme.bodySize, theme.text, TextAlignmentOptions.Left, true);
-            var sliderRow = UIKit.Rect(c, "Volume");
-            UIKit.HStack(sliderRow);
-            UIKit.Size(sliderRow, theme.buttonHeight);
-            foreach (var (key, v) in new[] { ("settings.vol_off", 0f), ("settings.vol_low", 0.4f), ("settings.vol_mid", 0.7f), ("settings.vol_high", 1f) })
-            {
-                float vol = v;
-                var style = Mathf.Approximately(AudioManager.Instance.Volume, vol) ? ButtonStyle.Success : ButtonStyle.Secondary;
-                UIKit.Button(sliderRow, key, style, () => { AudioManager.Instance.SetVolume(vol); AudioManager.Instance.Play("tap"); OpenSettings(); });
-            }
+            UIKit.Text(c, "settings.volume", TextStyle.Label);
+            Segmented(c, new[] { ("settings.vol_off", 0f), ("settings.vol_low", 0.4f), ("settings.vol_mid", 0.7f), ("settings.vol_high", 1f) },
+                AudioManager.Instance.Volume, v => { AudioManager.Instance.SetVolume(v); AudioManager.Instance.Play("tap"); OpenSettings(); });
+            UIKit.Space(c, 6);
+            UIKit.Text(c, "settings.text_size", TextStyle.Label);
+            Segmented(c, new[] { ("settings.size_100", 1f), ("settings.size_125", 1.25f), ("settings.size_150", 1.5f) },
+                textScale, v => { textScale = v; PlayerPrefs.SetFloat("fh.textScale", v); UIKit.SetTextScale(v); OpenSettings(); });
+            UIKit.Space(c, 6);
+            UIKit.Button(c, "ui.close", ButtonStyle.Secondary, Modal.Close, 56, false);
+        }
 
-            UIKit.Label(c, "settings.text_size", theme.bodySize, theme.text, TextAlignmentOptions.Left, true);
-            var sizeRow = UIKit.Rect(c, "Size");
-            UIKit.HStack(sizeRow);
-            UIKit.Size(sizeRow, theme.buttonHeight);
-            foreach (var s in new[] { 1f, 1.25f, 1.5f })
+        private void Segmented(Transform parent, (string key, float value)[] options, float current, System.Action<float> pick)
+        {
+            var seg = UIKit.Img(parent, "Segmented", theme.chip12, theme.paper2);
+            UIKit.Size(seg, 48);
+            var h = UIKit.HStack(seg.rectTransform, 0, 3, 3); h.childForceExpandWidth = true; h.childControlWidth = true; h.childForceExpandHeight = true;
+            foreach (var (key, value) in options)
             {
-                float scale = s;
-                var b = UIKit.Button(sizeRow, "settings.size_" + Mathf.RoundToInt(s * 100), Mathf.Approximately(textScale, s) ? ButtonStyle.Success : ButtonStyle.Secondary,
-                    () => { textScale = scale; PlayerPrefs.SetFloat("fh.textScale", scale); UIKit.SetTextScale(scale); OpenSettings(); });
+                float v = value;
+                bool on = Mathf.Approximately(current, v);
+                var tab = UIKit.Img(seg.transform, "Tab", theme.chip12, on ? theme.card : new Color(0, 0, 0, 0), true);
+                var label = UIKit.Text(tab.transform, key, TextStyle.Title, on ? theme.ink : theme.muted, TextAlignmentOptions.Center, 14);
+                UIKit.Stretch(label.rectTransform);
+                tab.gameObject.AddComponent<Button>().onClick.AddListener(() => pick(v));
             }
-            UIKit.Button(c, "ui.close", ButtonStyle.Ghost, Modal.Close);
         }
 
         /// <summary>FR-28: facilitator PIN first (set it on first use), then the facilitator screen.</summary>
@@ -227,5 +239,8 @@ namespace FirstHand.Presentation
         }
 
         public void RefreshStart() { if (startView.Visible) startView.Refresh(); }
+
+        /// <summary>Last five sessions of the signed-in trainee (from the Start screen).</summary>
+        public void ShowProgress() => progressView.Show();
     }
 }
